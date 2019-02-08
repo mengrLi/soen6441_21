@@ -1,0 +1,83 @@
+import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
+import javax.swing.JCheckBoxMenuItem;
+import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.KeyStroke;
+
+public class risk extends JFrame {
+
+	private JPanel contentPane;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					risk frame = new risk();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+		
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public risk() {
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 450, 300);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		contentPane.setLayout(new BorderLayout(0, 0));
+		setContentPane(contentPane);
+		add(createStartMenu());    
+	    add(createHelpMenu());    
+	    setVisible(true);
+	}
+
+	private JMenu createHelpMenu() {
+		// TODO Auto-generated method stub
+		JMenu menu=new JMenu("help");
+		menu.setMnemonic(KeyEvent.VK_H);
+		JMenuItem item=new JMenuItem("about game",KeyEvent.VK_H);
+	    item.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_H,ActionEvent.CTRL_MASK));
+	    menu.add(item);
+	    return menu;
+		
+	}
+
+	private JMenu createStartMenu() {
+		// TODO Auto-generated method stub
+		JMenu menu=new JMenu("file");
+        menu.setMnemonic(KeyEvent.VK_F);    
+        JMenuItem item=new JMenuItem("new",KeyEvent.VK_N);
+        item.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N,ActionEvent.CTRL_MASK));
+        menu.add(item);
+        item=new JMenuItem("select map",KeyEvent.VK_O);
+        item.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O,ActionEvent.CTRL_MASK));
+        menu.add(item);
+       
+        menu.addSeparator();
+        item=new JMenuItem("close",KeyEvent.VK_E);
+        item.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_E,ActionEvent.CTRL_MASK));
+        menu.add(item);
+        return menu;
+	}
+
+}

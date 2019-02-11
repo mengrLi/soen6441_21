@@ -1,4 +1,7 @@
-Hello World!
+
+# local build
+.idea/
+out/
 
 # Compiled class file
 *.class

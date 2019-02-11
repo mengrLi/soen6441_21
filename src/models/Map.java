@@ -272,13 +272,13 @@ public class Map {  //
     
     /**
 	 * This is the function of Map Validation
+	 * The methods below are described fully in the documentation
 	 * @author QingLi
 	 */
 	
 	
 	/**
 	 * This method is used to check the validation of the map
-	 * 
 	 * @param continents is the map of all continents
 	 * @param connectionMap is the map of all countries and their contiguous countries
 	 * @return true if  map is connected; false if the map has some errors
@@ -305,7 +305,6 @@ public class Map {  //
 	
 	/**
 	 * This method is used to check continent validation
-	 * 
 	 * @param continents is the map of all continents 
 	 * @return specific continent's name if there is a continent unconnected 
 	 * @return String "ALL PASSED" if all continents are internally connected
@@ -342,7 +341,6 @@ public class Map {  //
 	
 	/**
 	 * This method is used to check the validation of the whole map
-	 * 
 	 * @param connectionMap is the map of all countries and their contiguous countries
 	 * @param countries is the map of all countries
 	 * @return true if the whole map is successfully connected; false if it is not connected

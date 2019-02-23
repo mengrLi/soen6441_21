@@ -286,18 +286,15 @@ public class Map {  //
 	public void checkMapValidation() {
 		
 		String signal = isContinentInternallyConnected();
-		if( signal == "ALL PASSED") 
-		{
-			if(isWholeMapConnected()) 
-			{
+		if( signal == "ALL PASSED") {
+			if(isWholeMapConnected()) {
 				System.out.println("Map is successfully connected!");
 			}
 			else {
 				System.out.println("Error: Some continent are not externally connected");
 			}
 		}
-		else
-		{
+		else{
 			System.out.println("Error: "+signal+" continent is not connected");
 		}
 	}
@@ -311,26 +308,21 @@ public class Map {  //
 	 */
 	public String isContinentInternallyConnected() {
 		
-		for(String continentname : continents.keySet()) 
-		{
+		for(String continentname : continents.keySet()) {
 			//currentctn is the current continent
 			Continent currentctn = continents.get(continentname);
 			//To check the connection of countries of each continent 
-			for(Country ctry1 : currentctn.getCountryList()) 
-			{
+			for(Country ctry1 : currentctn.getCountryList()) {
 				//Use a integer to count the number of contiguous countries of each country
 				int counter = 0;
-				for(Country ctry2 : currentctn.getCountryList()) 
-				{
-					if(connectionMap.get(ctry1.getName()).contains(ctry2)) 
-					{
+				for(Country ctry2 : currentctn.getCountryList()) {
+					if(connectionMap.get(ctry1.getName()).contains(ctry2)) {
 						counter++;
 					}
 				}
 				//Counter==0 means there is a isolate country, so continent is not connected internally,
 				//Return the name of this unconnected continent
-				if(counter == 0) 
-				{
+				if(counter == 0) {
 					return continentname;
 				}
 			}
@@ -351,12 +343,10 @@ public class Map {  //
 		
 		//flag is the attribute of the country class, if one country has been searched, the flag is true, otherwise the flag is false
 		//At first we set all flags of countries false
-		for(String ctryname : connectionMap.keySet()) 
-		{
+		for(String ctryname : connectionMap.keySet()) {
 			Country ctry3 = countries.get(ctryname);
 			ctry3.setflag(false);
-			if(sourceNode == null) 
-			{
+			if(sourceNode == null) {
 				sourceNode = ctry3;
 			}
 		}
@@ -367,11 +357,9 @@ public class Map {  //
 		//To check if the whole map is connected
 		//If there is a flag of a country is false, means this country is isolated, then reject the map
 		//Otherwise the map is successfully connected
-		for(String ctryname2 : connectionMap.keySet()) 
-		{
+		for(String ctryname2 : connectionMap.keySet()) {
 			Country ctry4 = countries.get(ctryname2);
-			if(!ctry4.getflag()) 
-			{
+			if(!ctry4.getflag()) {
 				return false;
 			}
 		}
@@ -388,12 +376,10 @@ public class Map {  //
 	public void DFS(Country sourceNode) {
 		sourceNode.setflag(true);
 		//currentctryname is current country name
-		for(String currentctryname : connectionMap.get(sourceNode.getName())) 
-		{
+		for(String currentctryname : connectionMap.get(sourceNode.getName())) {
 			//targetNode is the current contiguous country of sourceNode
 			Country targetNode = countries.get(currentctryname);
-			if(!targetNode.getflag()) 
-			{
+			if(!targetNode.getflag()) {
 				DFS(targetNode);
 			}
 		}

@@ -16,12 +16,14 @@ public class GameDriver {
 	private int currentPlayer; //The ID of current player
 	private int initialArmyNum;
 	private static int round = 0; 
-	
+	public static GameState state;
 	
 	/**
 	 * The constructor of GameDriver
 	 */
-	public GameDriver(){}
+	public GameDriver(){
+	state = GameState.EDITMAP;
+	}
 	
 	
 	/**

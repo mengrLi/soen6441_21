@@ -16,6 +16,16 @@ public class Country {
     private int ID;
 
     private boolean flag;
+    
+    public static final int NODE_DIAMETER = 25;
+    
+    public Army army;
+
+    public boolean deleted;
+    
+    public GameState resource;
+    
+    public boolean capital;
 
 
     /** each country has a contiguous country list. */
@@ -223,6 +233,47 @@ public class Country {
             ArmiesNo--;
         }
     }
+     public void Draw(Graphics2D g) {
+		//		g = (Graphics2D) g;
+		//		((Graphics2D) g).setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+		int d2 = 4;
+		if(!deleted) {
+
+
+			if(continent != null) g.setColor(continent.color);
+			else g.setColor(Color.black);
+			if(capital) g.fillRoundRect(X - NODE_DIAMETER/2 - d2/2 , Y - NODE_DIAMETER/2 - d2/2, NODE_DIAMETER+d2, NODE_DIAMETER+d2, 10, 10);
+			else
+				g.fillOval(X - NODE_DIAMETER/2 - d2/2, Y - NODE_DIAMETER/2 -d2/2, NODE_DIAMETER + d2, NODE_DIAMETER + d2);
+
+			if(player != null) g.setColor(player.color);
+			else g.setColor(Theme.color);
+			if(capital) g.fillRoundRect(X - NODE_DIAMETER/2  , Y - NODE_DIAMETER/2 , NODE_DIAMETER, NODE_DIAMETER, 10, 10);
+			else
+				g.fillOval(X - NODE_DIAMETER/2, Y - NODE_DIAMETER/2, NODE_DIAMETER, NODE_DIAMETER);
+			if(resource != null) {
+				String strI = "" + resource.toString();
+				g.setColor(Color.BLACK);
+				Font font = new Font(Font.SANS_SERIF, Font.PLAIN, 8);
+				g.setFont(font);
+				g.drawString(strI, X - 10, Y);
+				//int power = army.getPower();
+				//String strII = "" + power;
+				//g.drawString(strII, X-5, Y+12);
+			}
+					
+
+		}
+
+	}
+    public boolean IsNotDeleted() {
+		return !deleted;
+	}
+	public boolean IsDeleted() {
+		return deleted;
+	}
+
+    
 
     /**
      * Increase One Army to the author's ArmyList and the country's ArmyList.

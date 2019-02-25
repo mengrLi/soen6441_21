@@ -12,7 +12,7 @@ import java.util.*;
  * @author xiaoyunliao
  */
 
-public class Map {  //
+public class Map extends Observable{  //
     private int id;
     private String name;
     private String author, warn, image, wrap, scroll;

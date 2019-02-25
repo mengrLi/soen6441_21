@@ -398,4 +398,93 @@ public class Map {  //
         
 
     }
+/**
+	 * Draws the links between nodes
+	 * 
+	 * @param g 
+	 * 未测试部分 
+	 * @author mengranli
+	 *            Graphics
+	 */
+	public void DrawLinks(Graphics g) {
+		g.setColor(Color.BLACK);
+		Color color = Color.BLACK;
+
+		for (int j = 0; j < MAX_NODE_COUNT; j++) {
+			for (int i = 0; i < MAX_NODE_COUNT; i++) {
+				g.setColor(color);
+				if (link[i][j] == 1)
+					g.drawLine(country[i].X, country[i].Y, country[j].X, country[j].Y);
+			}
+		}
+	}
+	/**
+	 * Draws nodes
+	 * 
+	 * @param g
+	 * 未测试
+	 * @author mengranli
+	 *            Graphics
+	 */
+	public void DrawNodes(Graphics2D g) {
+		for (int i = 0; i < MAX_NODE_COUNT; i++) {
+			if (country[i].IsNotDeleted())
+				country[i].Draw(g);
+				setChanged();
+				notifyObservers();
+		}
+	}
+
+
+	/**
+	 * Draws the line when right-click-dragged
+	 * 
+	 * @param g
+	 *            Graphics
+	 * @param selectedIndex
+	 *            Index of the selected node
+	 * @param currMouseX
+	 *            Current mouse coordinates
+	 * @param currMouseY
+	 *            Current mouse coordinates
+	 * @author mengranli
+	 */
+	public void DrawConnectingLine(Graphics g, int selectedIndex,
+			int currMouseX, int currMouseY, int mode) {
+
+		int x1 = country[selectedIndex].X;
+		int y1 = country[selectedIndex].Y;
+		int x2 = currMouseX;
+		int y2 = currMouseY;
+
+		int x = (x1+x2)/2;
+		int y = (y1+y2)/2;
+
+		double theta = Math.atan2(y2-y1, x2-x1);
+
+		Graphics2D g2 = (Graphics2D) g; 
+		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+		g2.translate(x, y);
+		g2.rotate(theta);
+		if(mode == 0) {
+			g2.setColor(Color.black);
+			g2.drawString("Connect", 0, 0);
+		}
+		else if (mode == 1)
+			g2.drawString("Move", 0, 0);
+		else if(mode == 2) {
+			g2.setColor(Color.MAGENTA);
+			g2.drawString("Attack", 0, 0);
+		}
+		g2.rotate(-theta);
+		g2.translate(-x, -y);
+
+		g2.drawLine(country[selectedIndex].X, country[selectedIndex].Y, currMouseX,
+				currMouseY);
+		if(mode == 2) {
+			int radius = (int)Math.sqrt((x2-x1)*(x2-x1)+(y2-y1)*(y2-y1));
+			g2.drawArc(x1 - radius , y1 - radius, radius*2, radius*2, 0, 360);
+		}
+	}
+
 }

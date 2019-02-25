@@ -24,6 +24,11 @@ public class Map {  //
     static int Max_country;
     private static Map map = null;
     private static int mapNum = 0;
+    public static final int MAX_NODE_COUNT = 36; // Maximum number of nodes
+    public static final int MAX_CONTINENTS = 6;
+    public boolean drawConnectingLine = false;
+    public static int[][] link = new int[MAX_NODE_COUNT][MAX_NODE_COUNT]; 
+    public Country[] country = new Country[MAX_NODE_COUNT];// List (Array) of States
 
     /**
      * Private constructor, prevent someone create multiple map instances

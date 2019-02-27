@@ -16,17 +16,17 @@ public enum CardType {
     
 	/**
 	 * Instantiates a new card type.
-	 * @param cardTypeCode the card type code
+	 * @param cardTypeNumber the card type number
 	 */
-	private CardType(int cardTypenumber) {
+	private setCardTypeNumber(int cardTypenumber) {
         this.CardTypeNumber = cardTypenumber;
     }
     
 	/**
-	 * Gets the card type code.
-	 * @return the card type code
+	 * Gets the card type number.
+	 * @return the card type number
 	 */
-	public int getCardTypeCode(){
+	public int getCardTypeNumber(){
     	return CardTypeNumber;
 
 }

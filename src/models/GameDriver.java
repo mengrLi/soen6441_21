@@ -7,7 +7,7 @@ import java.util.*;
  * 
  */
 
-public class GameDriver {
+public class GameDriver extends Observable{
 	
 	private int playNum;
 	private Map gameMap;
@@ -69,6 +69,9 @@ public class GameDriver {
 	public void setGameMap(String nameOfMapFile) {
 		this.gameMap.loadMap(nameOfMapFile);
 		this.gameMap.checkMapValidation();
+		setChanged();
+		notifyObservers();
+		
 	}
 	
 	
@@ -94,13 +97,16 @@ public class GameDriver {
 	 * This method is used to initial the number of players
 	 * @param playerNum is the number of players chose by user
 	 */
-	public void setPlayerList() {
+	public void setPlayerList(int playerNum) {
 		int i;
+		this.setPlayNum(playerNum);
 		for(i=0;i<this.playNum;i++) {
 			Player plyr= new Player(i); //plyr = player
 			playerList.add(plyr);
 		}
 		System.out.println("Successfully set the players! Players are " + playerList);
+		setChanged();
+		notifyObservers();
 	}
 	
 	
@@ -119,6 +125,8 @@ public class GameDriver {
 			curplyr.getCountriesOwned().add(curctn);
 			curctn.setPlayer(curplyr);
 		}
+		setChanged();
+		notifyObservers();
 	}
 	
 	
@@ -130,92 +138,56 @@ public class GameDriver {
 		int totalArmy = 60;
 		this.setInitialArmyNum(totalArmy/playerList.size());
 		System.out.println("Each player allocates "  + this.getInitialArmyNum()+ " armies at the start");
+		for(int i=0;i<playerList.size();i++) {
+			Player curplayer = playerList.get(i);
+			curplayer.setArmyList(initialArmyNum);
+		}
 		System.out.println("Now you can assign your armies whatever you like!");
-	}
-	
-	
-	/**
-	 * Get the origin country that the current player want to move armies from
-	 * @param player is the current player doing moving operation
-	 * @return return origin country
-	 */
-	public Country getOriginCountry(Player player) {
-		Country originctn =;
-		if(player.getCountriesOwned().contains(originctn)) {
-			return originctn;
-		}
-		else {
-			System.out.println("Error: "+originctn.getName()+" is not your country, you car not change the number of army of this country!");
-			return null;
-		}
-	}
-	
-	
-	/**
-	 * Get the target country that the current player want to move armies to 
-	 * @param player is the current player doing moving operation
-	 * @return return target country
-	 */
-	public Country getTargetCountry(Player player) {
-		Country targetctn = ; //targetctn = target country
-		if(player.getCountriesOwned().contains(targetctn)) {
-			return targetctn;
-		}
-		else {
-			System.out.println("Error: "+targetctn.getName()+" is not your country, you are not able to move army to this country!");
-			return null;
-		}
+		setChanged();
+		notifyObservers();
 	}
 	
 	
 	/**
 	 * This method is to move a number of armies from one country to another country
 	 * @param armyNum is the specific number of armies set by players
-	 * @param targetCountry is the country where armies moved to 
-	 * @param originCountry is the country where armies moved from
+	 * @param curplayer is the current player
+	 * @param desination is the country where armies moved to 
+	 * @param originctn is the country where armies moved from
 	 */
-	public void assignArmyBetweenCountries(int armyNum, Country targetCountry, Country originCountry) {
+	public void moveArmyBetweenCountries(int armyNum, Player curplayer, Country destination, Country originctn) {
 		int i;
-		if(targetCountry == null || originCountry == null) {
-			System.out.println("Error: you can not doing this moving opearation, since selected country does not belong to you");
+		if(!curplayer.getCountriesOwned().contains(originctn)) {
+			System.out.println("Error: "+originctn.getName()+" is not your country, you car not change the number of army of this country!");
+		}
+		else if(!curplayer.getCountriesOwned().contains(destination)) {
+			System.out.println("Error: "+destination.getName()+" is not your country, you are not able to move army to this country!");
 		}
 		else {
 			for(i=0;i<armyNum;i++) {
-				targetCountry.AddArmy();
-				originCountry.reduceArmy();
+				originctn.reduceArmy();
+				destination.AddArmy();
 			}
 		}
+		setChanged();
+		notifyObservers();
 	}
 	
 	
 	/**
 	 * Place only one army to a country by one player each time
-	 * @param targetCountry is the target country where one army moved to
+	 * @param destination is the target country where one army moved to
 	 */
-	public void placeInitialArmy(Country targetCountry) {
-		if(targetCountry != null) {
-			targetCountry.AddArmy();
+	public void placeInitialArmy(Player curplayer, Country destination) {
+		if(curplayer.getCountriesOwned().contains(destination)) {
+			destination.AddArmy();
 		}
 		else {
-			System.out.println("Error: you can not doing this moving opearation, since selected country does not belong to you");
+			System.out.println("Error: you can not doing this moving opearation, since selected country "+destination.getName()+ " does not belong to you");
 		}
+		setChanged();
+		notifyObservers();
 	}
 	
-	
-	/**
-	 * In round-robin fashion, the players place their given armies one by one on their own countries
-	 */
-	public void placeInitialArmy() {
-		int i,j;
-		Country targetctn;
-		for(i=0,j=0;i<initialArmyNum*playerList.size();i++,j++) {
-			if(j==playerList.size()) {
-				j=0;
-			}
-			Player curplyr = playerList.get(j);
-			targetctn = getTargetCountry(curplyr);
-			placeInitialArmy(targetctn);
-		}
-	}
 	
 }

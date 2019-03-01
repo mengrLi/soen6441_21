@@ -14,7 +14,7 @@ public class Player extends Observable{
     private ArrayList<Card> cardList = new ArrayList<Card>();
     private ArrayList<Army> armyList = new ArrayList<Army>();
     
-    /**number of times player is given army for cards。 */
+    /**number of times player is given army for cards銆� */
 	private int timesArmyforCards = 0; 
 	
     /**
@@ -79,6 +79,14 @@ public class Player extends Observable{
      */
     public ArrayList<Army> getArmyList(){
        return  this.armyList;
+    }
+    
+    
+    public void setArmyList(int armyNum) {
+    	for(int i=0;i<armyNum;i++) {
+    		Army army = new Army(this);
+    		armyList.add(army);
+    	}
     }
     
     /**

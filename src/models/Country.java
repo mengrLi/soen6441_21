@@ -218,7 +218,13 @@ public class Country {
      */
     public void reduceArmy() {
         if(ArmyList.size()>1){
-            this.ArmyList.remove(1);
+        	for(Army army:player.getArmyList()) {
+        		if(army == ArmyList.get(0)) {
+        			army.setCountry(null);
+                    this.ArmyList.remove(0);
+                    break;
+        		}
+        	}
         }
     }
 

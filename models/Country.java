@@ -1,29 +1,21 @@
-package models;
+package model;
+import java.awt.*;
 import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics2D;
 import java.util.ArrayList;
 
-import models.GameState;
-import view.Theme;
-import models.Army;
-
-
-
 public class Country {
+    private  static int  MAX_NODE_COUNT = 30;
+    private String name;
 
-    public String name;
+    private Continent continent;
 
-    public Continent continent;
+    private Player player;
 
-    public Player player;
+    private int X;
 
-    public int X;
+    private int Y;
 
-    public int Y;
-
-    public int ID;
-    
+    private int ID;
 
     private boolean flag;
     
@@ -35,32 +27,40 @@ public class Country {
     
     public GameState resource;
     
-    public boolean capital; 
+    public boolean capital;
+
     /** each country has a contiguous country list. */
     private ArrayList<Country> contiguousCountryList = new ArrayList<Country>();
 
     /** each country has a army list. */
     private ArrayList<Army> ArmyList = new ArrayList<Army>();
 
-    private static int IDNumber=0;
 
     /**
      * Creates a new country.
      */
-    public Country(String name) {
+
+    public Country( ) {
+
+    }
+    public Country(String name, int id) {
         this.name = name;
-        IDNumber++;
-        this.ID = IDNumber;
+        this.ID = id;
     }
 
-    public Country(String name, int x, int y, Continent continet) {
+    public Country(String name, int x, int y, int id) {
+        this.X = x;
+        this.Y = y;
         this.name = name;
-        IDNumber++;
-        this.ID = IDNumber;
+        this.ID = id;
+    }
+
+    public Country(String name, int x, int y, Continent continet, int id) {
+        this.name = name;
+        this.ID = id;
         this.X = x;
         this.Y = y;
         this.continent = continet;
-
     }
 
     /**
@@ -230,17 +230,61 @@ public class Country {
         }
     }
 
-    /**
-     * Remove a number of Armies from the country's ArmyList and the author's ArmyList.
-     */
-    public void removeArmies(int ArmiesNo) {
-        while(ArmyList.size()>0 && ArmiesNo>0){
-            Army army =this.ArmyList.get(0);
-            player.getArmyList().remove(army);
-            this.ArmyList.remove(army);
-            ArmiesNo--;
-        }
-    }
+//    /**
+//     * Remove a number of Armies from the country's ArmyList and the author's ArmyList.
+//     */
+//    public void removeArmies(int ArmiesNo) {
+//        while(ArmyList.size()>0 && ArmiesNo>0){
+//            Army army =this.ArmyList.get(0);
+//            player.getArmyList().remove(army);
+//            this.ArmyList.remove(army);
+//            ArmiesNo--;
+//        }
+//    }
+     public void Draw(Graphics2D g) {
+         if(!(X == 0 && Y == 0)) {
+             //		g = (Graphics2D) g;
+             //		((Graphics2D) g).setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+             int d2 = 4;
+             if (!deleted) {
+
+
+                 if (continent != null) g.setColor(continent.color);
+                 else g.setColor(Color.black);
+                 if (capital)
+                     g.fillRoundRect(X - NODE_DIAMETER / 2 - d2 / 2, Y - NODE_DIAMETER / 2 - d2 / 2, NODE_DIAMETER + d2, NODE_DIAMETER + d2, 10, 10);
+                 else
+                     g.fillOval(X - NODE_DIAMETER / 2 - d2 / 2, Y - NODE_DIAMETER / 2 - d2 / 2, NODE_DIAMETER + d2, NODE_DIAMETER + d2);
+
+                 if (player != null) g.setColor(player.color);
+                 else g.setColor(Theme.color);
+                 if (capital)
+                     g.fillRoundRect(X - NODE_DIAMETER / 2, Y - NODE_DIAMETER / 2, NODE_DIAMETER, NODE_DIAMETER, 10, 10);
+                 else
+                     g.fillOval(X - NODE_DIAMETER / 2, Y - NODE_DIAMETER / 2, NODE_DIAMETER, NODE_DIAMETER);
+                 if (resource != null) {
+                     String strI = "" + resource.toString();
+                     g.setColor(Color.BLACK);
+                     Font font = new Font(Font.SANS_SERIF, Font.PLAIN, 8);
+                     g.setFont(font);
+                     g.drawString(strI, X - 10, Y);
+                     //int power = army.getPower();
+                     //String strII = "" + power;
+                     //g.drawString(strII, X-5, Y+12);
+                 }
+
+
+             }
+         }
+	}
+    public boolean IsNotDeleted() {
+		return !deleted;
+	}
+	public boolean IsDeleted() {
+		return deleted;
+	}
+
+    
 
     /**
      * Increase One Army to the author's ArmyList and the country's ArmyList.
@@ -251,65 +295,26 @@ public class Country {
         this.ArmyList.add(army);
     }
 
-    public void Draw(Graphics2D g) {
-		//		g = (Graphics2D) g;
-		//		((Graphics2D) g).setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-		int d2 = 4;
-		if(!deleted) {
 
-
-			if(continent != null) g.setColor(continent.color);
-			else g.setColor(Color.black);
-			if(capital) g.fillRoundRect(X - NODE_DIAMETER/2 - d2/2 , Y - NODE_DIAMETER/2 - d2/2, NODE_DIAMETER+d2, NODE_DIAMETER+d2, 10, 10);
-			else
-				g.fillOval(X - NODE_DIAMETER/2 - d2/2, Y - NODE_DIAMETER/2 -d2/2, NODE_DIAMETER + d2, NODE_DIAMETER + d2);
-
-			if(player != null) g.setColor(player.color);
-			else g.setColor(Theme.color);
-			if(capital) g.fillRoundRect(X - NODE_DIAMETER/2  , Y - NODE_DIAMETER/2 , NODE_DIAMETER, NODE_DIAMETER, 10, 10);
-			else
-				g.fillOval(X - NODE_DIAMETER/2, Y - NODE_DIAMETER/2, NODE_DIAMETER, NODE_DIAMETER);
-			if(resource != null) {
-				String strI = "" + resource.toString();
-				g.setColor(Color.BLACK);
-				Font font = new Font(Font.SANS_SERIF, Font.PLAIN, 8);
-				g.setFont(font);
-				g.drawString(strI, X - 10, Y);
-				//int power = army.getPower();
-				//String strII = "" + power;
-				//g.drawString(strII, X-5, Y+12);
-			}
-					
-
-		}
-
-	}
- 
-	public boolean IsNotDeleted() {
-		return !deleted;
-	}
-	public boolean IsDeleted() {
-		return deleted;
-	}
-	/**
-	 * Determines if the mouse is pointing at the state
-	 * @param x current mouse x
-	 * @param y current mouse y
-	 * @return returns true if the mouse is over this object
-	 */
-	public boolean MouseOver(int x, int y) {
-		if(deleted == false) {
-			int r = NODE_DIAMETER;
-			if(x >= this.X-r/2 && x <= this.X+r/2 && y>=this.Y-r/2 && y <= this.Y+r/2) return true;
-			else return false;
-		}
-		else return false;
-	}
-
-    
     @Override
     public String toString() {
-        String info = ID+"-"+name +"-"+ X + "," + Y +"-"+continent.getName();
+       String info = ID+"-"+name +"-"+ X + "," + Y ;
+
         return info;
+    }
+
+    /**
+     * Determines if the mouse is pointing at the state
+     * @param x current mouse x
+     * @param y current mouse y
+     * @return returns true if the mouse is over this object
+     */
+    public boolean MouseOver(int x, int y) {
+        if(deleted == false) {
+            int r = NODE_DIAMETER;
+            if(x >= this.X-r/2 && x <= this.X+r/2 && y>=this.Y-r/2 && y <= this.Y+r/2) return true;
+            else return false;
+        }
+        else return false;
     }
 }

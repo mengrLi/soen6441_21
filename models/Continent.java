@@ -1,13 +1,13 @@
-package models;
-import java.awt.Color;
+package model;
+import java.awt.*;
 import java.util.ArrayList;
 
 public class Continent {
 
-
+    public Color color;
     private int id;
 
-    public String name;
+    private String name;
 
     /** The control value. */
     private int Value;
@@ -17,7 +17,7 @@ public class Continent {
     private ArrayList<Country> CountryList = new ArrayList<Country>();
 
     private static int idNumber=0;
-    public Color color;
+
     /**
      * Creates a new continent include the name，control value and id.
      */

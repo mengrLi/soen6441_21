@@ -1,4 +1,4 @@
 # soen6441_21
-# this ia soen6441 project 
+# this is a soen6441 project 
 
 test pull request feat/map branch

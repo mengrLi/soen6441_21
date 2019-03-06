@@ -1,4 +1,4 @@
-package models;
+package model;
 
 /**
  * This is the Enum to indicate different game states and status.
@@ -6,6 +6,6 @@ package models;
  *
  */
 public enum GameState {
-	EDITMAP, STARTUP, REENFORCE, ATTACK, FORTIFY
+	EDITMAP, CHOOSEPLAYER, STARTUP, REINFORCE, ATTACK, FORTIFY
 }
 

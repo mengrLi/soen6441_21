@@ -101,7 +101,8 @@ public class GameEngine {
      */
     public void allocateArmies() {
         //int totalArmy = 30;
-        int totalArmy = map.getCountryNum() * 2;
+        //totalArmy can be divisible by player number
+        int totalArmy = Math.max(map.getCountryNum() * 2 - (map.getCountryNum() * 2)%playerList.size(),5*playerList.size());
         System.out.println("totalArmy :" + totalArmy);
         this.setInitialArmyNum(totalArmy / playerList.size());
         log.add("Each player allocates " + this.getInitialArmyNum() + " armies at the start");

@@ -1,5 +1,10 @@
-package models;
+package model;
 
+/**
+ * This is the class used to define the card type
+ * @author
+ *
+ */
 public enum CardType {
 	
 	/** The infantry. */
@@ -16,7 +21,7 @@ public enum CardType {
     
 	/**
 	 * Instantiates a new card type.
-	 * @param cardTypeNumber the card type number.
+	 * @param cardTypenumber the card type number.
 	 */
 	private CardType(int cardTypenumber) {
         this.CardTypeNumber = cardTypenumber;

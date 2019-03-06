@@ -1,5 +1,12 @@
-package models;
+package model;
 import java.util.Random;
+
+/**
+ * This is the card class We use the class to define player's card
+ * 
+ * @author
+ *
+ */
 
 public class Card {
 	

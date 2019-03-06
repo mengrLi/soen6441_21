@@ -1,9 +1,17 @@
-package models;
+package model;
+import java.awt.*;
 import java.util.ArrayList;
 
+/**
+ * Class Continent, defines a continent with these properties: ID , Color, Name
+ * of the continent, value of continent
+ * 
+ * @author 
+ *
+ */
 public class Continent {
 
-
+    public Color color;
     private int id;
 
     private String name;

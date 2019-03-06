@@ -1,5 +1,11 @@
-package models;
+package model;
 
+/**
+ * This is a army class
+ * We use this class to create the player's army
+ * @author xiaoyunliao
+ *
+ */
 public class Army {
 	
 	private Player player;
@@ -39,6 +45,10 @@ public class Army {
 	public void setCountry(Country country) {
 		this.country = country;
 	}
-	
-	
+
+	@Override
+	public String toString() {
+		String info = "Army : player - " + player + ", country - "+ country+"\n";
+		return info;
+	}
 }

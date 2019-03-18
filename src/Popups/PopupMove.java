@@ -82,13 +82,14 @@ public class PopupMove extends aPopupMenu implements ActionListener  {
 	 */
 	public void refreshList(Country country) {
 		listModel.clear();
-		System.out.println("getcontiguousBelongThisPlayer : "+country.getcontiguousBelongThisPlayer() );
+		//System.out.println("getcontiguousBelongThisPlayer : "+country.getcontiguousBelongThisPlayer() );
 		listModel.addElement("to Country");
 		for(int i = 0; i < country.getcontiguousBelongThisPlayer().size(); i++) {
 			   String cont = country.getcontiguousBelongThisPlayer().get(i);
 			   listModel.addElement(cont);
 			  }
 	}
+
 	/**
 	 * Displays the pop up menu at the given coordinates
 	 * @param c component

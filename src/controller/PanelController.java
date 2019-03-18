@@ -161,10 +161,10 @@ public class PanelController {
 
 		    }
 			else if(e.getSource() == simpanel.movebutton) {
-				if(game.state == GameState.FORTIFY){
+			game.state=GameState.FORTIFY;
 
-					System.out.println("fortify");
-				}
+			System.out.println("fortify");
+
 
 
 			}
@@ -178,15 +178,14 @@ public class PanelController {
 
 		}
 		else if(e.getSource() == simpanel.attackbutton) {
-			if(game.state == GameState.ATTACK){
-				game.state = GameState.FORTIFY;
+			game.state=GameState.ATTACK;
 
-				System.out.println("attack");
+			System.out.println("attack");
 				log.add("attack phase");
 			}
 
 
-		}
+
 
 
 

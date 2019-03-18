@@ -1,4 +1,4 @@
-package model;
+  package model;
 
 
 import java.awt.Color;
@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Random;
 
 import View.*;
+import gamemodel.Country;
 
 
 
@@ -101,8 +102,7 @@ public class GameEngine {
      */
     public void allocateArmies() {
         //int totalArmy = 30;
-        //totalArmy can be divisible by player number
-        int totalArmy = Math.max(map.getCountryNum() * 2 - (map.getCountryNum() * 2)%playerList.size(),5*playerList.size());
+        int totalArmy = map.getCountryNum() * 2;
         System.out.println("totalArmy :" + totalArmy);
         this.setInitialArmyNum(totalArmy / playerList.size());
         log.add("Each player allocates " + this.getInitialArmyNum() + " armies at the start");
@@ -262,7 +262,7 @@ public class GameEngine {
 
     /**
      * click the country to add a army
-      */
+     */
     public void reinforceArmy(Country country) {
         int index = 0;
         Player curPlayer = playerList.get(currentPlayer);
@@ -281,8 +281,107 @@ public class GameEngine {
             state = GameState.ATTACK;
         }
     }
-
-    	/**
+    
+    
+    /**
+     * Generate the random dice list of one player, can be either attacker or defender
+     * And the dice list would be sorted in ascending order
+     * @param diceNum is the number of dices they choose
+     * @return ArrayList<Integer>  a list of dices
+     */
+    public ArrayList<Integer> generateDiceNum(int diceNum) {
+    	ArrayList<Integer> diceList = new ArrayList<>();
+        int randomNumber;
+        //generate a random number for each dice in the dice list
+        for (int i = 0; i < diceNum; i++) {
+            randomNumber = new Random().nextInt(6) + 1;
+            diceList.add(randomNumber);
+        }
+        //making it be in a ascending order
+        Collections.sort(diceList);
+        return diceList; 
+    }
+    
+    
+    /**
+     * When attacker chooses 3 dices, compare the dice number
+     * @param attackCtry attack country
+     * @param defendCtry attacked country
+     */
+    public void diceThree(Country attackCtry, Country defendCtry) {
+    	Player attacker= attackCtry.getPlayer();
+    	int armyOfAttacker= attackCtry.getArmiesNum();
+    	int armyOfDefender= defendCtry.getArmiesNum();
+    	ArrayList<Integer> attackerDiceList= generateDiceNum(3);
+    	ArrayList<Integer> defenderDiceList= new ArrayList<>();
+    	if(armyOfAttacker>=3) {
+    		if(armyOfDefender==0) {
+        		defenderDiceList= generateDiceNum(1);
+        		if(attackerDiceList.get(2)-defenderDiceList.get(0)>0) {
+        			defendCtry.setPlayer(attacker);
+        		}
+        		else {
+        			attackCtry.reduceArmy();
+        		}
+        	}
+        	else if(armyOfDefender==1){
+        		defenderDiceList= generateDiceNum(1);
+        		if(attackerDiceList.get(2)-defenderDiceList.get(0)>0) {
+        			defendCtry.reduceArmy();
+        		}
+        		else {
+        			attackCtry.reduceArmy();
+        		}
+        	}
+        	else {
+        		defenderDiceList= generateDiceNum(2);
+        		if(attackerDiceList.get(2)-defenderDiceList.get(1)>0) {
+        			defendCtry.reduceArmy();
+        			if(attackerDiceList.get(1)-defenderDiceList.get(0)>0) {
+        				defendCtry.reduceArmy();
+        			}
+        			else {
+        				attackCtry.reduceArmy();
+        			}
+        		}
+        		else {
+        			attackCtry.reduceArmy();
+        			if(attackerDiceList.get(1)-defenderDiceList.get(0)>0) {
+        				defendCtry.reduceArmy();
+        			}
+        			else {
+        				attackCtry.reduceArmy();
+        			}
+        		}
+        	}
+    	} 
+    	else {
+    		log.add("you can choose 3 dices to roll, cause you don't have at least 3 armies");
+    	}
+    }
+    
+    
+    public String attack(Country attacker, Country defender,int attackerDiceNumber) {
+    	
+    	if(attackerDiceNumber==1) {
+    		//TODO:diceOne
+    	}
+    	else if(attackerDiceNumber==2) {
+    		//TODO:diceTwo
+    	}
+    	else if(attackerDiceNumber==3) {
+    		diceThree(attacker,defender);
+    	}
+    	else {
+    		//TODO:all-in
+    	}
+    	
+    	
+    	return "attack success";
+    }
+    
+    
+   /**
 	 * This method is to move a number of armies from one country to another country
 	 * @param armyNum is the specific number of armies set by players
 	 * @param curplayer is the current player

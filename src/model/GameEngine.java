@@ -1,4 +1,4 @@
-  package model;
+package model;
 
 
 import java.awt.Color;
@@ -286,7 +286,7 @@ public class GameEngine {
      * @param diceNum is the number of dices they choose
      * @return ArrayList<Integer>  a list of dices
      */
-    public ArrayList<Integer> generateDiceNum(int diceNum) {
+    public static ArrayList<Integer> generateDiceNum(int diceNum) {
     	ArrayList<Integer> diceList = new ArrayList<>();
         int randomNumber;
         //generate a random number for each dice in the dice list
@@ -305,21 +305,16 @@ public class GameEngine {
      * @param attackCtry attack country
      * @param defendCtry attacked country
      */
-    public void diceThree(Country attackCtry, Country defendCtry) {
+    public static void diceThree(Country attackCtry, Country defendCtry) {
     	Player attacker= attackCtry.getPlayer();
     	int armyOfAttacker= attackCtry.getArmiesNum();
     	int armyOfDefender= defendCtry.getArmiesNum();
     	ArrayList<Integer> attackerDiceList= generateDiceNum(3);
     	ArrayList<Integer> defenderDiceList= new ArrayList<>();
-    	if(armyOfAttacker>=3) {
+    	
+    	if(armyOfAttacker>=4) {
     		if(armyOfDefender==0) {
-        		defenderDiceList= generateDiceNum(1);
-        		if(attackerDiceList.get(2)-defenderDiceList.get(0)>0) {
-        			defendCtry.setPlayer(attacker);
-        		}
-        		else {
-        			attackCtry.reduceArmy();
-        		}
+        		defendCtry.setPlayer(attacker);
         	}
         	else if(armyOfDefender==1){
         		defenderDiceList= generateDiceNum(1);
@@ -446,7 +441,7 @@ public class GameEngine {
                //attacker move a army to defender country
                if(attacker.getArmiesNum()>1){
                    moveArmyBetweenCountries(1,attacker.getPlayer(),defender,attacker);
-               }//如果attacker只剩一个army，那要想其他办法移动。
+               }//濡傛灉attacker鍙墿涓�涓猘rmy锛岄偅瑕佹兂鍏朵粬鍔炴硶绉诲姩銆�
            }
        }
        return rtn;

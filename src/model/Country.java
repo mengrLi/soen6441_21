@@ -252,8 +252,8 @@ public class Country {
      * Reduce one Army of this country.
      */
     public void reduceArmy() {
-        if(ArmyList.size()>1){
-            this.ArmyList.remove(1);
+        if(ArmyList.size()>=1){
+            this.ArmyList.remove(0);
         }
 
         for(Army army : player.getArmyList()){

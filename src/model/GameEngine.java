@@ -298,7 +298,118 @@ public class GameEngine {
         Collections.sort(diceList);
         return diceList; 
     }
-    
+    /**
+     * When attacker chooses 1 dices, compare the dice number
+     * @param attackCtry it's the attack country
+     * @param defendCtry it's the defend country
+     */
+    public void diceOne(Country attackCounty, Country defendCountry) {
+    	Player attacker = attackCounty.getPlayer();
+    	int armyOfAttacker = attackCounty.getArmiesNum();
+    	int armyOfDefender = defendCountry.getArmiesNum();
+    	ArrayList<Integer> attackerDiceList = generateDiceNum(1);
+    	ArrayList<Integer> defenderDiceList = new ArrayList<Integer>();
+    	if(armyOfAttacker == 1) {
+    		log.add("You cannot attack, becasue you need at least 2 army to attack");
+    	}
+    	else if(armyOfAttacker == 2) {
+    		if(armyOfDefender == 1) {
+    			defenderDiceList = generateDiceNum(1);
+    			if(attackerDiceList.get(0) - defenderDiceList.get(0) > 0) {
+    				defendCountry.setPlayer(attacker);
+    			}
+    			else {
+    				attackCounty.reduceArmy();
+    			}
+    		}
+    		else {
+    			defenderDiceList = generateDiceNum(2);
+    			if(attackerDiceList.get(0) - defenderDiceList.get(0) > 0) {
+    				attackCounty.reduceArmy();
+    			}
+    			else {
+    				attackCounty.reduceArmy();
+    				attackCounty.reduceArmy();
+    			}
+    		}
+    	}
+    	else if (armyOfAttacker >= 3) {
+    		if(armyOfDefender == 1) {
+    			defenderDiceList = generateDiceNum(1);
+    			if(attackerDiceList.get(0) - defenderDiceList.get(0) > 0) {
+    				defendCountry.setPlayer(attacker);
+    			}
+    			else {
+    				attackCounty.reduceArmy();
+    			}
+    		}
+    		else if(armyOfDefender >= 2) {
+    			defenderDiceList = generateDiceNum(2);
+    			if(attackerDiceList.get(0) - defenderDiceList.get(0) > 0) {
+    				attackCounty.reduceArmy();
+    			}
+    			else {
+    				attackCounty.reduceArmy();
+    				attackCounty.reduceArmy();
+    			}
+    		}
+    	}
+    }
+    /**
+     * When attacker chooses 2 dices, compare the dice number
+     * @param attackCtry it's the attack country
+     * @param defendCtry it's the defend country
+     */
+    public void diceTwo(Country attackCounty, Country defendCountry) {
+    	Player attacker = attackCounty.getPlayer();
+    	int armyOfAttacker = attackCounty.getArmiesNum();
+    	int armyOfDefender = defendCountry.getArmiesNum();
+    	ArrayList<Integer> attackerDiceList = generateDiceNum(2);
+    	ArrayList<Integer> defenderDiceList = new ArrayList<Integer>();
+    	if(armyOfAttacker == 1) {
+    		log.add("You cannot attack, becasue you need at least 2 army to attack");
+    	}
+    	else if(armyOfAttacker == 2) {
+    		log.add("The number of army need at least one more than the number of dice");
+    	}
+    	else if(armyOfAttacker >= 3) {
+    		if(armyOfDefender == 1) {
+    			defenderDiceList = generateDiceNum(1);
+    			if(attackerDiceList.get(0) - defenderDiceList.get(0) > 0) {
+    				defendCountry.setPlayer(attacker);
+    			}
+    			else {
+    				attackCounty.reduceArmy();
+    			}
+    		}
+    		else if(armyOfDefender >=2 ) {
+    			defenderDiceList = generateDiceNum(2);
+    			if(attackerDiceList.get(0) - defenderDiceList.get(0) > 0) {
+    				defendCountry.reduceArmy();
+    				if(attackerDiceList.get(1) - defenderDiceList.get(1) > 0) {
+    					defendCountry.reduceArmy();
+    				}
+    				else {
+    					attackCounty.reduceArmy();
+    				}
+    			}
+    			else {
+    				attackCounty.reduceArmy();
+    				if(attackerDiceList.get(1) - defenderDiceList.get(1) > 0) {
+    					defendCountry.reduceArmy();
+    				}
+    				else {
+    					attackCounty.reduceArmy();
+    				}
+    			}
+    		}
+    	}
+    }
+    /**
+     * When attacker chooses 3 dices, compare the dice number
+     * @param attackCtry attack country
+     * @param defendCtry attacked country
+     */
     
     /**
      * When attacker chooses 3 dices, compare the dice number

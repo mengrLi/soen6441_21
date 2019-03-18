@@ -21,18 +21,13 @@ import Popups.*;
 import controller.*;
 
 
-/**
- * This is the canvas class extends from Jpanel 
- * We use the class to paint and handle the mouse event
- * @author mengranli
- *
- */
-
 public class Canvas extends JPanel implements Observer{
 	GameEngine game;
 	PanelController panelcontroller;
 	PopupEdit popup;
 	PopupMove popupm ;
+	PopupCard popupCard;
+	PopupAttack popupAttack;
 	InspectorPopup insp = new InspectorPopup();
 
 	Cursor curCursor;
@@ -62,6 +57,10 @@ public class Canvas extends JPanel implements Observer{
 		setBackground(Color.BLUE);
 		popup = new PopupEdit(Map.getMapInstance(), this);
 		popupm = new PopupMove(Map.getMapInstance(), this);
+		popupCard=new PopupCard(Map.getMapInstance(),this);
+		popupAttack=new PopupAttack(Map.getMapInstance(),this);
+
+
 		addMouseListener(new aMouseHandler());
 		addMouseMotionListener(new aMotionHandler());
 	}
@@ -180,24 +179,51 @@ public class Canvas extends JPanel implements Observer{
 					Country country = Map.getMapInstance().getCountry(selectedIndex);
 					System.out.println("place army :" + country);
 					game.reinforceArmy(country);
+                    if(e.getClickCount() == 2)
+                    { if(mouseOverIndex != -1)
+                    {
+                     //   popupCard.card1_num.setText(Map.getMapInstance().getCountry(selectedIndex).getName());
+                        popupCard.refreshList();
+                        if(Map.getMapInstance().getCountry(selectedIndex).getContinent()!= null)
+                            //	popupm.textfield2.setText(Map.getMapInstance().getCountry(selectedIndex).getName());
+
+                            popupCard.show(e.getComponent(), e.getX(), e.getY());
+                    }
+                    }
+
 				}
 				if(game.state == GameState.FORTIFY) {
-					if(e.getClickCount() == 2)
-					{ if(mouseOverIndex != -1)
-					{
-						popupm.textfield1.setText(Map.getMapInstance().getCountry(selectedIndex).getName());
-						popupm.refreshList(Map.getMapInstance().getCountry(selectedIndex));
-						if(Map.getMapInstance().getCountry(selectedIndex).getContinent()!= null)
-						//	popupm.textfield2.setText(Map.getMapInstance().getCountry(selectedIndex).getName());
+                    if(e.getClickCount() == 2)
+                    { if(mouseOverIndex != -1)
+                    {
+                        popupm.textfield1.setText(Map.getMapInstance().getCountry(selectedIndex).getName());
+                        popupm.refreshList(Map.getMapInstance().getCountry(selectedIndex));
+                        if(Map.getMapInstance().getCountry(selectedIndex).getContinent()!= null)
+                            //	popupm.textfield2.setText(Map.getMapInstance().getCountry(selectedIndex).getName());
 
-							popupm.show(e.getComponent(), e.getX(), e.getY());
-					}
-					}
-//					else if(mouseOverIndex == -1)
-//					{
-//						Map.getMapInstance().addNode(e.getX(), e.getY());
-//					}
-				}
+                            popupm.show(e.getComponent(), e.getX(), e.getY());
+                    }
+                    }
+
+                }
+                if(game.state == GameState.ATTACK) {
+                    if(e.getClickCount() == 2)
+                    { if(mouseOverIndex != -1)
+                    {
+                        popupAttack.countryname.setText(Map.getMapInstance().getCountry(selectedIndex).getName());
+                        popupAttack.playername.setText(Map.getMapInstance().getCountry(selectedIndex).getPlayer().getName());
+              //          popupAttack.armynumber.setText(Map.getMapInstance().getCountry(selectedIndex).getArmiesNum());
+                       // popupAttack.refreshList(Map.getMapInstance().getCountry(selectedIndex));
+                        if(Map.getMapInstance().getCountry(selectedIndex).getContinent()!= null)
+                            //	popupm.textfield2.setText(Map.getMapInstance().getCountry(selectedIndex).getName());
+
+                            popupAttack.show(e.getComponent(), e.getX(), e.getY());
+                    }
+                    }
+
+                }
+
+
 			}
 			
 		}

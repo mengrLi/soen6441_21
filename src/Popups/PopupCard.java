@@ -92,10 +92,10 @@ public class PopupCard extends aPopupMenu implements ActionListener {
         listModel.clear();
      //   System.out.println("getcontiguousBelongThisPlayer : "+country.getcontiguousBelongThisPlayer() );
         listModel.addElement("Card options:");
-//        for(int i = 0; i < country.getcontiguousBelongThisPlayer().size(); i++) {
-//            String cont = country.getcontiguousBelongThisPlayer().get(i);
-//            listModel.addElement(cont);
-//        }
+        for(int i = 0; i < game.getCurPlayer().chooseExchangeWay().size(); i++) {
+            String cont = game.getCurPlayer().chooseExchangeWay().get(i);
+            listModel.addElement(cont);
+        }
     }
     /**
      * Displays the pop up menu at the given coordinates
@@ -104,23 +104,25 @@ public class PopupCard extends aPopupMenu implements ActionListener {
      * @param y coordinates
      */
     public void show(Component c, int x, int y) {
-        //refreshList();
+        refreshList();
         popup.show(c, x, y);
     }
 
     public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == selectcardbutton) {
-				refreshList();
-		}
+          //  refreshList();
+            String options= cardoptionList.getSelectedValue().toString();
+            System.out.println(options);
+            game.getCurPlayer().ExchangeCardforArmy(options);
 
-//        if(e.getSource() == setcontinentbutton) {
+         //   System.out.print(cardoptionList.getSelectedValue().toString());
 //            Country destination = map.getCountry(continentlist.getSelectedValue().toString());
 //            Country originctn = map.getCountry(canvas.selectedIndex);
 //            Player curPlayer = game.getCurPlayer();
 //            game.moveArmyBetweenCountries(1,curPlayer, destination, originctn);
-//            canvas.repaint();
-//
-//        }
-//    }
+              canvas.repaint();
+
+        }
     }
+
 }

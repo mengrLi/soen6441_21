@@ -1,0 +1,24 @@
+[Map]
+author=Default
+image=Default
+warn=Default
+scroll=Default
+
+[Continents]
+South America=1
+Europe=1
+Africa=3
+North America=1
+
+[Territories]
+Country4,250,405,South America,Country5,Country2
+
+Country3,705,126,Europe,Country1
+
+Country5,434,278,Africa,Country1,Country4
+Country1,515,272,Africa,Country3,Country5
+Country0,525,451,Africa
+
+Country2,143,110,North America,Country4
+
+

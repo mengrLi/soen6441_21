@@ -1,0 +1,13 @@
+[Map]
+author=Default
+image=Default
+warn=Default
+scroll=Default
+
+[Continents]
+Australia=1
+
+
+[Territories]
+Country0,885,455,Australia
+

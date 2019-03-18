@@ -1,5 +1,6 @@
 package model;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.Color;
 import java.util.ArrayList;
@@ -20,6 +21,7 @@ public class Player {
     private ArrayList<Country> countriesOwned = new ArrayList<>();
     private ArrayList<Card> cardList = new ArrayList<Card>();
     private ArrayList<Army> armyList = new ArrayList<>();
+
 
     /**
      * Gets the card list.
@@ -197,7 +199,7 @@ public class Player {
      * This method can  exchange 3 cards for army and remove 3 cards from the cardList according to the exchange way.
      * return the number of army for card.
      */
-    public int ExchangeCardforArmy(String exchangeway) {
+    public int[] ExchangeCardforArmy(String exchangeway) {
 
         System.out.println("has sucessfully exchanged cards");
         String way=exchangeway;
@@ -208,36 +210,40 @@ public class Player {
         }
         //after exchange army then remove the cards.
         //remove 3 of them with the same type
-        if(way=="Exchange 3 Type0 Cards for Armies"){
-        	for (int i=0; i<3; i++){
+        if(way=="Type0 (3)"){
+            for (int i=0; i<3; i++){
                 removeCard(0);
             }
+
         }
-        if(way=="Exchange 3 Type1 Cards for Armies"){
-        	for (int i=0; i<3; i++){
+        if(way=="Type1 (3)"){
+            for (int i=0; i<3; i++){
                 removeCard(1);
             }
+
         }
-        if(way=="Exchange 3 Type2 Cards for Armies"){
-        	for (int i=0; i<3; i++){
+        if(way=="Type2 (3)"){
+            for (int i=0; i<3; i++){
                 removeCard(2);
             }
+
         }
-        if(way=="Exchange 1 Type0 1 Type1 and 1 Type2 Card for Armies"){
-        	//else remove one of each type.
+        if(way=="Type0 (1) Type1 (1) Type2 (1)"){
+            //else remove one of each type.
             removeCard(0);
             removeCard(1);
             removeCard(2);
 
         }
-        
-        return armyForCard;
+        int[] TypeNumber=cardTypeNumber();
+        return TypeNumber;
 
     }
-    /**
-     * This method remove a card from cardList of player.
-     * @param cardTypeCode
-     */
+
+        /**
+         * This method remove a card from cardList of player.
+         * @param cardTypeCode
+         */
     public void removeCard(int cardTypeCode) {
         for(Card card: cardList){
             if (card.getCardType().getCardTypeNumber() == cardTypeCode) {
@@ -273,32 +279,33 @@ public class Player {
     	int[] cardTypeNumber = cardTypeNumber();
     	if(ExchangeCard()){
     		if(cardTypeNumber[0]>=3 && Math.max(cardTypeNumber[1], cardTypeNumber[2])<3){
-    			exchangeway.add("Exchange 3 Type0 Cards for Armies");
+    			exchangeway.add("Type0 (3)");
     		}
     		if(cardTypeNumber[1]>=3 && Math.max(cardTypeNumber[0], cardTypeNumber[2])<3){
-    			exchangeway.add("Exchange 3 Type1 Cards for Armies");
+    			exchangeway.add("Type1 (3)");
     		}
     		if(cardTypeNumber[2]>=3 && Math.max(cardTypeNumber[1], cardTypeNumber[0])<3){
-    			exchangeway.add("Exchange 3 Type2 Cards for Armies");
+    			exchangeway.add("Type2 (3)");
     		}
     		if(Math.min(cardTypeNumber[0], cardTypeNumber[1])>=3 && cardTypeNumber[2]<3){
-    			exchangeway.add("Exchange 3 Type0 Cards for Armies");
-    			exchangeway.add("Exchange 3 Type1 Cards for Armies");
+    			exchangeway.add("Type0 (3)");
+    			exchangeway.add("Type1 (3)");
     		}
     		if(Math.min(cardTypeNumber[0], cardTypeNumber[2])>=3 && cardTypeNumber[1]<3){
-    			exchangeway.add("Exchange 3 Type0 Cards for Armies");
-    			exchangeway.add("Exchange 3 Type2 Cards for Armies");
+    			exchangeway.add("Type0 (3)");
+    			exchangeway.add("Type2 (3)");
     		}
     		if(Math.min(cardTypeNumber[1], cardTypeNumber[2])>=3 && cardTypeNumber[0]<3){
-    			exchangeway.add("Exchange 3 Type1 Cards for Armies");
-    			exchangeway.add("Exchange 3 Type2 Cards for Armies");
+    			exchangeway.add("Type1 (3)");
+    			exchangeway.add("Type2 (3)");
     		}
     		if(Math.min(cardTypeNumber[0], Math.min(cardTypeNumber[1], cardTypeNumber[2])) >= 1){
-    			exchangeway.add("Exchange 1 Type0 1 Type1 and 1 Type2 Card for Armies");
+    			exchangeway.add("Type0 (1) Type1 (1) Type2 (1)");
     			if(Math.min(cardTypeNumber[0], Math.min(cardTypeNumber[1], cardTypeNumber[2])) >= 3){
-    				exchangeway.add("Exchange 3 Type0 Cards for Armies");
-    				exchangeway.add("Exchange 3 Type1 Cards for Armies");
-    				exchangeway.add("Exchange 3 Type2 Cards for Armies");
+    				exchangeway.add("Type0 (3)");
+    				exchangeway.add("Type1 (3)");
+    				exchangeway.add("Type2 (3)");
+
     			}
     		}
     	}

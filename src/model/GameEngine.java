@@ -5,7 +5,7 @@ import java.awt.Color;
 import java.util.*;
 
 import View.*;
-import gamemodel.Country;
+import model.Country;
 
 
 

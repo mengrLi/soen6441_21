@@ -1,0 +1,43 @@
+[Map]
+author=default
+image=Default
+warn=default
+scroll=Default
+
+[Continents]
+South America=4
+Asia=6
+Europe=1
+Africa=5
+Australia=2
+North America=3
+
+[Territories]
+Country3,235,380,South America,Country2,Country4,Country20
+Country20,292,389,South America,Country3,Country4,Country8
+Country4,248,443,South America,Country3,Country5,Country20
+Country5,249,508,South America,Country4
+
+Country18,666,93,Asia,Country10,Country11,Country12
+Country12,747,69,Asia,Country13,Country18
+Country10,659,154,Asia,Country11,Country13,Country14,Country18
+Country13,769,139,Asia,Country10,Country12,Country14
+Country14,743,191,Asia,Country10,Country13,Country15
+Country15,717,245,Asia,Country14,Country16
+
+Country11,568,97,Europe,Country8,Country10,Country18
+
+Country8,448,258,Africa,Country9,Country11,Country19,Country20
+Country19,499,324,Africa,Country7,Country8,Country9
+Country9,538,279,Africa,Country7,Country8,Country19
+Country7,539,396,Africa,Country6,Country9,Country19
+Country6,528,463,Africa,Country7
+
+Country16,872,458,Australia,Country15,Country17
+Country17,917,487,Australia,Country16
+
+Country0,112,124,North America,Country1,Country2
+Country1,162,100,North America,Country0,Country2
+Country2,120,172,North America,Country0,Country1,Country3
+
+

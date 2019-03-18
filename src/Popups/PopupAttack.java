@@ -106,10 +106,10 @@ public class PopupAttack extends aPopupMenu implements ActionListener{
      */
     public void refreshList() {
         listModel.clear();
-      //  System.out.println("getcontiguousBelongThisPlayer : "+country.getcontiguousBelongThisPlayer() );
-        listModel.addElement("to Country");
-//        for(int i = 0; i < country.getcontiguousBelongThisPlayer().size(); i++) {
-//            String cont = country.getcontiguousBelongThisPlayer().get(i);
+//      //  System.out.println("getcontiguousBelongThisPlayer : "+country.getDefendersAroundThisCountry() );
+//        listModel.addElement("to Country");
+//        for(int i = 0; i < country.getDefendersAroundThisCountry().size(); i++) {
+//            String cont = country.getDefendersAroundThisCountry().get(i);
 //            listModel.addElement(cont);
 //        }
     }

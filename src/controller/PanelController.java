@@ -183,12 +183,6 @@ public class PanelController {
 			System.out.println("attack");
 				log.add("attack phase");
 			}
-
-
-
-
-
-
 		}
 
 

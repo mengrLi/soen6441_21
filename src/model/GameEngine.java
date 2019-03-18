@@ -2,10 +2,7 @@
 
 
 import java.awt.Color;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 import View.*;
 import gamemodel.Country;
@@ -426,9 +423,40 @@ public class GameEngine {
         System.out.println("2 next player : "+ playerList.get(currentPlayer).getName());
     }
 
-/**
- * This is the method used to restart the game
- */
+
+    /**
+     * check when player conquer a country.
+     */
+    public int checkAfterAtteacked(Country attacker, Country defender){
+        int rtn = 0; // 0-not conquer, 1-conquer, 2-game finished,
+        //check if the attacker owns all countries,if yes, then game finish.
+       if(attacker.getPlayer().getCountriesOwned().size() == map.getAllCountries().size()){
+           state = GameState.END;
+           rtn = 2;
+       }else{
+           //if the attacker conquer the country
+           if(defender.getArmiesNum() == 0){
+               rtn = 1;
+               //change country's owner
+               defender.setPlayer(attacker.getPlayer());
+               //remove the country from defender's country list
+               defender.getPlayer().getCountriesOwned().remove(defender);
+               //add the country to attacker's country list
+               attacker.getPlayer().getCountriesOwned().add(defender);
+               //attacker move a army to defender country
+               if(attacker.getArmiesNum()>1){
+                   moveArmyBetweenCountries(1,attacker.getPlayer(),defender,attacker);
+               }//如果attacker只剩一个army，那要想其他办法移动。
+           }
+       }
+       return rtn;
+    }
+
+
+
+    /**
+     * restart the game
+     */
     public void restart(){
         map.reset();
         playerList.clear();

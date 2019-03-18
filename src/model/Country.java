@@ -376,11 +376,15 @@ public class Country {
         else return true;
     }
 
+    /**
+     * get contiguous belong this country's owner
+     * @return country name list
+     */
     public ArrayList<String> getcontiguousBelongThisPlayer() {
 
-        System.out.println("getcontiguousBelongThisPlayer  -----"+map.getConnectionMap().get(name));
+       //System.out.println("getcontiguousBelongThisPlayer  -----"+map.getConnectionMap().get(name));
 
-        ArrayList<String>  countryNameList = new ArrayList<String>(30);
+        ArrayList<String>  countryNameList = new ArrayList<String>();
         for(String contiguousName : map.getConnectionMap().get(name)){
            if( map.getCountry(contiguousName).getPlayer().getName().equals(this.player.getName())){
                countryNameList.add(contiguousName);
@@ -390,6 +394,24 @@ public class Country {
         System.out.println("countryNameList"+ countryNameList);
         return countryNameList;
     }
+
+    /**
+     * get contiguous which can be defender
+     * @return country name list
+     */
+    public ArrayList<String> getDefendersAroundThisCountry() {
+
+        ArrayList<String> countryNameList = new ArrayList<String>();
+        for(String contiguousName : map.getConnectionMap().get(name)){
+            if(!map.getCountry(contiguousName).getPlayer().getName().equals(this.player.getName())){
+                countryNameList.add(contiguousName);
+            }
+        }
+
+        System.out.println("Defender countryNameList"+ countryNameList);
+        return countryNameList;
+    }
+
 
 
 

@@ -104,14 +104,14 @@ public class PopupAttack extends aPopupMenu implements ActionListener{
     /**
      * Refreshes the continent list
      */
-    public void refreshList() {
+    public void refreshList(Country country) {
         listModel.clear();
 //      //  System.out.println("getcontiguousBelongThisPlayer : "+country.getDefendersAroundThisCountry() );
-//        listModel.addElement("to Country");
-//        for(int i = 0; i < country.getDefendersAroundThisCountry().size(); i++) {
-//            String cont = country.getDefendersAroundThisCountry().get(i);
-//            listModel.addElement(cont);
-//        }
+        listModel.addElement("Choose country to attack ");
+        for(int i = 0; i < country.getDefendersAroundThisCountry().size(); i++) {
+            String cont = country.getDefendersAroundThisCountry().get(i);
+            listModel.addElement(cont);
+       }
     }
     /**
      * Displays the pop up menu at the given coordinates
@@ -120,14 +120,18 @@ public class PopupAttack extends aPopupMenu implements ActionListener{
      * @param y coordinates
      */
     public void show(Component c, int x, int y) {
-        //refreshList();
+       // refreshList(Country);
         popup.show(c, x, y);
     }
 
     public void actionPerformed(ActionEvent e) {
-//		if(e.getSource() == addcontinentbutton) {
-//				refreshList();
-//		}
+		if(e.getSource() == threedicebutton) {
+				//refreshList();
+            Country definectry = map.getCountry(attacklist.getSelectedValue().toString());
+            Country attackctry = map.getCountry(canvas.selectedIndex);
+            game.diceThree(attackctry,definectry);
+            canvas.repaint();
+		}
 
 //        if(e.getSource() == setcontinentbutton) {
 //            Country destination = map.getCountry(continentlist.getSelectedValue().toString());

@@ -182,7 +182,9 @@ public class Canvas extends JPanel implements Observer{
                     if(e.getClickCount() == 2)
                     { if(mouseOverIndex != -1)
                     {
-                     //   popupCard.card1_num.setText(Map.getMapInstance().getCountry(selectedIndex).getName());
+                        popupCard.card1_num.setText(String.valueOf(Map.getMapInstance().getCountry(selectedIndex).getPlayer().cardTypeNumber()[0]));
+						popupCard.card2_num.setText(String.valueOf(Map.getMapInstance().getCountry(selectedIndex).getPlayer().cardTypeNumber()[1]));
+						popupCard.card3_num.setText(String.valueOf(Map.getMapInstance().getCountry(selectedIndex).getPlayer().cardTypeNumber()[2]));
                         popupCard.refreshList();
                         if(Map.getMapInstance().getCountry(selectedIndex).getContinent()!= null)
                             //	popupm.textfield2.setText(Map.getMapInstance().getCountry(selectedIndex).getName());
@@ -212,8 +214,8 @@ public class Canvas extends JPanel implements Observer{
                     {
                         popupAttack.countryname.setText(Map.getMapInstance().getCountry(selectedIndex).getName());
                         popupAttack.playername.setText(Map.getMapInstance().getCountry(selectedIndex).getPlayer().getName());
-              //          popupAttack.armynumber.setText(Map.getMapInstance().getCountry(selectedIndex).getArmiesNum());
-                       // popupAttack.refreshList(Map.getMapInstance().getCountry(selectedIndex));
+                        popupAttack.armynumber.setText(String.valueOf("Army number"+Map.getMapInstance().getCountry(selectedIndex).getArmiesNum()));
+                        popupAttack.refreshList(Map.getMapInstance().getCountry(selectedIndex));
                         if(Map.getMapInstance().getCountry(selectedIndex).getContinent()!= null)
                             //	popupm.textfield2.setText(Map.getMapInstance().getCountry(selectedIndex).getName());
 

@@ -17,6 +17,7 @@ public class PopupAttack extends aPopupMenu implements ActionListener{
     public JTextField countryname; //country
     public JTextField playername; //player
     public JTextField armynumber;//army
+    public JTextField countrypercent;
 
     public JButton alldicebutton;
     public JButton onedicebutton;
@@ -56,6 +57,7 @@ public class PopupAttack extends aPopupMenu implements ActionListener{
         countryname = new JTextField();
         playername=new JTextField();
         armynumber=new JTextField();
+        countrypercent=new JTextField();
 
         alldicebutton.setBackground(Theme.color);
         onedicebutton.setBackground(Theme.color);
@@ -65,9 +67,11 @@ public class PopupAttack extends aPopupMenu implements ActionListener{
         popup.setBackground(Theme.color);
         scrollpane.setBackground(Theme.color);
         //continentlist.setBackground(Theme.color);
-        countryname.setSize(50, 15);
-        playername.setSize(50, 15);
-        armynumber.setSize(50, 15);
+        countryname.setSize(40, 15);
+        playername.setSize(40, 15);
+        armynumber.setSize(40, 15);
+        countrypercent.setSize(40, 15);
+
         scrollpane.setWheelScrollingEnabled(true);
         GridLayout grid = new GridLayout(1, 2);
         GridLayout grid2 = new GridLayout(1, 3);
@@ -78,9 +82,11 @@ public class PopupAttack extends aPopupMenu implements ActionListener{
         countryname.setText("Country name");
         playername.setText("Player name");
         armynumber.setText("Army number");
+        countrypercent.setText("country percentage");
         popuppanel.add(countryname);
         popuppanel.add(playername);
         popuppanel.add(armynumber);
+        popuppanel.add(countrypercent);
 
 
      //   panel.add(label);
@@ -130,18 +136,21 @@ public class PopupAttack extends aPopupMenu implements ActionListener{
             Country definectry = map.getCountry(attacklist.getSelectedValue().toString());
             Country attackctry = map.getCountry(canvas.selectedIndex);
             game.diceThree(attackctry,definectry);
+            countrypercent.setText(game.percentageOfmap(attackctry.getPlayer()));
             canvas.repaint();
 		}else if(e.getSource() == onedicebutton) {
             //refreshList();
             Country definectry = map.getCountry(attacklist.getSelectedValue().toString());
             Country attackctry = map.getCountry(canvas.selectedIndex);
             game.diceOne(attackctry,definectry);
+	    countrypercent.setText(game.percentageOfmap(attackctry.getPlayer()));
             canvas.repaint();
         }else if(e.getSource() == twodicebutton) {
             //refreshList();
             Country definectry = map.getCountry(attacklist.getSelectedValue().toString());
             Country attackctry = map.getCountry(canvas.selectedIndex);
             game.diceTwo(attackctry,definectry);
+	    countrypercent.setText(game.percentageOfmap(attackctry.getPlayer()));
             canvas.repaint();
         }
 

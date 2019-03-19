@@ -538,27 +538,28 @@ public class GameEngine {
     /**
      * check when player conquer a country.
      */
-    public void checkAfterAtteacked(Country attackerCtry, Country defenderCtry){
-        //check if the attacker owns all countries,if yes, then game finish.
-       if(attackerCtry.getPlayer().getCountriesOwned().size() == map.getAllCountries().size()){
-           state = GameState.END;
-           log.add(getCurPlayerNameWithColor() + " wined the game!" );
-       }else{
-           //if the attacker conquer the country
-           if(defenderCtry.getArmiesNum() == 0){
-               //change country's owner
-               defenderCtry.setPlayer(attackerCtry.getPlayer());
-               //remove the country from defender's country list
-               defenderCtry.getPlayer().getCountriesOwned().remove(defenderCtry);
-               //add the country to attacker's country list
-               attackerCtry.getPlayer().getCountriesOwned().add(defenderCtry);
-               //attacker move a army to defender country
-               if(attackerCtry.getArmiesNum()>1){
-                   moveArmyBetweenCountries(1,attackerCtry.getPlayer(),defenderCtry,attackerCtry);
-               }
-		log.add(getCurPlayerNameWithColor() + " conquered " + defenderCtry.getName());
-           }
-       }
+    public void checkAfterAtteacked(Country attackerCtry, Country defenderCtry) {
+        //if the attacker conquer the country
+        if (defenderCtry.getArmiesNum() == 0) {
+            //change country's owner
+            defenderCtry.setPlayer(attackerCtry.getPlayer());
+            //remove the country from defender's country list
+            defenderCtry.getPlayer().getCountriesOwned().remove(defenderCtry);
+            //add the country to attacker's country list
+            attackerCtry.getPlayer().getCountriesOwned().add(defenderCtry);
+
+            //check if the attacker owns all countries,if yes, then game finished.
+            if (attackerCtry.getPlayer().getCountriesOwned().size() == map.getAllCountries().size()) {
+                state = GameState.END;
+                log.add(getCurPlayerNameWithColor() + " wined the game!");
+                return;
+            }else if (attackerCtry.getArmiesNum() > 1) {
+                //attacker move a army to defender country
+                moveArmyBetweenCountries(1, attackerCtry.getPlayer(), defenderCtry, attackerCtry);
+            }
+            log.add(getCurPlayerNameWithColor() + " conquered " + defenderCtry.getName());
+        }
+        System.out.println("percentage of player:" + percentageOfmap(getCurPlayer()));
     }
 
 

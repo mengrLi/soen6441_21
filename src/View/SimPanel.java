@@ -14,36 +14,27 @@ public class SimPanel {
 	//public  JButton loadsim;
 //	JButton savesim;
 	public JButton movebutton;
-	//	public JButton turnbutton;
-//	public JButton fullbutton;
+
 	public  JButton reinforcebutton;
 	public JButton attackbutton;
+	public JButton choosecardbutton;
 	public JPanel mainpanel;
-	public JComboBox combo;
-	public JComboBox combo2;
+
 	
 	public SimPanel() {
-		movebutton = new JButton("move");
+		movebutton = new JButton("Move");
 //		turnbutton = new JButton("turn");
 //		fullbutton = new JButton("full");
-		reinforcebutton = new JButton("reinforce");
-		attackbutton = new JButton("attack");
+		reinforcebutton = new JButton("Reinforce");
+		attackbutton = new JButton("Attack");
+		choosecardbutton = new JButton("Choose Card");
+
 
 		grid1 = new GridLayout(1, 3);
-//		JPanel panel = new JPanel();
-//		panel.add(movebutton);
-//		panel.add(turnbutton);
-//		panel.add(fullbutton);
-//		panel.add(reinforcebutton);
-		
-		
-//		JPanel left = new JPanel();
-		//left.add(loadsim);
-	//	left.add(savesim);
-		
+
 //		
 		JPanel center = new JPanel();
-
+		center.add(choosecardbutton);
 		center.add(reinforcebutton);
 		center.add(attackbutton);
 		center.add(movebutton);

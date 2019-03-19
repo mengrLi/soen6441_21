@@ -25,7 +25,7 @@ public class PanelController {
 	public EditPanel editpanel = new EditPanel();
 	public static PlaceArmyPanel placearmypanel = new PlaceArmyPanel();
 	public ReinforcePanel reinforcepanel = new ReinforcePanel();
-//	public MovePanel movepanel = new MovePanel();
+	//	public MovePanel movepanel = new MovePanel();
 	public static SimPanel simpanel = new SimPanel();
 	boolean auto = false;
 
@@ -54,7 +54,7 @@ public class PanelController {
 		c.gridy = 1;
 		mainpanel.add(simpanel.getComponent(), c);
 
-	
+
 		c.gridx = 0;
 		c.gridy = 2;
 		mainpanel.add(log.getComponent(), c);
@@ -91,8 +91,8 @@ public class PanelController {
 			}
 
 		} else if (e.getSource() == editpanel.load) {
-				String loadInfo = map.Load();
-				log.add(loadInfo);
+			String loadInfo = map.Load();
+			log.add(loadInfo);
 		}
 
 
@@ -129,40 +129,40 @@ public class PanelController {
 			SetActivePanel(reinforcepanel);
 			simpanel.enable();
 
-			} else if (e.getSource() == placearmypanel.back) {
-				game.state = GameState.CHOOSEPLAYER;
-				SetActivePanel(assignplayerpanel);
+		} else if (e.getSource() == placearmypanel.back) {
+			game.state = GameState.CHOOSEPLAYER;
+			SetActivePanel(assignplayerpanel);
 
 
-			} else if (e.getSource() == reinforcepanel.back) {
-				game.state = GameState.STARTUP;
-				SetActivePanel(placearmypanel);
-				simpanel.disable();
+		} else if (e.getSource() == reinforcepanel.back) {
+			game.state = GameState.STARTUP;
+			SetActivePanel(placearmypanel);
+			simpanel.disable();
 
-			}
-			else if(e.getSource() == simpanel.reinforcebutton) {
+		}
+		else if(e.getSource() == simpanel.reinforcebutton) {
 
-			    game.state=GameState.REINFORCE;
-			    game.reinforce();
+			game.state=GameState.REINFORCE;
+			game.reinforce();
 
 
-			}
-		    else if(e.getSource() == reinforcepanel.next) {
+		}
+		else if(e.getSource() == reinforcepanel.next) {
 			game.state=GameState.CHOOSECARD;
 			//SetActivePanel(assignplayerpanel);
-			// simpanel.disable(); 
+			// simpanel.disable();
 			game.turnToNextPlayer();
 			System.out.println("next player");
 
-		    }
-			else if(e.getSource() == simpanel.movebutton) {
+		}
+		else if(e.getSource() == simpanel.movebutton) {
 			game.state=GameState.FORTIFY;
 
 			System.out.println("fortify");
 
 
 
-			}
+		}
 		else if(e.getSource() == reinforcepanel.button) {
 			game.state=GameState.CHOOSECARD;
 			//SetActivePanel(assignplayerpanel);
@@ -176,27 +176,27 @@ public class PanelController {
 			game.state=GameState.ATTACK;
 
 			System.out.println("attack");
-				log.add("attack phase");
-			}
+			log.add("attack phase");
+		}
 
-			else if(e.getSource()==simpanel.choosecardbutton){
+		else if(e.getSource()==simpanel.choosecardbutton){
 			game.state=GameState.CHOOSECARD;
 
 		}
-		}
+	}
 
 
-		public void AddActionListener (ActionListener e){
-			assignplayerpanel.AddActionListener(e);
-			editpanel.AddActionListener(e);
-			placearmypanel.AddActionListener(e);
-			reinforcepanel.AddActionListener(e);
-			simpanel.reinforcebutton.addActionListener(e);
-			simpanel.movebutton.addActionListener(e);
-			simpanel.attackbutton.addActionListener(e);
-			simpanel.choosecardbutton.addActionListener(e);
-			reinforcepanel.button.addActionListener(e);
+	public void AddActionListener (ActionListener e){
+		assignplayerpanel.AddActionListener(e);
+		editpanel.AddActionListener(e);
+		placearmypanel.AddActionListener(e);
+		reinforcepanel.AddActionListener(e);
+		simpanel.reinforcebutton.addActionListener(e);
+		simpanel.movebutton.addActionListener(e);
+		simpanel.attackbutton.addActionListener(e);
+		simpanel.choosecardbutton.addActionListener(e);
+		reinforcepanel.button.addActionListener(e);
 
-		}
+	}
 
 }

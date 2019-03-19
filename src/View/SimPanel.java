@@ -20,7 +20,7 @@ public class SimPanel {
 	public JButton choosecardbutton;
 	public JPanel mainpanel;
 
-	
+
 	public SimPanel() {
 		movebutton = new JButton("Move");
 //		turnbutton = new JButton("turn");
@@ -32,14 +32,14 @@ public class SimPanel {
 
 		grid1 = new GridLayout(1, 3);
 
-//		
+
 		JPanel center = new JPanel();
 		center.add(choosecardbutton);
 		center.add(reinforcebutton);
 		center.add(attackbutton);
 		center.add(movebutton);
 
-		
+
 		mainpanel = new JPanel(grid1);
 //		mainpanel.add(left);
 		mainpanel.add(center);

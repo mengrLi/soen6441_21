@@ -27,8 +27,8 @@ public class PopupAttack extends aPopupMenu implements ActionListener{
 
     JPopupMenu popup;
     JPanel popuppanel;
-  //  JLabel label;
-   // public JComboBox combo;
+    //  JLabel label;
+    // public JComboBox combo;
 
     private Map map;
     private Canvas canvas;
@@ -45,9 +45,9 @@ public class PopupAttack extends aPopupMenu implements ActionListener{
         // = = = = = Edit State Pop-up Menu = = = = = = =
         popup = new JPopupMenu();
         popuppanel = new JPanel();
-      //  String data[] = {"1", "2", "3", "ALL"};
-      //  label = new JLabel("Choose the dice number: ");
-      //  combo = new JComboBox(data);
+        //  String data[] = {"1", "2", "3", "ALL"};
+        //  label = new JLabel("Choose the dice number: ");
+        //  combo = new JComboBox(data);
 
 
         alldicebutton = new JButton("ALL Dice");
@@ -89,8 +89,9 @@ public class PopupAttack extends aPopupMenu implements ActionListener{
         popuppanel.add(countrypercent);
 
 
-     //   panel.add(label);
-       // panel.add(combo);
+
+        //   panel.add(label);
+        // panel.add(combo);
         panel.add(onedicebutton);
         panel.add(twodicebutton);
         panel.add(threedicebutton);
@@ -117,7 +118,7 @@ public class PopupAttack extends aPopupMenu implements ActionListener{
         for(int i = 0; i < country.getDefendersAroundThisCountry().size(); i++) {
             String cont = country.getDefendersAroundThisCountry().get(i);
             listModel.addElement(cont);
-       }
+        }
     }
     /**
      * Displays the pop up menu at the given coordinates
@@ -126,31 +127,31 @@ public class PopupAttack extends aPopupMenu implements ActionListener{
      * @param y coordinates
      */
     public void show(Component c, int x, int y) {
-       // refreshList(Country);
+        // refreshList(Country);
         popup.show(c, x, y);
     }
 
     public void actionPerformed(ActionEvent e) {
-		if(e.getSource() == threedicebutton) {
-				//refreshList();
+        if(e.getSource() == threedicebutton) {
+            //refreshList();
             Country definectry = map.getCountry(attacklist.getSelectedValue().toString());
             Country attackctry = map.getCountry(canvas.selectedIndex);
             game.diceThree(attackctry,definectry);
             countrypercent.setText(game.percentageOfmap(attackctry.getPlayer()));
             canvas.repaint();
-		}else if(e.getSource() == onedicebutton) {
+        }else if(e.getSource() == onedicebutton) {
             //refreshList();
             Country definectry = map.getCountry(attacklist.getSelectedValue().toString());
             Country attackctry = map.getCountry(canvas.selectedIndex);
             game.diceOne(attackctry,definectry);
-	    countrypercent.setText(game.percentageOfmap(attackctry.getPlayer()));
+            countrypercent.setText(game.percentageOfmap(attackctry.getPlayer()));
             canvas.repaint();
         }else if(e.getSource() == twodicebutton) {
             //refreshList();
             Country definectry = map.getCountry(attacklist.getSelectedValue().toString());
             Country attackctry = map.getCountry(canvas.selectedIndex);
             game.diceTwo(attackctry,definectry);
-	    countrypercent.setText(game.percentageOfmap(attackctry.getPlayer()));
+            countrypercent.setText(game.percentageOfmap(attackctry.getPlayer()));
             canvas.repaint();
         }
 

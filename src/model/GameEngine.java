@@ -143,7 +143,7 @@ public class GameEngine {
                 log.add("Now It is Player " + getPlayNameWithColor(currentPlayer) + "'s turn to place army");
             } else {
                 log.add("Finished army placement");
-                state = GameState.REINFORCE;
+               // state = GameState.REINFORCE;
                 currentPlayer = 0;
             }
         }
@@ -521,8 +521,8 @@ public class GameEngine {
      * next button function, turn to next player
      */
     public void turnToNextPlayer(){
-	    System.out.println("gameState :" + state);
-        if(state == GameState.REINFORCE){
+	   // System.out.println("gameState :" + state);
+        if(state == GameState.CHOOSECARD){
             if(currentPlayer == playerList.size()-1){
                 currentPlayer = 0;
                 round ++;

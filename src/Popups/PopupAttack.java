@@ -156,6 +156,14 @@ public class PopupAttack extends aPopupMenu implements ActionListener{
             game.diceTwo(attackctry,definectry,curPlayer);
             countrypercent.setText(game.percentageOfmap(attackctry.getPlayer()));
             canvas.repaint();
+        }else if(e.getSource() == alldicebutton) {
+            //refreshList();
+            Country definectry = map.getCountry(attacklist.getSelectedValue().toString());
+            Country attackctry = map.getCountry(canvas.selectedIndex);
+            Player curPlayer=game.getCurPlayer();
+            game.diceAll(attackctry,definectry,curPlayer);
+            countrypercent.setText(game.percentageOfmap(attackctry.getPlayer()));
+            canvas.repaint();
         }
 
 //        if(e.getSource() == setcontinentbutton) {

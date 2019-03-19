@@ -157,6 +157,19 @@ public class Player {
         Card c=new Card(this);
         this.cardList.add(c);
     }
+    
+    /**
+     * This method gets a list of random new cards for the player and add to the cardList.
+     */
+    public void getListNewCard()
+    {
+        for(int i=0;i<10;i++){
+        	
+        	Card c=new Card(this);
+            this.cardList.add(c);
+        }
+    	
+    }
 
 
     /**
@@ -257,9 +270,9 @@ public class Player {
     public void removeCard(int cardTypeCode) {
         for(Card card: cardList){
             if (card.getCardType().getCardTypeNumber() == cardTypeCode) {
-                cardList.remove(card);
+                this.cardList.remove(card);
 
-                break;
+                return;
             }
         }
     }

@@ -123,12 +123,9 @@ public class PanelController {
 //				//textfield.setText(game.getCurPlayer().getName());
 //			}
 		} else if (e.getSource() == placearmypanel.next) {
-			System.out.println("1 placearmypanel.next");
-			System.out.println(game.getCurrentState());
-			game.state = GameState.REINFORCE;
-//			String str = game.getCurrentPlayer() + ": " ;
-//			Color c = game.getCurrentPlayerColor();
-			//.setText(str, c);
+//			System.out.println("1 placearmypanel.next");
+//			System.out.println(game.getCurrentState());
+			game.state = GameState.CHOOSECARD;
 			SetActivePanel(reinforcepanel);
 			simpanel.enable();
 
@@ -142,18 +139,16 @@ public class PanelController {
 				SetActivePanel(placearmypanel);
 				simpanel.disable();
 
-			} else if(e.getSource() == simpanel.reinforcebutton) {
+			}
+			else if(e.getSource() == simpanel.reinforcebutton) {
 
-			System.out.println("2 simpanel.reinforcebutton");
-			System.out.println(game.getCurrentState());
+			    game.state=GameState.REINFORCE;
+			    game.reinforce();
 
-				if(game.state==GameState.REINFORCE) {
-					game.reinforce();
 
-				}
 			}
 		    else if(e.getSource() == reinforcepanel.next) {
-			game.state=GameState.REINFORCE;
+			game.state=GameState.CHOOSECARD;
 			//SetActivePanel(assignplayerpanel);
 			// simpanel.disable(); 
 			game.turnToNextPlayer();
@@ -169,7 +164,7 @@ public class PanelController {
 
 			}
 		else if(e.getSource() == reinforcepanel.button) {
-			game.state=GameState.REINFORCE;
+			game.state=GameState.CHOOSECARD;
 			//SetActivePanel(assignplayerpanel);
 			// simpanel.disable();
 			game.turnToNextPlayer();
@@ -183,6 +178,11 @@ public class PanelController {
 			System.out.println("attack");
 				log.add("attack phase");
 			}
+
+			else if(e.getSource()==simpanel.choosecardbutton){
+			game.state=GameState.CHOOSECARD;
+
+		}
 		}
 
 
@@ -194,6 +194,7 @@ public class PanelController {
 			simpanel.reinforcebutton.addActionListener(e);
 			simpanel.movebutton.addActionListener(e);
 			simpanel.attackbutton.addActionListener(e);
+			simpanel.choosecardbutton.addActionListener(e);
 			reinforcepanel.button.addActionListener(e);
 
 		}

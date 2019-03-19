@@ -194,13 +194,17 @@ public class GameEngine {
      */
     public void placeInitialArmy(Player curplayer, Country destination) {
         if (curplayer.getCountriesOwned().contains(destination)) {
-            destination.AddArmy();
+            if(curplayer.getNumberOfArmy()<18) {
+                destination.AddArmy();
+            }
+            else {
+                log.add("Error: There are too many armies in this country(" + destination.getName() + "), for equity, please select other countries");
+            }
         } else {
             log.add("Error: you can not doing this moving opearation");
             log.add("since selected country " + destination.getName() + " does not belong to you");
         }
     }
-
 
     /**
      * Set the initial army number of each player at the start up phase
@@ -323,9 +327,9 @@ public class GameEngine {
         int armyOfDefender = defendCountry.getArmiesNum();
         ArrayList<Integer> attackerDiceList = generateDiceNum(1);
         ArrayList<Integer> defenderDiceList = new ArrayList<Integer>();
-        
+
         if(curPlayer.equals(attacker)) {
-        	if (armyOfAttacker == 1) {
+            if (armyOfAttacker == 1) {
                 log.add("You cannot attack, becasue you need at least 2 army to attack");
             } else if (armyOfAttacker == 2) {
                 if (armyOfDefender == 1) {
@@ -365,7 +369,7 @@ public class GameEngine {
             checkAfterAtteacked(attackCounty, defendCountry);
         }
         else {
-        	log.add("Error: it is not your turn!");
+            log.add("Error: it is not your turn!");
         }
     }
 
@@ -383,9 +387,9 @@ public class GameEngine {
         int armyOfDefender = defendCountry.getArmiesNum();
         ArrayList<Integer> attackerDiceList = generateDiceNum(2);
         ArrayList<Integer> defenderDiceList = new ArrayList<Integer>();
-        
+
         if(curPlayer.equals(attacker)) {
-        	if (armyOfAttacker == 1) {
+            if (armyOfAttacker == 1) {
                 log.add("You cannot attack, becasue you need at least 2 army to attack");
             } else if (armyOfAttacker == 2) {
                 log.add("The number of army need at least one more than the number of dice");
@@ -419,7 +423,7 @@ public class GameEngine {
             checkAfterAtteacked(attackCounty, defendCountry);
         }
         else {
-        	log.add("Error: it is not your turn!");
+            log.add("Error: it is not your turn!");
         }
     }
 
@@ -437,9 +441,9 @@ public class GameEngine {
         int armyOfDefender = defendCtry.getArmiesNum();
         ArrayList<Integer> attackerDiceList = generateDiceNum(3);
         ArrayList<Integer> defenderDiceList = new ArrayList<>();
-        
+
         if(curPlayer.equals(attacker)) {
-        	if (armyOfAttacker >= 4) {
+            if (armyOfAttacker >= 4) {
                 if (armyOfDefender == 0) {
                     defendCtry.setPlayer(attacker);
                 } else if (armyOfDefender == 1) {
@@ -473,12 +477,12 @@ public class GameEngine {
             checkAfterAtteacked(attackCtry, defendCtry);
         }
         else {
-        	log.add("Error: it is not your turn!");
+            log.add("Error: it is not your turn!");
         }
-        
+
     }
-    
-    
+
+
     /**
      * When attacker chooses all-in, compare the dice number
      * @param attackCtry attack country
@@ -486,27 +490,30 @@ public class GameEngine {
      * @param curPlayer current player
      */
     public void diceAll(Country attackCtry, Country defendCtry, Player curPlayer) {
-    	Player attacker = attackCtry.getPlayer();
+        Player attacker = attackCtry.getPlayer();
         int armyOfAttacker = attackCtry.getArmiesNum();
-        
-        
+
+
         if(curPlayer.equals(attacker)) {
-        	while(armyOfAttacker>=4) {
-        		diceThree(attackCtry,defendCtry,curPlayer);
-        	}
-        	int timesLeft= armyOfAttacker%3;
-        	if(timesLeft==0) {
-        		diceTwo(attackCtry,defendCtry,curPlayer);
-        	}
-        	else if(timesLeft==2) {
-        		diceOne(attackCtry,defendCtry,curPlayer);
-        	}
+            int timesOfThree= Math.floorDiv(armyOfAttacker, 4);
+            int timesLeft= armyOfAttacker%4;
+
+            for(int i=0;i<timesOfThree;i++) {
+                diceThree(attackCtry,defendCtry,curPlayer);
+            }
+            if(timesLeft==2){
+                diceOne(attackCtry,defendCtry,curPlayer);
+            }
+            else if(timesLeft==3) {
+                diceTwo(attackCtry,defendCtry,curPlayer);
+            }
         }
         else {
-        	log.add("Error: it is not your turn!");
-        }        
+            log.add("Error: it is not your turn!");
+
+        }
     }
-    
+
 
     /**
      * This method is to move a number of armies from one country to another country
@@ -526,7 +533,7 @@ public class GameEngine {
         } else if (originctn.getArmiesNum() == 1) {
             log.add("Error:  There is only 1 army in this country(" + originctn.getName() + "), you can not move it!");
         } else if(destination.getArmiesNum()>=18) {
-        	log.add("Error: There are too many armies in this country(" + destination.getName() + "), for equity, please select other countries");
+            log.add("Error: There are too many armies in this country(" + destination.getName() + "), for equity, please select other countries");
         } else {
             for (i = 0; i < armyNum; i++) {
                 originctn.reduceArmy();

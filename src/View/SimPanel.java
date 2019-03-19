@@ -32,7 +32,7 @@ public class SimPanel {
 
 		grid1 = new GridLayout(1, 3);
 
-
+//
 		JPanel center = new JPanel();
 		center.add(choosecardbutton);
 		center.add(reinforcebutton);

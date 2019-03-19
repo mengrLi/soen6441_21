@@ -542,7 +542,7 @@ public class GameEngine {
         //check if the attacker owns all countries,if yes, then game finish.
        if(attackerCtry.getPlayer().getCountriesOwned().size() == map.getAllCountries().size()){
            state = GameState.END;
-           log.add(getCurPlayerNameWithColor() + " conquered " + defenderCtry.getName());
+           log.add(getCurPlayerNameWithColor() + " wined the game!" );
        }else{
            //if the attacker conquer the country
            if(defenderCtry.getArmiesNum() == 0){
@@ -556,7 +556,7 @@ public class GameEngine {
                if(attackerCtry.getArmiesNum()>1){
                    moveArmyBetweenCountries(1,attackerCtry.getPlayer(),defenderCtry,attackerCtry);
                }
-               log.add(getCurPlayerNameWithColor() + " wined the game!" );
+		log.add(getCurPlayerNameWithColor() + " conquered " + defenderCtry.getName());
            }
        }
     }

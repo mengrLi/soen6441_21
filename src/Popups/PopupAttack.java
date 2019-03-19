@@ -136,21 +136,24 @@ public class PopupAttack extends aPopupMenu implements ActionListener{
             //refreshList();
             Country definectry = map.getCountry(attacklist.getSelectedValue().toString());
             Country attackctry = map.getCountry(canvas.selectedIndex);
-            game.diceThree(attackctry,definectry);
+            Player curPlayer=game.getCurPlayer();
+            game.diceThree(attackctry,definectry,curPlayer);
             countrypercent.setText(game.percentageOfmap(attackctry.getPlayer()));
             canvas.repaint();
         }else if(e.getSource() == onedicebutton) {
             //refreshList();
             Country definectry = map.getCountry(attacklist.getSelectedValue().toString());
             Country attackctry = map.getCountry(canvas.selectedIndex);
-            game.diceOne(attackctry,definectry);
+            Player curPlayer=game.getCurPlayer();
+            game.diceOne(attackctry,definectry,curPlayer);
             countrypercent.setText(game.percentageOfmap(attackctry.getPlayer()));
             canvas.repaint();
         }else if(e.getSource() == twodicebutton) {
             //refreshList();
             Country definectry = map.getCountry(attacklist.getSelectedValue().toString());
             Country attackctry = map.getCountry(canvas.selectedIndex);
-            game.diceTwo(attackctry,definectry);
+            Player curPlayer=game.getCurPlayer();
+            game.diceTwo(attackctry,definectry,curPlayer);
             countrypercent.setText(game.percentageOfmap(attackctry.getPlayer()));
             canvas.repaint();
         }

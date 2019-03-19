@@ -314,6 +314,7 @@ public class GameEngine {
      *
      * @param attackCounty  it's the attack country
      * @param defendCountry it's the defend country
+     * @param curPlayer current player
      */
     public void diceOne(Country attackCounty, Country defendCountry, Player curPlayer) {
 
@@ -374,6 +375,7 @@ public class GameEngine {
      *
      * @param attackCounty  it's the attack country
      * @param defendCountry it's the defend country
+     * @param curPlayer current player
      */
     public void diceTwo(Country attackCounty, Country defendCountry, Player curPlayer) {
         Player attacker = attackCounty.getPlayer();
@@ -427,6 +429,7 @@ public class GameEngine {
      *
      * @param attackCtry attack country
      * @param defendCtry attacked country
+     * @param curPlayer current player
      */
     public void diceThree(Country attackCtry, Country defendCtry, Player curPlayer) {
         Player attacker = attackCtry.getPlayer();
@@ -474,7 +477,36 @@ public class GameEngine {
         }
         
     }
-
+    
+    
+    /**
+     * When attacker chooses all-in, compare the dice number
+     * @param attackCtry attack country
+     * @param defendCtry attacked country
+     * @param curPlayer current player
+     */
+    public void diceAll(Country attackCtry, Country defendCtry, Player curPlayer) {
+    	Player attacker = attackCtry.getPlayer();
+        int armyOfAttacker = attackCtry.getArmiesNum();
+        
+        
+        if(curPlayer.equals(attacker)) {
+        	while(armyOfAttacker>=4) {
+        		diceThree(attackCtry,defendCtry,curPlayer);
+        	}
+        	int timesLeft= armyOfAttacker%3;
+        	if(timesLeft==0) {
+        		diceTwo(attackCtry,defendCtry,curPlayer);
+        	}
+        	else if(timesLeft==2) {
+        		diceOne(attackCtry,defendCtry,curPlayer);
+        	}
+        }
+        else {
+        	log.add("Error: it is not your turn!");
+        }        
+    }
+    
 
     /**
      * This method is to move a number of armies from one country to another country

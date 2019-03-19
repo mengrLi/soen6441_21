@@ -68,11 +68,11 @@ public class Canvas extends JPanel implements Observer{
 	public void paintComponent(Graphics g)
 	{
 		Graphics2D g2d = (Graphics2D) g;
-	/*create image icon to get image*/
+		/*create image icon to get image*/
 		ImageIcon imageicon = new ImageIcon(getClass().getResource("world.png"));
 		Image image = imageicon.getImage();
 
-	/*Draw image on the panel*/
+		/*Draw image on the panel*/
 		super.paintComponent(g);
 
 		if (image != null) {

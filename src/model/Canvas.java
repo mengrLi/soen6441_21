@@ -38,13 +38,13 @@ public class Canvas extends JPanel implements Observer{
 	public int mouseOverIndex = -1;
 
 	int linemode = 0;// Change this later
-	
+
 	private int mapChangedNum = 0; //Just for testing the Observer Pattern
 	/**
 	 * Constructor used for Observer Pattern unit test
 	 */
 	public Canvas() {}
-	
+
 	/**
 	 * Constructor
 	 * @param g Game Engine
@@ -53,7 +53,7 @@ public class Canvas extends JPanel implements Observer{
 	public Canvas(GameEngine g, PanelController panelcontroller) {
 		this.panelcontroller = panelcontroller;
 		this.game = g;
-	
+
 		setBackground(Color.BLUE);
 		popup = new PopupEdit(Map.getMapInstance(), this);
 		popupm = new PopupMove(Map.getMapInstance(), this);
@@ -64,25 +64,25 @@ public class Canvas extends JPanel implements Observer{
 		addMouseListener(new aMouseHandler());
 		addMouseMotionListener(new aMotionHandler());
 	}
-	
+
 	public void paintComponent(Graphics g)
 	{
 		Graphics2D g2d = (Graphics2D) g;
 	/*create image icon to get image*/
-	ImageIcon imageicon = new ImageIcon(getClass().getResource("world.png"));
-	Image image = imageicon.getImage();
+		ImageIcon imageicon = new ImageIcon(getClass().getResource("world.png"));
+		Image image = imageicon.getImage();
 
 	/*Draw image on the panel*/
-	super.paintComponent(g);
+		super.paintComponent(g);
 
-	if (image != null) {
-		 g2d.setComposite(AlphaComposite.getInstance(
-		            AlphaComposite.SRC_OVER, 0.5f));
-	g2d.drawImage(image, 0, 0, getWidth(), getHeight(), this);
-	}
+		if (image != null) {
+			g2d.setComposite(AlphaComposite.getInstance(
+					AlphaComposite.SRC_OVER, 0.5f));
+			g2d.drawImage(image, 0, 0, getWidth(), getHeight(), this);
+		}
 	}
 
-	
+
 	/**
 	 * Rendering the graphics on the screen
 	 */
@@ -90,9 +90,9 @@ public class Canvas extends JPanel implements Observer{
 		Graphics2D g2 = (Graphics2D) g;
 		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-		super.paint(g2);	
+		super.paint(g2);
 		Map.getMapInstance().DrawLinks(g2);
-	
+
 		if(Map.getMapInstance().drawConnectingLine == true)
 			if(selectedIndex != -1)
 				Map.getMapInstance().DrawConnectingLine(g, selectedIndex, currMouseX, currMouseY, linemode);
@@ -105,31 +105,31 @@ public class Canvas extends JPanel implements Observer{
 	}
 
 	/**
-	 * 
+	 *
 	 * Handles Mouse Buttons
 	 *
 	 */
 	public class aMouseHandler extends MouseAdapter {
 		public void mousePressed(MouseEvent e) {
-			if(mouseOverIndex != -1) 
+			if(mouseOverIndex != -1)
 				selectedIndex = mouseOverIndex;
-			
+
 		}
 
 		public void mouseReleased(MouseEvent e) {
-			
+
 		}
 
 		public void mouseEntered(MouseEvent e) {
-			
+
 		}
 
 		public void mouseExited(MouseEvent e) {
-			
+
 		}
 
 		public void mouseClicked(MouseEvent e) {
-        System.out.println("mouseClicked -----" + e.toString());
+			System.out.println("mouseClicked -----" + e.toString());
 			if(e.getButton() == e.BUTTON3) {
 				if(e.getClickCount() == 2) {
 
@@ -140,13 +140,13 @@ public class Canvas extends JPanel implements Observer{
 					}
 
 				}
-				else if(e.getClickCount() == 1) 
+				else if(e.getClickCount() == 1)
 
 					Map.getMapInstance().Inspect(selectedIndex);
-					if(mouseOverIndex != -1){
-						insp.textarea.setText(Map.getMapInstance().Inspect(mouseOverIndex));
-						insp.popup.show(e.getComponent(), e.getX(), e.getY());
-					}
+				if(mouseOverIndex != -1){
+					insp.textarea.setText(Map.getMapInstance().Inspect(mouseOverIndex));
+					insp.popup.show(e.getComponent(), e.getX(), e.getY());
+				}
 			}
 
 
@@ -155,7 +155,7 @@ public class Canvas extends JPanel implements Observer{
 				// = = = = = Adding Nodes = = = = =
 				if(game.state == GameState.EDITMAP) {
 					if(e.getClickCount() == 2)
-					{	if(mouseOverIndex != -1) 
+					{	if(mouseOverIndex != -1)
 					{
 						popup.textfield2.setText(Map.getMapInstance().getCountry(selectedIndex).getName());
 						if(Map.getMapInstance().getCountry(selectedIndex).getContinent()!= null)
@@ -163,7 +163,7 @@ public class Canvas extends JPanel implements Observer{
 						popup.show(e.getComponent(), e.getX(), e.getY());
 					}
 					}
-					else if(mouseOverIndex == -1) 
+					else if(mouseOverIndex == -1)
 					{
 						Map.getMapInstance().addNode(e.getX(), e.getY());
 					}
@@ -179,61 +179,66 @@ public class Canvas extends JPanel implements Observer{
 					Country country = Map.getMapInstance().getCountry(selectedIndex);
 					System.out.println("place army :" + country);
 					game.reinforceArmy(country);
-                    if(e.getClickCount() == 2)
-                    { if(mouseOverIndex != -1)
-                    {
-//                        popupCard.card1_num.setText(String.valueOf(Map.getMapInstance().getCountry(selectedIndex).getPlayer().cardTypeNumber()[0]));
-//						popupCard.card2_num.setText(String.valueOf(Map.getMapInstance().getCountry(selectedIndex).getPlayer().cardTypeNumber()[1]));
-//						popupCard.card3_num.setText(String.valueOf(Map.getMapInstance().getCountry(selectedIndex).getPlayer().cardTypeNumber()[2]));
-                        popupCard.refreshList();
-                        if(Map.getMapInstance().getCountry(selectedIndex).getContinent()!= null)
-                            //	popupm.textfield2.setText(Map.getMapInstance().getCountry(selectedIndex).getName());
 
-                            popupCard.show(e.getComponent(), e.getX(), e.getY());
-                    }
-                    }
+
+				}
+				if(game.state==GameState.CHOOSECARD){
+					if(e.getClickCount() == 2)
+					{ if(mouseOverIndex != -1)
+					{
+						popupCard.card1_num.setText(String.valueOf(Map.getMapInstance().getCountry(selectedIndex).getPlayer().getcardTypeNumber()[0]));
+						popupCard.card2_num.setText(String.valueOf(Map.getMapInstance().getCountry(selectedIndex).getPlayer().getcardTypeNumber()[1]));
+						popupCard.card3_num.setText(String.valueOf(Map.getMapInstance().getCountry(selectedIndex).getPlayer().getcardTypeNumber()[2]));
+						popupCard.refreshList();
+						if(Map.getMapInstance().getCountry(selectedIndex).getContinent()!= null)
+							//	popupm.textfield2.setText(Map.getMapInstance().getCountry(selectedIndex).getName());
+
+							popupCard.show(e.getComponent(), e.getX(), e.getY());
+					}
+					}
 
 				}
 				if(game.state == GameState.FORTIFY) {
-                    if(e.getClickCount() == 2)
-                    { if(mouseOverIndex != -1)
-                    {
-                        popupm.textfield1.setText(Map.getMapInstance().getCountry(selectedIndex).getName());
-                        popupm.refreshList(Map.getMapInstance().getCountry(selectedIndex));
-                        if(Map.getMapInstance().getCountry(selectedIndex).getContinent()!= null)
-                            //	popupm.textfield2.setText(Map.getMapInstance().getCountry(selectedIndex).getName());
+					if(e.getClickCount() == 2)
+					{ if(mouseOverIndex != -1)
+					{
+						popupm.textfield1.setText(Map.getMapInstance().getCountry(selectedIndex).getName());
+						popupm.refreshList(Map.getMapInstance().getCountry(selectedIndex));
+						if(Map.getMapInstance().getCountry(selectedIndex).getContinent()!= null)
+							//	popupm.textfield2.setText(Map.getMapInstance().getCountry(selectedIndex).getName());
 
-                            popupm.show(e.getComponent(), e.getX(), e.getY());
-                    }
-                    }
+							popupm.show(e.getComponent(), e.getX(), e.getY());
+					}
+					}
 
-                }
-                if(game.state == GameState.ATTACK) {
-                    if(e.getClickCount() == 2)
-                    { if(mouseOverIndex != -1)
-                    {
-                        popupAttack.countryname.setText(Map.getMapInstance().getCountry(selectedIndex).getName());
-                        popupAttack.playername.setText(Map.getMapInstance().getCountry(selectedIndex).getPlayer().getName());
-                        popupAttack.armynumber.setText(String.valueOf("Army number"+Map.getMapInstance().getCountry(selectedIndex).getArmiesNum()));
-                        popupAttack.refreshList(Map.getMapInstance().getCountry(selectedIndex));
-                        if(Map.getMapInstance().getCountry(selectedIndex).getContinent()!= null)
-                            //	popupm.textfield2.setText(Map.getMapInstance().getCountry(selectedIndex).getName());
+				}
+				if(game.state == GameState.ATTACK) {
+					if(e.getClickCount() == 2)
+					{ if(mouseOverIndex != -1)
+					{
+						popupAttack.countryname.setText(Map.getMapInstance().getCountry(selectedIndex).getName());
+						popupAttack.playername.setText(Map.getMapInstance().getCountry(selectedIndex).getPlayer().getName());
+						popupAttack.armynumber.setText(String.valueOf("Army number"+Map.getMapInstance().getCountry(selectedIndex).getArmiesNum()));
+						popupAttack.countrypercent.setText(game.percentageOfmap(Map.getMapInstance().getCountry(selectedIndex).getPlayer()));
+						popupAttack.refreshList(Map.getMapInstance().getCountry(selectedIndex));
+						if(Map.getMapInstance().getCountry(selectedIndex).getContinent()!= null)
+							//	popupm.textfield2.setText(Map.getMapInstance().getCountry(selectedIndex).getName());
 
-                            popupAttack.show(e.getComponent(), e.getX(), e.getY());
-                    }
-                    }
+							popupAttack.show(e.getComponent(), e.getX(), e.getY());
+					}
+					}
 
-                }
+				}
 
 
 			}
-			
+
 		}
 	}
 
 
 	/**
-	 * Handles Mouse Movements 
+	 * Handles Mouse Movements
 	 *
 	 */
 	public class aMotionHandler extends MouseMotionAdapter {
@@ -283,7 +288,7 @@ public class Canvas extends JPanel implements Observer{
 	public int getMapChangedNum() {
 		return mapChangedNum;
 	}
-	
+
 	/**
 	 * Test for Observer Pattern
 	 * @param mapChangedNum
@@ -292,12 +297,12 @@ public class Canvas extends JPanel implements Observer{
 	public void setMapChangedNum(int mapChangedNum) {
 		this.mapChangedNum = mapChangedNum;
 	}
-	
+
 	@Override
 	public void update(Observable arg0, Object arg1) {
 		// TODO Auto-generated method stub
 		repaint();
 
 	}
-	
+
 }

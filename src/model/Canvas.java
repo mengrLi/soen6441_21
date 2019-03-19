@@ -182,9 +182,9 @@ public class Canvas extends JPanel implements Observer{
                     if(e.getClickCount() == 2)
                     { if(mouseOverIndex != -1)
                     {
-                        popupCard.card1_num.setText(String.valueOf(Map.getMapInstance().getCountry(selectedIndex).getPlayer().cardTypeNumber()[0]));
-						popupCard.card2_num.setText(String.valueOf(Map.getMapInstance().getCountry(selectedIndex).getPlayer().cardTypeNumber()[1]));
-						popupCard.card3_num.setText(String.valueOf(Map.getMapInstance().getCountry(selectedIndex).getPlayer().cardTypeNumber()[2]));
+//                        popupCard.card1_num.setText(String.valueOf(Map.getMapInstance().getCountry(selectedIndex).getPlayer().cardTypeNumber()[0]));
+//						popupCard.card2_num.setText(String.valueOf(Map.getMapInstance().getCountry(selectedIndex).getPlayer().cardTypeNumber()[1]));
+//						popupCard.card3_num.setText(String.valueOf(Map.getMapInstance().getCountry(selectedIndex).getPlayer().cardTypeNumber()[2]));
                         popupCard.refreshList();
                         if(Map.getMapInstance().getCountry(selectedIndex).getContinent()!= null)
                             //	popupm.textfield2.setText(Map.getMapInstance().getCountry(selectedIndex).getName());

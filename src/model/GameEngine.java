@@ -302,8 +302,8 @@ public class GameEngine {
     
     /**
      * When attacker chooses 1 dices, compare the dice number
-     * @param attackCtry it's the attack country
-     * @param defendCtry it's the defend country
+     * @param attackCounty it's the attack country
+     * @param defendCountry it's the defend country
      */
     public void diceOne(Country attackCounty, Country defendCountry) {
 
@@ -358,13 +358,14 @@ public class GameEngine {
     			}
     		}
     	}
+        checkAfterAtteacked(attackCounty,defendCountry);
     }
 
     
     /**
      * When attacker chooses 2 dices, compare the dice number
-     * @param attackCtry it's the attack country
-     * @param defendCtry it's the defend country
+     * @param attackCounty it's the attack country
+     * @param defendCountry it's the defend country
      */
     public void diceTwo(Country attackCounty, Country defendCountry) {
     	Player attacker = attackCounty.getPlayer();
@@ -411,6 +412,7 @@ public class GameEngine {
     			}
     		}
     	}
+        checkAfterAtteacked(attackCounty,defendCountry);
     }
     
     
@@ -419,7 +421,7 @@ public class GameEngine {
      * @param attackCtry attack country
      * @param defendCtry attacked country
      */
-    public static void diceThree(Country attackCtry, Country defendCtry) {
+    public void diceThree(Country attackCtry, Country defendCtry) {
     	Player attacker= attackCtry.getPlayer();
     	int armyOfAttacker= attackCtry.getArmiesNum();
     	int armyOfDefender= defendCtry.getArmiesNum();
@@ -464,6 +466,7 @@ public class GameEngine {
     	else {
     		log.add("you can choose 3 dices to roll, cause you don't have at least 4 armies");
     	}
+        checkAfterAtteacked(attackCtry,defendCtry);
     }
     
     
@@ -535,29 +538,27 @@ public class GameEngine {
     /**
      * check when player conquer a country.
      */
-    public int checkAfterAtteacked(Country attacker, Country defender){
-        int rtn = 0; // 0-not conquer, 1-conquer, 2-game finished,
+    public void checkAfterAtteacked(Country attackerCtry, Country defenderCtry){
         //check if the attacker owns all countries,if yes, then game finish.
-       if(attacker.getPlayer().getCountriesOwned().size() == map.getAllCountries().size()){
+       if(attackerCtry.getPlayer().getCountriesOwned().size() == map.getAllCountries().size()){
            state = GameState.END;
-           rtn = 2;
+           log.add(getCurPlayerNameWithColor() + " conquered " + defenderCtry.getName());
        }else{
            //if the attacker conquer the country
-           if(defender.getArmiesNum() == 0){
-               rtn = 1;
+           if(defenderCtry.getArmiesNum() == 0){
                //change country's owner
-               defender.setPlayer(attacker.getPlayer());
+               defenderCtry.setPlayer(attackerCtry.getPlayer());
                //remove the country from defender's country list
-               defender.getPlayer().getCountriesOwned().remove(defender);
+               defenderCtry.getPlayer().getCountriesOwned().remove(defenderCtry);
                //add the country to attacker's country list
-               attacker.getPlayer().getCountriesOwned().add(defender);
+               attackerCtry.getPlayer().getCountriesOwned().add(defenderCtry);
                //attacker move a army to defender country
-               if(attacker.getArmiesNum()>1){
-                   moveArmyBetweenCountries(1,attacker.getPlayer(),defender,attacker);
-               }//濡傛灉attacker鍙墿涓�涓猘rmy锛岄偅瑕佹兂鍏朵粬鍔炴硶绉诲姩銆�
+               if(attackerCtry.getArmiesNum()>1){
+                   moveArmyBetweenCountries(1,attackerCtry.getPlayer(),defenderCtry,attackerCtry);
+               }
+               log.add(getCurPlayerNameWithColor() + " wined the game!" );
            }
        }
-       return rtn;
     }
 
 

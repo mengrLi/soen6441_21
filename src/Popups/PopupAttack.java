@@ -136,32 +136,28 @@ public class PopupAttack extends aPopupMenu implements ActionListener{
             //refreshList();
             Country definectry = map.getCountry(attacklist.getSelectedValue().toString());
             Country attackctry = map.getCountry(canvas.selectedIndex);
-            Player curPlayer=game.getCurPlayer();
-            game.diceThree(attackctry,definectry,curPlayer);
+            game.diceThree(attackctry,definectry);
             countrypercent.setText(game.percentageOfmap(attackctry.getPlayer()));
             canvas.repaint();
         }else if(e.getSource() == onedicebutton) {
             //refreshList();
             Country definectry = map.getCountry(attacklist.getSelectedValue().toString());
             Country attackctry = map.getCountry(canvas.selectedIndex);
-            Player curPlayer=game.getCurPlayer();
-            game.diceOne(attackctry,definectry,curPlayer);
+            game.diceOne(attackctry,definectry);
             countrypercent.setText(game.percentageOfmap(attackctry.getPlayer()));
             canvas.repaint();
         }else if(e.getSource() == twodicebutton) {
             //refreshList();
             Country definectry = map.getCountry(attacklist.getSelectedValue().toString());
             Country attackctry = map.getCountry(canvas.selectedIndex);
-            Player curPlayer=game.getCurPlayer();
-            game.diceTwo(attackctry,definectry,curPlayer);
+            game.diceTwo(attackctry,definectry);
             countrypercent.setText(game.percentageOfmap(attackctry.getPlayer()));
             canvas.repaint();
         }else if(e.getSource() == alldicebutton) {
             //refreshList();
             Country definectry = map.getCountry(attacklist.getSelectedValue().toString());
             Country attackctry = map.getCountry(canvas.selectedIndex);
-            Player curPlayer=game.getCurPlayer();
-            game.diceAll(attackctry,definectry,curPlayer);
+            game.diceAll(attackctry,definectry);
             countrypercent.setText(game.percentageOfmap(attackctry.getPlayer()));
             canvas.repaint();
         }

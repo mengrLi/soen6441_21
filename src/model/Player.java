@@ -142,12 +142,18 @@ public class Player {
      * Gets the number of card type.
      * @return i the new army for cards
      */
-    public int[] getcardTypeNumber() {
-         
-    	for(Card card: cardList){
-            cardTypeNumber[card.getCardType().getCardTypeNumber()] += 1;
+    public HashMap<String,Integer> getcardTypeNumber() {
+        HashMap<String,Integer> cardMap = new HashMap<String,Integer>();
+        for(Card card : cardList){
+            String cardType = card.getCardTypeName();
+            if(cardMap.containsKey(cardType)){
+                cardMap.put(cardType, cardMap.get(cardType)+1);
+            }else{
+                cardMap.put(cardType, 1);
+            }
         }
-    	return this.cardTypeNumber;
+        System.out.println("getcardTypeNumber :" + cardMap);
+        return cardMap;
     }
     /**
      * This method gets a random new card for the player and add to the cardList.
@@ -158,7 +164,15 @@ public class Player {
         this.cardList.add(c);
     }
 
+    public void getListNewCard()
+    {
+        for(int i=0;i<10;i++){
 
+            Card c=new Card(this);
+            this.cardList.add(c);
+        }
+
+    }
     /**
      * This method determine whether cards must be exchanged.
      * @return if true the player has to exchange card for army and the conditions must be met.
@@ -170,157 +184,151 @@ public class Player {
     /**
      * This method can directly exchange 3 cards for army and remove 3 cards from the cardList.
      */
-    public int autoExchangeCardforArmy() {
-
-        if(this.getCardList().size()<=4){
-            return 0;
-        }
-
-        System.out.println("has sucessfully exchanged cards");
-
-        int armyForCard = (timesArmyforCards += 1) * 5;
-
-        for(int i=0; i<armyForCard; i++) {
-            Army army = new Army(this);
-            armyList.add(army);
-        }
-        //after exchange army then remove the cards.
-        int[] cardTypeNumber = getcardTypeNumber();
-        //remove 3 of them with the same type
-        for (int count=0; count<3; count++) {
-            if (cardTypeNumber[count]>=3){
-                for (int i=0; i<3; i++){
-                    removeCard(count);
-                }
-
-            }
-            else{
-
-                //else remove one of each type.
-                removeCard(0);
-                removeCard(1);
-                removeCard(2);
-
-            }
-        }
-        return armyForCard;
-
-    }
+//    public int autoExchangeCardforArmy() {
+//
+//        if(this.getCardList().size()<=4){
+//            return 0;
+//        }
+//
+//        System.out.println("has sucessfully exchanged cards");
+//
+//        int armyForCard = (timesArmyforCards += 1) * 5;
+//
+//        for(int i=0; i<armyForCard; i++) {
+//            Army army = new Army(this);
+//            armyList.add(army);
+//        }
+//        //after exchange army then remove the cards.
+//        int[] cardTypeNumber = getcardTypeNumber();
+//        //remove 3 of them with the same type
+//        for (int count=0; count<3; count++) {
+//            if (cardTypeNumber[count]>=3){
+//                for (int i=0; i<3; i++){
+//                    removeCard(count);
+//                }
+//
+//            }
+//            else{
+//
+//                //else remove one of each type.
+//                removeCard(0);
+//                removeCard(1);
+//                removeCard(2);
+//
+//            }
+//        }
+//        return armyForCard;
+//
+//    }
     
     /**
      * This method can  exchange 3 cards for army and remove 3 cards from the cardList according to the exchange way.
      * return the number of army for card.
      */
     public int ExchangeCardforArmy(String exchangeway) {
-    	
+
         System.out.println("has sucessfully exchanged cards");
         String way=exchangeway;
-        int armyForCard = (timesArmyforCards += 1) * 5;
+        int armyForCard = (this.timesArmyforCards += 1) * 5;
         for(int i=0; i<armyForCard; i++) {
             Army army = new Army(this);
             armyList.add(army);
         }
         //after exchange army then remove the cards.
         //remove 3 of them with the same type
-        if(way=="Type0 (3)"){ 
-        	for (int i=0; i<3; i++){
-                removeCard(0);
+        if(way=="Infantry (3)"){
+            for (int i=0; i<3; i++){
+                removeCard("Infantry");
             }
-      
+
         }
-        if(way=="Type1 (3)"){
-        	for (int i=0; i<3; i++){
-                removeCard(1);
+        if(way=="Cavalry (3)"){
+            for (int i=0; i<3; i++){
+                removeCard("Cavalry");
             }
-        	
+
         }
-        if(way=="Type2 (3)"){
-        	for (int i=0; i<3; i++){
-                removeCard(2);
+        if(way=="Artillery (3)"){
+            for (int i=0; i<3; i++){
+                removeCard("Artillery");
             }
-        	
+
         }
-        if(way=="Type0 (1) Type1 (1) Type2 (1)"){
-        	//else remove one of each type.
-            removeCard(0);
-            removeCard(1);
-            removeCard(2);
+        if(way=="Artillery (1),  Cavalry (1), Artillery (1)"){
+            //else remove one of each type.
+            removeCard("Infantry");
+            removeCard("Cavalry");
+            removeCard("Artillery");
 
         };
-        
+
         return armyForCard;
     }
     /**
      * This method remove a card from cardList of player.
-     * @param cardTypeCode
+     * @param cardType
      */
-    public void removeCard(int cardTypeCode) {
-        for(Card card: cardList){
-            if (card.getCardType().getCardTypeNumber() == cardTypeCode) {
-                cardList.remove(card);
+    public void removeCard(String cardType) {
 
+        for(Card card : cardList){
+            if(card.getCardTypeName()==cardType){
+                cardList.remove(card);
                 break;
+            }else{
+
+                System.out.println("You can't remove cards");
             }
         }
     }
 
-    
+
+
     /**
      * This method provide the way to exchange Cards for Armies.
      * @return ArrayList.
      */
     public ArrayList<String> chooseExchangeWay(){
-    	
-    	ArrayList<String> exchangeway=new ArrayList<String>();
-    	int[] cardTypeNumber = getcardTypeNumber();
-    	if(ExchangeCard()){
-    		if(cardTypeNumber[0]>=3 && Math.max(cardTypeNumber[1], cardTypeNumber[2])<3){
-    			exchangeway.add("Type0 (3)");
-    		}
-    		if(cardTypeNumber[1]>=3 && Math.max(cardTypeNumber[0], cardTypeNumber[2])<3){
-    			exchangeway.add("Type1 (3)");
-    		}
-    		if(cardTypeNumber[2]>=3 && Math.max(cardTypeNumber[1], cardTypeNumber[0])<3){
-    			exchangeway.add("Type2 (3)");
-    		}
-    		if(Math.min(cardTypeNumber[0], cardTypeNumber[1])>=3 && cardTypeNumber[2]<3){
-    			exchangeway.add("Type0 (3)");
-    			exchangeway.add("Type1 (3)");
-    		}
-    		if(Math.min(cardTypeNumber[0], cardTypeNumber[2])>=3 && cardTypeNumber[1]<3){
-    			exchangeway.add("Type0 (3)");
-    			exchangeway.add("Type2 (3)");
-    		}
-    		if(Math.min(cardTypeNumber[1], cardTypeNumber[2])>=3 && cardTypeNumber[0]<3){
-    			exchangeway.add("Type1 (3)");
-    			exchangeway.add("Type2 (3)");
-    		}
-    		if(Math.min(cardTypeNumber[0], Math.min(cardTypeNumber[1], cardTypeNumber[2])) >= 1){
-    			exchangeway.add("Type0 (1) Type1 (1) Type2 (1)");
-    			if(Math.min(cardTypeNumber[0], Math.min(cardTypeNumber[1], cardTypeNumber[2])) >= 3){
-    				exchangeway.add("Type0 (3)");
-    				exchangeway.add("Type1 (3)");
-    				exchangeway.add("Type2 (3)");
-    			}
-    		}
-    	}
-    	else{
-    		System.out.println("You don't meet the exchange conditions");
-    	}
-    	
-    	return exchangeway;
-    			
+        int InfantryCardNum = 0;
+        int CavalryCardNum = 0;
+        int ArtilleryCardNum = 0;
+
+        ArrayList<String> exchangeway=new ArrayList<String>();
+        if(getcardTypeNumber().containsKey("Infantry")){
+            InfantryCardNum = getcardTypeNumber().get("Infantry");
+        }
+        if(getcardTypeNumber().containsKey("Cavalry")){
+            CavalryCardNum = getcardTypeNumber().get("Cavalry");
+        }
+        if(getcardTypeNumber().containsKey("Artillery")){
+            ArtilleryCardNum = getcardTypeNumber().get("Artillery");
+        }
+
+        if(InfantryCardNum >= 3){
+            exchangeway.add("Infantry (3)");
+        }
+        if(CavalryCardNum >= 3){
+            exchangeway.add("Cavalry (3)");
+        }
+        if(ArtilleryCardNum >= 3){
+            exchangeway.add("Artillery (3)");
+        }
+        if(InfantryCardNum >= 1 && CavalryCardNum >= 1 && ArtilleryCardNum >= 1){
+            exchangeway.add("Infantry (1),  Cavalry (1), Artillery (1)");
+        }
+
+        return exchangeway;
+
     }
 
     /**
      * This method determine the conditions for card type exchange.
      * @return true if player can exchange card for army
      */
-    public boolean ExchangeCard() {
-        int[] cardTypeNumber = getcardTypeNumber();
-        return (Math.max(cardTypeNumber[0], Math.max(cardTypeNumber[1], cardTypeNumber[2])) >= 3)
-                || (Math.min(cardTypeNumber[0], Math.min(cardTypeNumber[1], cardTypeNumber[2])) >= 1);
-    }
+//    public boolean ExchangeCard() {
+//        int[] cardTypeNumber = getcardTypeNumber();
+//        return (Math.max(cardTypeNumber[0], Math.max(cardTypeNumber[1], cardTypeNumber[2])) >= 3)
+//                || (Math.min(cardTypeNumber[0], Math.min(cardTypeNumber[1], cardTypeNumber[2])) >= 1);
+//    }
 
 
 
@@ -369,7 +377,8 @@ public class Player {
         System.out.println("countriesOwned.size()/3 :" +countriesOwned.size()/3);
         numOfArmy = countriesOwned.size()/3
                 + getBonusofContinents()
-                + exchangeCard();
+                + 0;
+        //+ exchangeCard();
 
         return numOfArmy;
     }
@@ -400,11 +409,11 @@ public class Player {
     }
 
 
-    public int exchangeCard(){
-        int numberOfArmy= 0;
-        numberOfArmy=this.autoExchangeCardforArmy();
-        return numberOfArmy;
-    }
+//    public int exchangeCard(){
+//        int numberOfArmy= 0;
+//        numberOfArmy=this.autoExchangeCardforArmy();
+//        return numberOfArmy;
+//    }
 
 
     public void takeOverCards(Player defender){

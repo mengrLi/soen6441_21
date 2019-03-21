@@ -151,7 +151,7 @@ public class PanelController {
 			game.state=GameState.CHOOSECARD;
 			//SetActivePanel(assignplayerpanel);
 			// simpanel.disable();
-			game.turnToNextPlayer();
+			//game.turnToNextPlayer();
 			System.out.println("next player");
 
 		}

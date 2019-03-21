@@ -20,11 +20,11 @@ public class GameEngine {
     public static LogWindow log;
 
     public static GameState state;//Game State
-    private Map map = Map.getMapInstance();
+    private static Map map = Map.getMapInstance();
     private static ArrayList<Player> playerList = new ArrayList<>();
-    public int numberofplayers = 0;
+    public  static int numberofplayers = 0;
     private static int currentPlayer = 0; //The ID of current player
-    private boolean getCardFlag = false; // if player conquer at less a country, will get a card, flag is true
+    private static boolean getCardFlag = false; // if player conquer at less a country, will get a card, flag is true
     private int initialArmyNum;
     public static int round = 0;
     Color playercolors[] = {Color.lightGray, Color.MAGENTA, Color.cyan, Color.GREEN, Color.yellow};
@@ -320,7 +320,8 @@ public class GameEngine {
      * @param defendCountry it's the defend country
      * @param curPlayer current player
      */
-    public void diceOne(Country attackCounty, Country defendCountry, Player curPlayer) {
+    public void diceOne(Country attackCounty, Country defendCountry) {
+        Player curPlayer = getCurPlayer();
 
         Player attacker = attackCounty.getPlayer();
         int armyOfAttacker = attackCounty.getArmiesNum();
@@ -335,10 +336,11 @@ public class GameEngine {
                 if (armyOfDefender == 1) {
                     defenderDiceList = generateDiceNum(1);
                     if (attackerDiceList.get(0) - defenderDiceList.get(0) > 0) {
-                        defendCountry.setPlayer(attacker);
+                        defendCountry.reduceArmy();
                     } else {
                         attackCounty.reduceArmy();
                     }
+                    checkAfterAtteacked(attackCounty, defendCountry);
                 } else {
                     defenderDiceList = generateDiceNum(2);
                     if (attackerDiceList.get(0) - defenderDiceList.get(0) > 0) {
@@ -347,15 +349,17 @@ public class GameEngine {
                         attackCounty.reduceArmy();
                         attackCounty.reduceArmy();
                     }
+                    checkAfterAtteacked(attackCounty, defendCountry);
                 }
             } else if (armyOfAttacker >= 3) {
                 if (armyOfDefender == 1) {
                     defenderDiceList = generateDiceNum(1);
                     if (attackerDiceList.get(0) - defenderDiceList.get(0) > 0) {
-                        defendCountry.setPlayer(attacker);
+                        defendCountry.reduceArmy();
                     } else {
                         attackCounty.reduceArmy();
                     }
+                    checkAfterAtteacked(attackCounty, defendCountry);
                 } else if (armyOfDefender >= 2) {
                     defenderDiceList = generateDiceNum(2);
                     if (attackerDiceList.get(0) - defenderDiceList.get(0) > 0) {
@@ -364,15 +368,14 @@ public class GameEngine {
                         attackCounty.reduceArmy();
                         attackCounty.reduceArmy();
                     }
+                    checkAfterAtteacked(attackCounty, defendCountry);
                 }
             }
-            checkAfterAtteacked(attackCounty, defendCountry);
         }
         else {
             log.add("Error: it is not your turn!");
         }
     }
-
 
     /**
      * When attacker chooses 2 dices, compare the dice number
@@ -381,7 +384,8 @@ public class GameEngine {
      * @param defendCountry it's the defend country
      * @param curPlayer current player
      */
-    public void diceTwo(Country attackCounty, Country defendCountry, Player curPlayer) {
+    public void diceTwo(Country attackCounty, Country defendCountry) {
+        Player curPlayer = getCurPlayer();
         Player attacker = attackCounty.getPlayer();
         int armyOfAttacker = attackCounty.getArmiesNum();
         int armyOfDefender = defendCountry.getArmiesNum();
@@ -397,10 +401,12 @@ public class GameEngine {
                 if (armyOfDefender == 1) {
                     defenderDiceList = generateDiceNum(1);
                     if (attackerDiceList.get(0) - defenderDiceList.get(0) > 0) {
-                        defendCountry.setPlayer(attacker);
+                        defendCountry.reduceArmy();
                     } else {
+                        defendCountry.reduceArmy();
                         attackCounty.reduceArmy();
                     }
+                    checkAfterAtteacked(attackCounty, defendCountry);
                 } else if (armyOfDefender >= 2) {
                     defenderDiceList = generateDiceNum(2);
                     if (attackerDiceList.get(0) - defenderDiceList.get(0) > 0) {
@@ -410,6 +416,7 @@ public class GameEngine {
                         } else {
                             attackCounty.reduceArmy();
                         }
+                        checkAfterAtteacked(attackCounty, defendCountry);
                     } else {
                         attackCounty.reduceArmy();
                         if (attackerDiceList.get(1) - defenderDiceList.get(1) > 0) {
@@ -417,6 +424,7 @@ public class GameEngine {
                         } else {
                             attackCounty.reduceArmy();
                         }
+                        checkAfterAtteacked(attackCounty, defendCountry);
                     }
                 }
             }
@@ -428,6 +436,7 @@ public class GameEngine {
     }
 
 
+
     /**
      * When attacker chooses 3 dices, compare the dice number
      *
@@ -435,7 +444,8 @@ public class GameEngine {
      * @param defendCtry attacked country
      * @param curPlayer current player
      */
-    public void diceThree(Country attackCtry, Country defendCtry, Player curPlayer) {
+    public void diceThree(Country attackCtry, Country defendCtry) {
+        Player curPlayer = getCurPlayer();
         Player attacker = attackCtry.getPlayer();
         int armyOfAttacker = attackCtry.getArmiesNum();
         int armyOfDefender = defendCtry.getArmiesNum();
@@ -483,13 +493,14 @@ public class GameEngine {
     }
 
 
+
     /**
      * When attacker chooses all-in, compare the dice number
      * @param attackCtry attack country
      * @param defendCtry attacked country
-     * @param curPlayer current player
      */
-    public void diceAll(Country attackCtry, Country defendCtry, Player curPlayer) {
+    public void diceAll(Country attackCtry, Country defendCtry) {
+        Player curPlayer = getCurPlayer();
         Player attacker = attackCtry.getPlayer();
         int armyOfAttacker = attackCtry.getArmiesNum();
 
@@ -499,13 +510,13 @@ public class GameEngine {
             int timesLeft= armyOfAttacker%4;
 
             for(int i=0;i<timesOfThree;i++) {
-                diceThree(attackCtry,defendCtry,curPlayer);
+                diceThree(attackCtry,defendCtry);
             }
             if(timesLeft==2){
-                diceOne(attackCtry,defendCtry,curPlayer);
+                diceOne(attackCtry,defendCtry);
             }
             else if(timesLeft==3) {
-                diceTwo(attackCtry,defendCtry,curPlayer);
+                diceTwo(attackCtry,defendCtry);
             }
         }
         else {
@@ -568,34 +579,41 @@ public class GameEngine {
      * check when player conquer a country.
      */
     public void checkAfterAtteacked(Country attackerCtry, Country defenderCtry) {
+        System.out.println("1 round : "+round +" --getCardFlag:" + getCardFlag);
+        Player attacked = attackerCtry.getPlayer();
+        Player defender = defenderCtry.getPlayer();
+
         //if the attacker conquer the country
         if (defenderCtry.getArmiesNum() == 0) {
             //remove the country from defender's country list
-            defenderCtry.getPlayer().getCountriesOwned().remove(defenderCtry);
+            defender.getCountriesOwned().remove(defenderCtry);
             //change country's owner
             defenderCtry.setPlayer(attackerCtry.getPlayer());
             //add the country to attacker's country list
-            attackerCtry.getPlayer().getCountriesOwned().add(defenderCtry);
+            attacked.getCountriesOwned().add(defenderCtry);
             //check if the attacker owns all countries,if yes, then game finished.
-            if (attackerCtry.getPlayer().getCountriesOwned().size() == map.getAllCountries().size()) {
+            if (attacked.getCountriesOwned().size() == map.getAllCountries().size()) {
                 state = GameState.END;
                 log.add(getCurPlayerNameWithColor() + " wined the game!");
                 return;
             }else if (attackerCtry.getArmiesNum() > 1) {
                 //attacker move a army to defender country
-                moveArmyBetweenCountries(1, attackerCtry.getPlayer(), defenderCtry, attackerCtry);
+                moveArmyBetweenCountries(1, attacked, defenderCtry, attackerCtry);
             }
             log.add(getCurPlayerNameWithColor() + " conquered " + defenderCtry.getName());
 
             //when attacker conquers at less a country, will get a card
-            if(!getCardFlag){
+            if(getCardFlag == false){
                 getCardFlag = true;
                 getCurPlayer().getNewCard();
-                System.out.println(getCurPlayerNameWithColor() + " card list :" + getCurPlayer().getCardList());
             }
             //if the defender lose all his countries, attacker will get all his cards
-            if(defenderCtry.getPlayer().getCountriesOwned().size() == 0){
-                getCurPlayer().takeOverCards(defenderCtry.getPlayer());
+            if(defender.getCountriesOwned().size() == 0){
+                getCurPlayer().takeOverCards(defender);
+
+                playerList.remove(defender);
+                currentPlayer = playerList.indexOf(attacked);
+                System.out.println("2 playerList :"+ playerList);
             }
         }
         System.out.println("percentage of player:" + percentageOfmap(getCurPlayer()));

@@ -47,9 +47,9 @@ public class PopupCard extends aPopupMenu implements ActionListener {
         popup.setBackground(Theme.color);
         scrollpane.setBackground(Theme.color);
         cardoptionList.setBackground(Theme.color);
-        label1 = new JLabel("Card1: ");
-        label2 = new JLabel("Card2: ");
-        label3 = new JLabel("Card3: ");
+        label1 = new JLabel("Infantry: ");
+        label2 = new JLabel("Cavalry: ");
+        label3 = new JLabel("Artillery: ");
         card1_num = new JTextField();
         card1_num.setSize(50, 15);
         card2_num =new JTextField();
@@ -92,9 +92,8 @@ public class PopupCard extends aPopupMenu implements ActionListener {
         listModel.clear();
      //   System.out.println("getcontiguousBelongThisPlayer : "+country.getcontiguousBelongThisPlayer() );
         listModel.addElement("Card options:");
-        for(int i = 0; i < game.getCurPlayer().chooseExchangeWay().size(); i++) {
-            String cont = game.getCurPlayer().chooseExchangeWay().get(i);
-            listModel.addElement(cont);
+        for(String option: game.getCurPlayer().chooseExchangeWay()){
+            listModel.addElement(option);
         }
     }
     /**

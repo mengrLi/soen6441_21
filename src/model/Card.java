@@ -39,6 +39,9 @@ public class Card {
 	public CardType getCardType() {
 		return cardType;
 	}
+	public String getCardTypeName() {
+		return cardType.name();
+	}
 	
 	/**
 	 * Sets the card type.

@@ -28,6 +28,8 @@ public class GameEngine {
     private int initialArmyNum;
     public static int round = 0;
     Color playercolors[] = {Color.lightGray, Color.MAGENTA, Color.cyan, Color.GREEN, Color.yellow};
+    public boolean cardChangeFlage = false;
+    public boolean reinforceFlag = false;
 
 
     /**
@@ -263,10 +265,20 @@ public class GameEngine {
      * reinforce button function, calculate the number of army player can get .
      */
     public void reinforce() {
-        Player player = playerList.get(currentPlayer);
-        int armyNum = player.getNumberOfArmy();
-        player.setArmyList(armyNum);
-        log.add(getPlayNameWithColor(currentPlayer) + " has " + armyNum + " army");
+        if(reinforceFlag == true){
+            log.add(getCurPlayerNameWithColor() + " has reinforced, can not reinforce again!");
+        } else {
+            if(getCurPlayer().getCardList().size()>= 5 && cardChangeFlage == false){
+                log.add(getCurPlayerNameWithColor() + " has " + getCurPlayer().getCardList().size() + "cards, you need to exchange the card");
+                return;
+            } else {
+                Player player = playerList.get(currentPlayer);
+                int armyNum = player.getNumberOfArmy();
+                player.setArmyList(armyNum);
+                reinforceFlag = true;
+                log.add(getPlayNameWithColor(currentPlayer) + " has " + armyNum + " army");
+            }
+        }
 
     }
 
@@ -567,6 +579,8 @@ public class GameEngine {
             }
             //reset card flag
             getCardFlag = false;
+            reinforceFlag = false;
+            cardChangeFlage = false;
 
         }
         log.add("Now current player is : " + getPlayNameWithColor(currentPlayer));

@@ -20,6 +20,7 @@ public class Player {
     private ArrayList<Country> countriesOwned = new ArrayList<>();
     private ArrayList<Card> cardList = new ArrayList<Card>();
     private ArrayList<Army> armyList = new ArrayList<>();
+    private int armyForCard = 0;
 
     /**
      * Gets the card list.
@@ -226,7 +227,6 @@ public class Player {
      * return the number of army for card.
      */
     public int ExchangeCardforArmy(String exchangeway) {
-
         System.out.println("has sucessfully exchanged cards");
         String way=exchangeway;
         int armyForCard = (this.timesArmyforCards += 1) * 5;
@@ -261,7 +261,7 @@ public class Player {
             removeCard("Artillery");
 
         };
-
+        this.armyForCard = this.armyForCard + armyForCard;
         return armyForCard;
     }
     /**
@@ -377,9 +377,10 @@ public class Player {
         System.out.println("countriesOwned.size()/3 :" +countriesOwned.size()/3);
         numOfArmy = countriesOwned.size()/3
                 + getBonusofContinents()
-                + 0;
-        //+ exchangeCard();
+                + this.armyForCard;
 
+        //reset the number of armyForCard
+        this.armyForCard = 0;
         return numOfArmy;
     }
 

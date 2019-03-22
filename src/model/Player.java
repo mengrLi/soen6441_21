@@ -254,7 +254,7 @@ public class Player {
             }
 
         }
-        if(way=="Artillery (1),  Cavalry (1), Artillery (1)"){
+        if(way=="Infantry (1),  Cavalry (1), Artillery (1)"){
             //else remove one of each type.
             removeCard("Infantry");
             removeCard("Cavalry");

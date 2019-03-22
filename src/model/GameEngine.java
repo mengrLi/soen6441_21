@@ -318,7 +318,6 @@ public class GameEngine {
      *
      * @param attackCounty  it's the attack country
      * @param defendCountry it's the defend country
-     * @param curPlayer current player
      */
     public void diceOne(Country attackCounty, Country defendCountry) {
         Player curPlayer = getCurPlayer();
@@ -382,7 +381,6 @@ public class GameEngine {
      *
      * @param attackCounty  it's the attack country
      * @param defendCountry it's the defend country
-     * @param curPlayer current player
      */
     public void diceTwo(Country attackCounty, Country defendCountry) {
         Player curPlayer = getCurPlayer();
@@ -442,7 +440,6 @@ public class GameEngine {
      *
      * @param attackCtry attack country
      * @param defendCtry attacked country
-     * @param curPlayer current player
      */
     public void diceThree(Country attackCtry, Country defendCtry) {
         Player curPlayer = getCurPlayer();
@@ -547,7 +544,7 @@ public class GameEngine {
             log.add("Error: There are too many armies in this country(" + destination.getName() + "), for equity, please select other countries");
         } else {
             for (i = 0; i < armyNum; i++) {
-                originctn.reduceArmy();
+                originctn.moveOutOneArmy();
                 destination.AddArmy();
             }
         }

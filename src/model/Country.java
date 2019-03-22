@@ -255,7 +255,10 @@ public class Country {
         if(ArmyList.size()>=1){
             this.ArmyList.remove(0);
         }
+    }
 
+    public void moveOutOneArmy(){
+        reduceArmy();
         for(Army army : player.getArmyList()){
             if (army.getCountry() == this){
                 army.setCountry(null);

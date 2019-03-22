@@ -122,7 +122,7 @@ public class Player {
     public ArrayList<Army> getArmyList(){
        return  this.armyList;
     }
-
+    
     public void setArmyList(int armyNum) {
         for(int i=0;i<armyNum;i++) {
             Army army = new Army(this);

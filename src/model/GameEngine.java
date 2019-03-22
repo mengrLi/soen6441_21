@@ -198,7 +198,8 @@ public class GameEngine {
                 destination.AddArmy();
             }
             else {
-                log.add("Error: There are too many armies in this country(" + destination.getName() + "), for equity, please select other countries");
+                log.add("Error: There are too many armies in this country(" + destination.getName() + "), ");
+                log.add("please another country");
             }
         } else {
             log.add("Error: you can not doing this moving opearation");
@@ -541,7 +542,8 @@ public class GameEngine {
         } else if (originctn.getArmiesNum() == 1) {
             log.add("Error:  There is only 1 army in this country(" + originctn.getName() + "), you can not move it!");
         } else if(destination.getArmiesNum()>=18) {
-            log.add("Error: There are too many armies in this country(" + destination.getName() + "), for equity, please select other countries");
+            log.add("Error: There are too many armies in this country(" + destination.getName() + "),");
+            log.add("please select another country");
         } else {
             for (i = 0; i < armyNum; i++) {
                 originctn.moveOutOneArmy();

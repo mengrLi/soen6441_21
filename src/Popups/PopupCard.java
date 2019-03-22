@@ -113,7 +113,13 @@ public class PopupCard extends aPopupMenu implements ActionListener {
             String options= cardoptionList.getSelectedValue().toString();
             System.out.println(options);
             game.getCurPlayer().ExchangeCardforArmy(options);
-
+            int card1 = game.getCurPlayer().getcardTypeNumber().get("Infantry") != null ? game.getCurPlayer().getcardTypeNumber().get("Infantry") : 0;
+            int card2 = game.getCurPlayer().getcardTypeNumber().get("Cavalry") != null ? game.getCurPlayer().getcardTypeNumber().get("Cavalry") : 0;
+            int card3 = game.getCurPlayer().getcardTypeNumber().get("Artillery") != null ? game.getCurPlayer().getcardTypeNumber().get("Artillery") : 0;
+            card1_num.setText(String.valueOf(card1));
+            card2_num.setText(String.valueOf(card2));
+            card3_num.setText(String.valueOf(card3));
+            refreshList();
          //   System.out.print(cardoptionList.getSelectedValue().toString());
 //            Country destination = map.getCountry(continentlist.getSelectedValue().toString());
 //            Country originctn = map.getCountry(canvas.selectedIndex);

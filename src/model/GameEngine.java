@@ -269,7 +269,7 @@ public class GameEngine {
             log.add(getCurPlayerNameWithColor() + " has reinforced, can not reinforce again!");
         } else {
             if(getCurPlayer().getCardList().size()>= 5 && cardChangeFlage == false){
-                log.add(getCurPlayerNameWithColor() + " has " + getCurPlayer().getCardList().size() + "cards, you need to exchange the card");
+                log.add(getCurPlayerNameWithColor() + " has " + getCurPlayer().getCardList().size() + " cards, you need to exchange the card");
                 return;
             } else {
                 Player player = playerList.get(currentPlayer);
@@ -289,7 +289,6 @@ public class GameEngine {
         int index = 0;
         Player curPlayer = playerList.get(currentPlayer);
         ArrayList<Army> curPlayerArmyList = playerList.get(currentPlayer).getArmyList();
-        System.out.println("curPlayerArmyList " + curPlayerArmyList);
 
         while (curPlayerArmyList.get(index).getCountry() != null && index < curPlayerArmyList.size()) {
             index++;
@@ -592,7 +591,6 @@ public class GameEngine {
      * check when player conquer a country.
      */
     public void checkAfterAtteacked(Country attackerCtry, Country defenderCtry) {
-        System.out.println("1 round : "+round +" --getCardFlag:" + getCardFlag);
         Player attacked = attackerCtry.getPlayer();
         Player defender = defenderCtry.getPlayer();
 

@@ -261,6 +261,7 @@ public class Player {
             removeCard("Artillery");
 
         };
+        //当轮可累计换牌
         this.armyForCard = this.armyForCard + armyForCard;
         return armyForCard;
     }
@@ -358,15 +359,6 @@ public class Player {
 
     }*/
 
-    /**
-     * Get How many army player can get at startup phase
-     * @return a number of army
-     * */
-    public int NumberOfArmy(){
-        int numOfArmy = 0;
-        numOfArmy = countriesOwned.size()/3;
-        return numOfArmy;
-    }
 
     /**
      * Get How many army player can get at Reinforcements phase

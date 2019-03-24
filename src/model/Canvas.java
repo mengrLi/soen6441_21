@@ -178,13 +178,7 @@ public class Canvas extends JPanel implements Observer{
 				if(game.state == GameState.REINFORCE){
 					Country country = Map.getMapInstance().getCountry(selectedIndex);
 					System.out.println("place army :" + country);
-					if(Map.getMapInstance().getCountry(selectedIndex).getArmiesNum()<=18)
 					game.reinforceArmy(country);
-					else{
-						System.out.println("amry number is beyond limited ");
-
-					}
-
 
 				}
 				if(game.state==GameState.CHOOSECARD){

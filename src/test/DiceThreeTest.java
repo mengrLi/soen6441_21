@@ -65,6 +65,7 @@ public class DiceThreeTest {
 		attackCtry.AddArmy();
 		attackCtry.AddArmy();
 		Player attacker= game.getPlayerList().get(0);
+		game.diceThree(attackCtry, defendCtry);
 		assertEquals(attacker.getID(), defendCtry.getPlayer().getID());		
 	}
 	
@@ -91,7 +92,7 @@ public class DiceThreeTest {
 		attackCtry.AddArmy();
 		defendCtry.AddArmy();
 		defendCtry.AddArmy();
-		game.diceTwo(attackCtry, defendCtry);
+		game.diceThree(attackCtry, defendCtry);
 		assertEquals(attackCtry.getArmiesNum()+defendCtry.getArmiesNum(),4);
 	}
 }

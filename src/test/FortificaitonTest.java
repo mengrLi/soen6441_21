@@ -5,8 +5,6 @@ import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 
-import javax.swing.plaf.basic.BasicInternalFrameTitlePane.MoveAction;
-
 import org.junit.Before;
 import org.junit.Test;
 
@@ -111,6 +109,25 @@ public class FortificaitonTest {
 		countryList.add(destCountry);
 		curPlayer.setCountriesOwned(countryList);
 		String message = "Error: There are too many armies in this country(" + destCountry.getName() + "),";
+		String string = game.checkMoveArmyTest(armyMoved, curPlayer, destCountry, originalCountry);
+		assertEquals(message, string);
+	}
+
+	@Test
+	public void pass() {
+		armyMoved = 1;
+		originalCountry.setPlayer(curPlayer);
+		destCountry.setPlayer(curPlayer);
+		originalCountry.increaseArmy();
+		originalCountry.increaseArmy();
+		destCountry.increaseArmy();
+		originalCountry.setName("original country");
+		destCountry.setName("destination country");
+		ArrayList<Country> countryList = new ArrayList<Country>();
+		countryList.add(originalCountry);
+		countryList.add(destCountry);
+		curPlayer.setCountriesOwned(countryList);
+		String message = "you move" + armyMoved + "to your destination country";
 		String string = game.checkMoveArmyTest(armyMoved, curPlayer, destCountry, originalCountry);
 		assertEquals(message, string);
 	}

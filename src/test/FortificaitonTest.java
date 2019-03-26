@@ -27,13 +27,35 @@ public class FortificaitonTest {
 		game.setPlayerList(1);
 	}
 	@Test
-	public void test() {
-		String message = "Error: " + originalCountry.getName() + " is not your country, you can not change the number of army of this country!";;
+	public void errorOne() {
+		originalCountry.setName("original country");
+		destCountry.setName("destination country");
+		String message = "Error: original country is not your country, you can not change the number of army of this country!";
 		ArrayList <Country> countryList = new ArrayList<Country>();
 		countryList.add(destCountry);
 		curPlayer.setCountriesOwned(countryList);
 		String string = game.checkMoveArmyTest(armyMoved, curPlayer, destCountry, originalCountry);
 		assertEquals(message, string);
 	}
-
+	@Test
+	public void errorTwo() {
+		originalCountry.setName("original country");
+		destCountry.setName("destination country");
+		String message = "Error: destination country is not your country, you are not able to move army to this country!";
+		ArrayList <Country> countryList = new ArrayList<Country>();
+		countryList.add(originalCountry);
+		curPlayer.setCountriesOwned(countryList);
+		String string = game.checkMoveArmyTest(armyMoved, curPlayer, destCountry, originalCountry);
+		assertEquals(message, string);
+	}
+	@Test
+	public void errorThree() {
+		originalCountry.setName("original country");
+		destCountry.setName("destination country");
+		ArrayList <Country> countryList = new ArrayList<Country>();
+		countryList.add(originalCountry);
+		countryList.add(destCountry);
+		curPlayer.setCountriesOwned(countryList);
+		
+	}
 }

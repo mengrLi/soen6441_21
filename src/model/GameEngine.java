@@ -650,5 +650,33 @@ public class GameEngine {
         state = GameState.EDITMAP;
     }
 
+        /**
+     * this method used to test moved army
+     * @param armyNum the number of army moved
+     * @param curplayer the current player
+     * @param destination the destination country to move
+     * @param originctn the original country to move
+     * @return the message for equaling
+     */
+    public String checkMoveArmyTest(int armyNum, Player curplayer, Country destination, Country originctn) {
+        int i;
+        String message = null;
+        if (!curplayer.getCountriesOwned().contains(originctn)) {
+            message = "Error: " + originctn.getName() + " is not your country, you can not change the number of army of this country!";
+        } else if (!curplayer.getCountriesOwned().contains(destination)) {
+            message = "Error: " + destination.getName() + " is not your country, you are not able to move army to this country!";
+        } else if (originctn.getArmiesNum() == 1) {
+            message = "Error:  There is only 1 army in this country(" + originctn.getName() + "), you can not move it!";
+        } else if(destination.getArmiesNum()>=18) {
+            message = "Error: There are too many armies in this country(" + destination.getName() + "),";
+            //log.add("please select another country");
+        } else {
+            for (i = 0; i < armyNum; i++) {
+                originctn.moveOutOneArmy();
+                destination.AddArmy();
+            }
+        }
+        return message;
+    }
 }
 

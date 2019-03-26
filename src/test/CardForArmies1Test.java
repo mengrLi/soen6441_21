@@ -11,7 +11,7 @@ import org.junit.Before;
  *
  */
 
-public class CardForArmies1 {
+public class CardForArmies1Test {
 	Player player0 = new Player(0);
 	Player player1 = new Player(1);
 	Player player2 = new Player(2);

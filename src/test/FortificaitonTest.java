@@ -9,7 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * This is the class used to test fortificaiton class
+ * This is the class used to test fortification class
  * 
  * @author anhen
  *
@@ -21,11 +21,16 @@ public class FortificaitonTest {
 	Player curPlayer = new Player(1);
 	int armyMoved;
 
+	/**
+	 * set the initial environment;
+	 */
 	@Before
 	public void setEnviorment() {
 		game.setPlayerList(1);
 	}
-
+	/**
+	 * test whether the original country is your country
+	 */
 	@Test
 	public void errorOne() {
 		originalCountry.setName("original country");
@@ -38,6 +43,9 @@ public class FortificaitonTest {
 		assertEquals(message, string);
 	}
 
+	/**
+	 * test whether the destination country is your country
+	 */
 	@Test
 	public void errorTwo() {
 		originalCountry.setName("original country");
@@ -50,6 +58,9 @@ public class FortificaitonTest {
 		assertEquals(message, string);
 	}
 
+	/**
+	 * test whether the army of original country equal 1
+	 */
 	@Test
 	public void errorThree() {
 		originalCountry.setPlayer(curPlayer);
@@ -68,6 +79,9 @@ public class FortificaitonTest {
 		assertEquals(message, string);
 	}
 
+	/**
+	 * test whether the army of destination country more than 18
+	 */
 	@Test
 	public void errorFour() {
 		originalCountry.setPlayer(curPlayer);
@@ -113,6 +127,9 @@ public class FortificaitonTest {
 		assertEquals(message, string);
 	}
 
+	/**
+	 * test the successful situation,and move army
+	 */
 	@Test
 	public void pass() {
 		armyMoved = 1;

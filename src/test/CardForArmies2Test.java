@@ -1,10 +1,20 @@
 package test;
-import model.*;
+import GameModel.*;
+import MapModel.*;
+import GameView.*;
+import MapView.*;
+import GameController.*;
+import MapController.*;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 import org.junit.Assert.*;
 import org.junit.Before;
 
+/**
+ * This is the test case for armies results when exchange three same type cards
+ * @author Tian Wang
+ *
+ */
 public class CardForArmies2Test {
 	
 	Player player0 = new Player(0);

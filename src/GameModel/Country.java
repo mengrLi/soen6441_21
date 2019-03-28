@@ -262,9 +262,10 @@ public class Country {
      */
     public void reduceArmy() {
         if (ArmyList.size() >= 1) {
-            Army rmArmy = this.ArmyList.get(0);
-            this.player.getArmyList().remove(rmArmy);
-            this.ArmyList.remove(rmArmy);
+//            Army rmArmy = this.ArmyList.get(0);
+//            this.player.getArmyList().remove(rmArmy);
+//            this.ArmyList.remove(rmArmy);
+            this.ArmyList.remove(0);
 
         }
     }

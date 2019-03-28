@@ -1,6 +1,11 @@
 package test;
 
-import model.*;
+import GameModel.*;
+import MapModel.*;
+import GameView.*;
+import MapView.*;
+import GameController.*;
+import MapController.*;
 import java.awt.Color;
 import java.util.ArrayList;
 import org.junit.Test;
@@ -50,7 +55,7 @@ public class SetPlayersTest {
 	 */
 	@Test
 	public void setPlayersNumTest1() {
-		GameEngine game1 =new GameEngine();
+		PlayerEngine game1 =new PlayerEngine();
 		game1.setPlayerList(2);
 		assertEquals(ply0.getName(), game1.getPlayerList().get(0).getName());
 		assertEquals(ply1.getName(), game1.getPlayerList().get(1).getName());

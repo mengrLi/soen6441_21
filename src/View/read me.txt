@@ -1,3 +1,0 @@
-this is View packet
-@version build1 final version
-author: mengran li

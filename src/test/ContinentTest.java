@@ -6,7 +6,12 @@ import java.util.ArrayList;
 
 import org.junit.Before;
 
-import model.*;
+import GameModel.*;
+import MapModel.*;
+import GameView.*;
+import MapView.*;
+import GameController.*;
+import MapController.*;
 import org.junit.Test;
 
 /**

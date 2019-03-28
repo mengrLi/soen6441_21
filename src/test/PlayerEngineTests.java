@@ -1,20 +1,15 @@
 package test;
-import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
-import GameModel.*;
-import MapModel.*;
-import GameView.*;
-import MapView.*;
-import GameController.*;
-import MapController.*;
+import GameModel.Player;
+import GameModel.Country;
 
 /**
- * This is the class to test the GameEngine class and methods in it
+ * This is the class to test the PlayerEngine class and methods in it
  * @author
  *
  */
-public class GameEngineTests {
+public class PlayerEngineTests {
 	
 	Player player1 = new Player(1);
 	Player player2= new Player(2);

@@ -7,10 +7,12 @@ import java.util.ArrayList;
 import org.junit.Before;
 import org.junit.Test;
 
-import model.Army;
-import model.Continent;
-import model.Country;
-import model.Player;
+import GameModel.*;
+import MapModel.*;
+import GameView.*;
+import MapView.*;
+import GameController.*;
+import MapController.*;
 
 /**
  * This is the class to test the country class and some methods in it

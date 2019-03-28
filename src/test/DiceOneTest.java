@@ -1,6 +1,11 @@
 package test;
 
-import model.*;
+import GameModel.*;
+import MapModel.*;
+import GameView.*;
+import MapView.*;
+import GameController.*;
+import MapController.*;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -15,7 +20,7 @@ import org.junit.Before;
  *
  */
 public class DiceOneTest {
-	GameEngine game= new GameEngine();
+	PlayerEngine game= new PlayerEngine();
 	Country attackCtry= new Country();
 	Country defendCtry= new Country();
 	

@@ -2,9 +2,12 @@ package test;
 import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
-import model.Player;
-import model.Card;
-import model.CardType;
+import GameModel.*;
+import MapModel.*;
+import GameView.*;
+import MapView.*;
+import GameController.*;
+import MapController.*;
 
 /**
  * This is the class to test the card class and methods in it

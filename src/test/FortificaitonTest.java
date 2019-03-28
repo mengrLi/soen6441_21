@@ -1,6 +1,11 @@
 package test;
 
-import model.*;
+import GameModel.*;
+import MapModel.*;
+import GameView.*;
+import MapView.*;
+import GameController.*;
+import MapController.*;
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
@@ -15,7 +20,7 @@ import org.junit.Test;
  *
  */
 public class FortificaitonTest {
-	GameEngine game = new GameEngine();
+	PlayerEngine game = new PlayerEngine();
 	Country originalCountry = new Country();
 	Country destCountry = new Country();
 	Player curPlayer = new Player(1);

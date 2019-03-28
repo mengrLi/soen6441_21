@@ -5,9 +5,12 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
-import model.Army;
-import model.Country;
-import model.Player;
+import GameModel.*;
+import MapModel.*;
+import GameView.*;
+import MapView.*;
+import GameController.*;
+import MapController.*;
 
 /**
  * This is the class to test the army class and methods in it

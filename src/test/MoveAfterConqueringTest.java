@@ -1,8 +1,11 @@
 package test;
-
-import model.*;
-import model.Map;
-import View.*;
+import GameModel.*;
+import MapModel.*;
+import GameView.*;
+import MapModel.Map;
+import MapView.*;
+import GameController.*;
+import MapController.*;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 import org.junit.Assert.*;
@@ -15,7 +18,7 @@ import java.util.*;
  * @author Qing Li
  */
 public class MoveAfterConqueringTest {
-	GameEngine game= new GameEngine();
+	PlayerEngine game= new PlayerEngine();
 	Map map= Map.getMapInstance();
 	LogWindow log= new LogWindow() ;
 	Country attackCtry= new Country();

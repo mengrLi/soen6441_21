@@ -8,11 +8,12 @@ import java.util.HashMap;
 
 import org.junit.Before;
 import org.junit.Test;
-
-import model.Army;
-import model.Card;
-import model.Country;
-import model.Player;
+import GameModel.*;
+import MapModel.*;
+import GameView.*;
+import MapView.*;
+import GameController.*;
+import MapController.*;
 /**
  * This is the class to test the player class and  methods in it
  * @author anhen

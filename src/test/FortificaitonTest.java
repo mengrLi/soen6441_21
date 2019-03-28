@@ -9,15 +9,12 @@ import MapController.*;
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
-
 import org.junit.Before;
 import org.junit.Test;
 
 /**
  * This is the class used to test fortification class
- * 
  * @author anhen
- *
  */
 public class FortificaitonTest {
 	PlayerEngine game = new PlayerEngine();

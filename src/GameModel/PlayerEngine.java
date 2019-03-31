@@ -24,9 +24,13 @@ public class PlayerEngine {
     private static boolean getCardFlag = false; // if player conquer at less a country, will get a card, flag is true
     private int initialArmyNum;
     public static int round = 0;
-    Color playercolors[] = {Color.lightGray, Color.MAGENTA, Color.cyan, Color.GREEN, Color.yellow};
-    public boolean cardChangeFlage = false;
-    public boolean reinforceFlag = false;
+    static Color playercolors[] = {Color.lightGray, Color.MAGENTA, Color.cyan, Color.GREEN, Color.yellow};
+    public static boolean cardChangeFlage = false; //check if need to change card
+    public static boolean reinforceFlag = false;
+    public static int gameNum = 0; // for tournament
+    public static int maxRoundNum = 0;// for tournament
+    public static ArrayList<String> mapList;
+
 
 
     /**
@@ -270,7 +274,6 @@ public class PlayerEngine {
                 log.add(getPlayNameWithColor(currentPlayer) + " has " + armyNum + " army");
             }
         }
-
     }
 
     /**
@@ -626,6 +629,36 @@ public class PlayerEngine {
         percnt = numberFormat.format((float) ownerCountryNum / (float) totalCountriesNum * 100);
         return percnt;
     }
+
+
+    //before autoplay, must loading map, choosing players, setting maximum round number, setting game number
+    public void autoPlay( ){
+        //single map
+        AssignPlayers();// start up
+        int curGame = 0;
+        while(curGame < gameNum){
+            while (round < maxRoundNum){
+                log.add(getCurPlayerNameWithColor() + "Start Reinforce");
+                getCurPlayer().autoReinforce();
+                log.add(getCurPlayerNameWithColor() + "Start Attack");
+                if(getCurPlayer().autoAttack()){
+                    String winner = getCurPlayerNameWithColor();
+                    log.add("Game "+ curGame + ":" + winner + "winned");
+                    curGame ++;
+                    return;
+                };
+                log.add(getCurPlayerNameWithColor() + "Start Fortify");
+                getCurPlayer().autoFortify();
+                turnToNextPlayer();
+            }
+            log.add("Game "+ curGame + ": drawn");
+            curGame ++;
+        }
+    }
+
+
+
+
 
 
     /**

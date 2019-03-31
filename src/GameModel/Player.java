@@ -1,5 +1,7 @@
 package GameModel;
 
+import GameModel.StrategyPlayer.Strategy;
+
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -16,6 +18,7 @@ public class Player {
     private ArrayList<Card> cardList = new ArrayList<Card>();
     private ArrayList<Army> armyList = new ArrayList<>();
     private int armyForCard = 0;
+    private Strategy strategy;
 
     /**
      * Gets the card list.
@@ -265,44 +268,6 @@ public class Player {
 
     }
 
-    /**
-     * This method determine the conditions for card type exchange.
-     * @return true if player can exchange card for army
-     */
-//    public boolean ExchangeCard() {
-//        int[] cardTypeNumber = getcardTypeNumber();
-//        return (Math.max(cardTypeNumber[0], Math.max(cardTypeNumber[1], cardTypeNumber[2])) >= 3)
-//                || (Math.min(cardTypeNumber[0], Math.min(cardTypeNumber[1], cardTypeNumber[2])) >= 1);
-//    }
-
-
-
-   /* /**
-     * This method can get the number of armies.
-     * @param removecards is the list of cards to be removed.
-     *@return the number of armies
-     */
-   /* public int totalExchangeArmy(List<Card> removecards) {
-        removeCards(removecards);
-        int armyForCard = (this.timesArmyforCards += 1) * 5;
-
-        for(int i=0; i<armyForCard; i++) {
-            Army army = new Army(this);
-            armyList.add(army);
-        }
-        return armyForCard;
-    }*/
-
-   
-   /* /**
-     * This method remove multiple cards from cardList of player.
-     * @param removecards is the list of cards to be removed.
-     */
-   /* public void removeCards(List<Card> removecards) {
-        cardList.removeAll(removecards);
-
-    }*/
-
 
     /**
      * Get How many army player can get at Reinforcements phase
@@ -353,8 +318,6 @@ public class Player {
 //        numberOfArmy=this.autoExchangeCardforArmy();
 //        return numberOfArmy;
 //    }
-
-
     public void takeOverCards(Player defender) {
         this.cardList.addAll(defender.getCardList());
         System.out.println(name + "cardList: " + cardList);
@@ -365,4 +328,20 @@ public class Player {
         System.out.println(ID + "-" + name);
         return ID + "-" + name;
     }
+
+    public void autoReinforce(){
+        this.strategy.autoReinforce(this);
+    }
+
+    public boolean autoAttack(){
+        boolean ifWinned = false;
+        ifWinned = this.strategy.autoAttack(this);
+        return  ifWinned;
+    }
+
+    public void autoFortify(){
+        this.strategy.autoFortify(this);
+    }
+
+
 }

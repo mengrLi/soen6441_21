@@ -649,6 +649,7 @@ public class PlayerEngine {
                 };
                 log.add(getCurPlayerNameWithColor() + "Start Fortify");
                 getCurPlayer().autoFortify();
+                turnToNextPlayer();
             }
             log.add("Game "+ curGame + ": drawn");
             curGame ++;

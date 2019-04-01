@@ -144,9 +144,16 @@ public class PanelController {
             }
 
         } else if (e.getSource() == placearmypanel.next) {
+            System.out.println("game Start!");
             game.state = GameState.CHOOSECARD;
             SetActivePanel(reinforcepanel);
             simpanel.enable();
+            //if the first player is computer, auto play the game
+            Runnable gameStart = ()-> {
+                game.gameStart();
+            };
+            Thread thread = new Thread(gameStart);
+            thread.start();
 
         } else if (e.getSource() == placearmypanel.back) {
             game.state = GameState.CHOOSEPLAYER;
@@ -174,7 +181,11 @@ public class PanelController {
 
         } else if (e.getSource() == reinforcepanel.button) {
             game.state = GameState.CHOOSECARD;
-            game.turnToNextPlayer();
+            Runnable nextPlayer = ()-> {
+                game.turnToNextPlayer();
+            };
+            Thread thread = new Thread(nextPlayer);
+            thread.start();
             reinforcepanel.label.setText(game.getCurPlayer().getName());
             System.out.println("next player");
 
@@ -204,7 +215,6 @@ public class PanelController {
         simpanel.attackbutton.addActionListener(e);
         simpanel.choosecardbutton.addActionListener(e);
         reinforcepanel.button.addActionListener(e);
-
     }
 
 }

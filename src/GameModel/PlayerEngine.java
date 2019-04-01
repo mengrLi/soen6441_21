@@ -5,8 +5,11 @@ import java.awt.Color;
 import java.text.NumberFormat;
 import java.util.*;
 
+import GameModel.*;
+import GameModel.StrategyPlayer.Cheater;
 import MapModel.Map;
 import MapView.LogWindow;
+
 
 
 /**
@@ -54,7 +57,16 @@ public class PlayerEngine {
         int i;
         this.setNumberofplayers(playerNum);
         for (i = 0; i < this.numberofplayers; i++) {
-            Player plyr = new Player(i); //plyr = player
+            //Player plyr = new Player(i); //plyr = player
+            //Cheater test
+            Player plyr;
+            if (i == 1){ //设置第二个玩家为人类
+                plyr = new Player(i);
+            } else {
+                plyr = new Player(i);
+                plyr.setStrategy(new Cheater());
+            }
+
             plyr.setColor(playercolors[i]);
             plyr.setName("player" + i);
             playerList.add(plyr);
@@ -572,29 +584,6 @@ public class PlayerEngine {
 
 
     /**
-     * next button function, turn to next player
-     */
-    public void turnToNextPlayer() {
-        System.out.println("gameState :" + state);
-        if (state == GameState.CHOOSECARD) {
-            if (currentPlayer == playerList.size() - 1) {
-                currentPlayer = 0;
-                round++;
-            } else {
-                currentPlayer++;
-            }
-            //reset card flag
-            getCardFlag = false;
-            reinforceFlag = false;
-            cardChangeFlage = false;
-
-        }
-        log.add("Now current player is : " + getPlayNameWithColor(currentPlayer));
-        System.out.println("2 next player : " + playerList.get(currentPlayer).getName());
-    }
-
-
-    /**
      * check when player conquer a country.
      */
     public void checkAfterAtteacked(Country attackerCtry, Country defenderCtry) {
@@ -653,34 +642,157 @@ public class PlayerEngine {
     }
 
 
+    /**
+     * next button function, turn to next player
+     */
+    public void turnToNextPlayer() {
+        System.out.println("gameState :" + state);
+        System.out.println("currentPlayer :" + getCurPlayerNameWithColor());
+        //reset card flag
+        getCardFlag = false;
+        reinforceFlag = false;
+        cardChangeFlage = false;
+        if (state == GameState.CHOOSECARD) {
+            if (currentPlayer == playerList.size() - 1) {
+                currentPlayer = 0;
+                log.add("Now current player is : " + getPlayNameWithColor(currentPlayer));
+                round++;
+                //if player is computer, then auto play
+                if(getCurPlayer().getStrategy() != null){
+                    autoOneTurn();
+                    try {
+                        Thread.sleep(1000);
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
+                    turnToNextPlayer();
+//                    //check if game ended
+//                    if(state != GameState.END){
+//                        if(maxRoundNum == 0){
+//
+//                        }else if(round < maxRoundNum && state != GameState.END){
+//                            turnToNextPlayer();
+//                        }else {
+//
+//                        }
+//                    }
+
+                }
+            } else {
+                currentPlayer++;
+                log.add("Now current player is : " + getPlayNameWithColor(currentPlayer));
+                //if player is computer, then auto play
+                if(getCurPlayer().getStrategy() != null){
+                    autoOneTurn();
+                    try {
+                        Thread.sleep(1000);
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
+                    turnToNextPlayer();
+                }
+            }
+        }
+    }
+
+    /**
+     * for auto play, turn to next player
+     */
+    public void turnToNextPlayerT(int curGame) {
+        System.out.println("gameState :" + state);
+        System.out.println("currentPlayer :" + getCurPlayerNameWithColor());
+        //reset card flag
+        getCardFlag = false;
+        reinforceFlag = false;
+        cardChangeFlage = false;
+        if (state == GameState.CHOOSECARD) {
+            if (currentPlayer == playerList.size() - 1) {
+                currentPlayer = 0;
+                log.add("Now current player is : " + getPlayNameWithColor(currentPlayer));
+                round++;
+                autoOneTurn(curGame);
+            } else {
+                currentPlayer++;
+                log.add("Now current player is : " + getPlayNameWithColor(currentPlayer));
+                autoOneTurn(curGame);
+            }
+        }
+    }
+
     //before autoplay, must loading map, choosing players, setting maximum round number, setting game number
     public void autoPlay( ){
         //single map
-        AssignPlayers();// start up
         int curGame = 0;
         while(curGame < gameNum){
-            while (round < maxRoundNum){
-                log.add(getCurPlayerNameWithColor() + "Start Reinforce");
-                getCurPlayer().autoReinforce();
-                log.add(getCurPlayerNameWithColor() + "Start Attack");
-                if(getCurPlayer().autoAttack()){
-                    String winner = getCurPlayerNameWithColor();
-                    log.add("Game "+ curGame + ":" + winner + "winned");
-                    curGame ++;
-                    return;
-                };
-                log.add(getCurPlayerNameWithColor() + "Start Fortify");
-                getCurPlayer().autoFortify();
-                turnToNextPlayer();
+            log.add("Game "+ curGame + ": Start!");
+            //下一个新游戏开始前，如何清盘
+            //reset需要重置的属性
+            resetForNextGame();
+            //start up
+            AssignPlayers();// start up
+            autoOneTurn(curGame);
+            while (round < maxRoundNum && state != GameState.END){
+                turnToNextPlayerT(curGame);
             }
-            log.add("Game "+ curGame + ": drawn");
+            if (round == maxRoundNum && state != GameState.END){
+                log.add("Game "+ curGame + ": drawn");
+            }
             curGame ++;
+        }
+    }
+
+    //for 锦标赛
+    public void autoOneTurn(int curGame){
+        log.add(getCurPlayerNameWithColor() + "Start Reinforce");
+        getCurPlayer().autoReinforce();//增加一个自动换牌操作
+        log.add(getCurPlayerNameWithColor() + "Start Attack");
+        if(getCurPlayer().autoAttack()){
+            String winner = getCurPlayerNameWithColor();
+            log.add("Game "+ curGame + ":" + winner + "winned");
+            curGame ++;
+            return;
+        };
+        log.add(getCurPlayerNameWithColor() + "Start Fortify");
+        getCurPlayer().autoFortify();
+        state = GameState.CHOOSECARD;
+    }
+
+    //for single game
+    public void autoOneTurn(){
+        log.add(getCurPlayerNameWithColor() + "Start Reinforce");
+        getCurPlayer().autoReinforce();//增加一个自动换牌操作
+        log.add(getCurPlayerNameWithColor() + "Start Attack");
+        if(getCurPlayer().autoAttack()){
+            String winner = getCurPlayerNameWithColor();
+            log.add( winner + "winned");
+            return;
+        };
+        log.add(getCurPlayerNameWithColor() + "Start Fortify");
+        getCurPlayer().autoFortify();
+        state = GameState.CHOOSECARD;
+    }
+
+
+    public void gameStart(){
+        if (getCurPlayer().getStrategy() != null){
+            autoOneTurn();
+            turnToNextPlayer();
+        }else{
+            return;
         }
     }
 
 
 
 
+    public void resetForNextGame(){
+        state = GameState.REINFORCE;
+        currentPlayer = 0;
+        round = 0;
+        cardChangeFlage = false;
+        reinforceFlag = false;
+        getCardFlag = false;
+    }
 
 
     /**

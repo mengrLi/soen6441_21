@@ -124,6 +124,14 @@ public class Player {
         }
     }
 
+    public Strategy getStrategy() {
+        return strategy;
+    }
+
+    public void setStrategy(Strategy strategy) {
+        this.strategy = strategy;
+    }
+
     /**
      * Sets the times army for cards.
      *

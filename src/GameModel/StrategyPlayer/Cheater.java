@@ -2,6 +2,7 @@ package GameModel.StrategyPlayer;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 
 import GameModel.*;
 import MapModel.Map;
@@ -19,7 +20,7 @@ public class Cheater implements Strategy{
 	/**
 	 * Constructor
 	 */
-    Cheater(){
+    public Cheater(){
         this.playerEngine = new PlayerEngine();
     }
     
@@ -41,7 +42,7 @@ public class Cheater implements Strategy{
         System.out.println("Total army before reinforce: " + curPlayer.getNumberOfArmy());
         
         //Double armies of all countries of cheater
-        curPlayer.setArmyList(curPlayer.getNumberOfArmy());
+        curPlayer.setArmyList(curPlayer.getNumberOfArmy()*2);
         ArrayList<Country> cheaterCountry = curPlayer.getCountriesOwned();
         for(Country curCtry: cheaterCountry) {
         	int doubleSize = curCtry.getArmiesNum();
@@ -67,19 +68,26 @@ public class Cheater implements Strategy{
         //1. Get all its neighbors.
         //2. Get the neighbor countries' owner, remove this country from its countryList
         //3. Set neighbors' occupier to the cheater
-        for(Country attackCtry: curPlayer.getCountriesOwned()) {
-        	String ctryName = attackCtry.getName();
-        	Collection<String> neighbors = map.getConnectionMap().get(ctryName);
-        	for(String oneOfNeighbors : neighbors) {
-        		Country oneNeighborCtry = map.getCountriesMap().get(oneOfNeighbors);
-        		if(oneNeighborCtry.getPlayer()!= curPlayer) {
-        			while(oneNeighborCtry.getArmiesNum()!=0) {
-            			oneNeighborCtry.reduceArmy();
-            		}
-            		playerEngine.checkAfterAtteacked(attackCtry, oneNeighborCtry); 	
-        		}
-        	}
-        }
+		ArrayList<Country> cheaterCountry = curPlayer.getCountriesOwned();
+		System.out.println("autoAttack cheaterCountry : "+ cheaterCountry);
+
+//
+//		for (Iterator<Country> iterator = cheaterCountry.iterator(); iterator.hasNext(); ) {
+//			Country attackCtry = iterator.next();
+//			System.out.println("cheater attackCtry : "+ attackCtry);
+//			String ctryName = attackCtry.getName();
+//			Collection<String> neighbors = map.getConnectionMap().get(ctryName);
+//			for(String oneOfNeighbors : neighbors) {
+//				Country oneNeighborCtry = map.getCountriesMap().get(oneOfNeighbors);
+//				if(oneNeighborCtry.getPlayer()!= curPlayer) {
+//					while(oneNeighborCtry.getArmiesNum()!=0) {
+//						oneNeighborCtry.reduceArmy();
+//					}
+//					playerEngine.checkAfterAtteacked(attackCtry, oneNeighborCtry);
+//				}
+//			}
+//		}
+
         
         //Check if the game is end
         if(playerEngine.getCurrentState()==GameState.END) {

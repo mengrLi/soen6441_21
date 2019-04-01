@@ -521,8 +521,30 @@ public class PlayerEngine {
 
         }
     }
-
-
+    
+    
+    /**
+     * Attack operation for each player
+     * @param attackCtry country of attacker
+     * @param defendCtry country of defender
+     * @param diceNum number of dice chose by current player
+     */
+    public void attack(Country attackCtry, Country defendCtry, int diceNum) {
+    	if(diceNum == 1) {
+    		diceOne(attackCtry,defendCtry);
+    	}
+    	else if(diceNum == 2) {
+    		diceTwo(attackCtry, defendCtry);
+    	}
+    	else if(diceNum == 3) {
+    		diceThree(attackCtry, defendCtry);
+    	}
+    	else if(diceNum == 4) {
+    		diceAll(attackCtry, defendCtry);
+    	}
+    }
+    
+    
     /**
      * This method is to move a number of armies from one country to another country
      *

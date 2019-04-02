@@ -145,40 +145,41 @@ public class PopupAttack extends aPopupMenu implements ActionListener {
 
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == threedicebutton) {
-            //refreshList();
+            int number=3;
             Country definectry = map.getCountry(attacklist.getSelectedValue().toString());
             Country attackctry = map.getCountry(canvas.selectedIndex);
-            game.diceThree(attackctry, definectry);
+            game.attack(attackctry, definectry,number);
             countrypercent.setText(game.percentageOfmap(attackctry.getPlayer()));
             refreshList(attackctry);
             canvas.repaint();
         } else if (e.getSource() == onedicebutton) {
-            //refreshList();
+            int number=1;
             Country definectry = map.getCountry(attacklist.getSelectedValue().toString());
             Country attackctry = map.getCountry(canvas.selectedIndex);
-            game.diceOne(attackctry, definectry);
+            game.attack(attackctry, definectry,number);
             countrypercent.setText(game.percentageOfmap(attackctry.getPlayer()));
             refreshList(attackctry);
             canvas.repaint();
         } else if (e.getSource() == twodicebutton) {
-            //refreshList();
+            int number=2;
             Country definectry = map.getCountry(attacklist.getSelectedValue().toString());
             Country attackctry = map.getCountry(canvas.selectedIndex);
-            game.diceTwo(attackctry, definectry);
+            game.attack(attackctry, definectry,number);
             countrypercent.setText(game.percentageOfmap(attackctry.getPlayer()));
             refreshList(attackctry);
             canvas.repaint();
         } else if (e.getSource() == alldicebutton) {
-            //refreshList();
+            int number=4;
             Country definectry = map.getCountry(attacklist.getSelectedValue().toString());
             Country attackctry = map.getCountry(canvas.selectedIndex);
-            game.diceAll(attackctry, definectry);
+            game.attack(attackctry, definectry,number);
             countrypercent.setText(game.percentageOfmap(attackctry.getPlayer()));
             refreshList(attackctry);
             canvas.repaint();
         }
 
     }
+
 
 
 }

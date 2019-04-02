@@ -34,7 +34,7 @@ public class  Benevolent implements Strategy{
     
     
     /**
-     * Auto reinforce phase for cheater
+     * Auto reinforce phase for Benevolent
      */
     public void autoReinforce(Player curPlayer){
     	

@@ -23,7 +23,7 @@ public class PlayerEngine {
     private static MapModel.Map map = Map.getMapInstance();
     private static ArrayList<Player> playerList = new ArrayList<>();
     public static int numberofplayers = 0;
-    private static int currentPlayer = 0; //The ID of current player
+    public static int currentPlayer = 0; //The ID of current player
     private static boolean getCardFlag = false; // if player conquer at less a country, will get a card, flag is true
     private int initialArmyNum;
     public static int round = 0;
@@ -48,6 +48,7 @@ public class PlayerEngine {
     }
 
 
+   
     /**
      * This method is used to initial the number of players
      *
@@ -60,6 +61,7 @@ public class PlayerEngine {
             //Player plyr = new Player(i); //plyr = player
             //Cheater test
             Player plyr;
+<<<<<<< HEAD
             if (i == 1){ //璁剧疆绗簩涓帺瀹朵负浜虹被
                 plyr = new Player(i);
             } else {
@@ -67,12 +69,53 @@ public class PlayerEngine {
                 plyr.setStrategy(new Cheater());
             }
 
+=======
+//            if (i != 1){ //设置第二个玩家为人类
+//                plyr = new Player(i);
+//            } else {
+//                plyr = new Player(i);
+//                plyr.setStrategy(new Cheater());
+//            }
+            plyr = new Player(i);
+>>>>>>> bfabaac00a77ab92661bbef713929f8b27ce76d1
             plyr.setColor(playercolors[i]);
             plyr.setName("player" + i);
             playerList.add(plyr);
         }
+        //currentPlayer=0;
         System.out.println("Successfully set the players! Players are " + playerList);
     }
+    public void setPlayerStrategy(int i, String strategyName){
+        Strategy strategy;
+        switch (strategyName){
+            case "Cheater": strategy = new Cheater();
+                playerList.get(i).setStrategy(strategy);
+                break;
+            case "Aggressive": strategy = new Aggressive();
+                playerList.get(i).setStrategy(strategy);
+                break;
+            case "Benevolent": strategy = new Benevolent();
+                playerList.get(i).setStrategy(strategy);
+                break;
+            case "RandomP": strategy = new RandomP();
+                playerList.get(i).setStrategy(strategy);
+                break;
+        }
+        String name = playerList.get(i).getStrategy() != null ?  playerList.get(i).getStrategy().getClass().getSimpleName() : "Human";
+        playerList.get(i).setName(name + i);
+        System.out.println(playerList);
+    }
+
+    //for strategy setting
+    public void getNextPlayer(){
+            if (currentPlayer == playerList.size() - 1) {
+                currentPlayer = 0;
+            } else {
+                currentPlayer++;
+            }
+        System.out.println("currentPlayer:" + currentPlayer);
+    }
+
 
     /**
      * Set the initial number of players
@@ -583,8 +626,9 @@ public class PlayerEngine {
             log.add("Error:  There is only 1 army in this country(" + originctn.getName() + "), you can not move it!");
         } else {
             for (i = 0; i < armyNum; i++) {
-                originctn.moveOutOneArmy();
-                destination.AddArmy();
+                originctn.moveOutOneArmy(destination);
+                //originctn.moveOutOneArmy();
+                //destination.AddArmy();
             }
         }
     }
@@ -790,8 +834,6 @@ public class PlayerEngine {
     }
 
 
-
-
     public void resetForNextGame(){
         state = GameState.REINFORCE;
         currentPlayer = 0;
@@ -835,8 +877,7 @@ public class PlayerEngine {
             //log.add("please select another country");
         } else {
             for (i = 0; i < armyNum; i++) {
-                originctn.moveOutOneArmy();
-                destination.AddArmy();
+                originctn.moveOutOneArmy(destination);
                 message = "you move" + armyNum + "to your destination country";
             }
         }

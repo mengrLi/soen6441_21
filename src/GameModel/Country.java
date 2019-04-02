@@ -262,22 +262,25 @@ public class Country {
      */
     public void reduceArmy() {
         if (ArmyList.size() >= 1) {
-//            Army rmArmy = this.ArmyList.get(0);
-//            this.player.getArmyList().remove(rmArmy);
-//            this.ArmyList.remove(rmArmy);
-            this.ArmyList.remove(0);
+            Army rmArmy = this.ArmyList.get(0);
+            this.player.getArmyList().remove(rmArmy);
+            this.ArmyList.remove(rmArmy);
+           // this.ArmyList.remove(0);
 
         }
     }
 
-    public void moveOutOneArmy() {
-        reduceArmy();
-        for (Army army : player.getArmyList()) {
-            if (army.getCountry() == this) {
-                army.setCountry(null);
-                break;
-            }
-        }
+    public void moveOutOneArmy(Country destination) {
+        reduceArmy();//remove from country and player
+        destination.player.setArmyList(1);//player army list add a army
+        destination.AddArmy();//country add a army
+
+//        for (Army army : player.getArmyList()) {
+//            if (army.getCountry() == this) {
+//                army.setCountry(null);
+//                break;
+//            }
+//        }
     }
 
 

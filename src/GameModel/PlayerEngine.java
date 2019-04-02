@@ -23,7 +23,7 @@ public class PlayerEngine {
     private static MapModel.Map map = Map.getMapInstance();
     private static ArrayList<Player> playerList = new ArrayList<>();
     public static int numberofplayers = 0;
-    private static int currentPlayer = 0; //The ID of current player
+    public static int currentPlayer = 0; //The ID of current player
     private static boolean getCardFlag = false; // if player conquer at less a country, will get a card, flag is true
     private int initialArmyNum;
     public static int round = 0;
@@ -48,6 +48,7 @@ public class PlayerEngine {
     }
 
 
+   
     /**
      * This method is used to initial the number of players
      *
@@ -60,20 +61,51 @@ public class PlayerEngine {
             //Player plyr = new Player(i); //plyr = player
             //Cheater test
             Player plyr;
-            if (i != 1){ //设置第二个玩家为人类
-                plyr = new Player(i);
-            } else {
-                plyr = new Player(i);
-                plyr.setStrategy(new Cheater());
-            }
-            //plyr = new Player(i);
+//            if (i != 1){ //设置第二个玩家为人类
+//                plyr = new Player(i);
+//            } else {
+//                plyr = new Player(i);
+//                plyr.setStrategy(new Cheater());
+//            }
+            plyr = new Player(i);
             plyr.setColor(playercolors[i]);
-            String name = plyr.getStrategy() != null ? plyr.getStrategy().getClass().getSimpleName() : "Human";
-            plyr.setName(name + i);
+            plyr.setName("player" + i);
             playerList.add(plyr);
         }
+        //currentPlayer=0;
         System.out.println("Successfully set the players! Players are " + playerList);
     }
+    public void setPlayerStrategy(int i, String strategyName){
+        Strategy strategy;
+        switch (strategyName){
+            case "Cheater": strategy = new Cheater();
+                playerList.get(i).setStrategy(strategy);
+                break;
+            case "Aggressive": strategy = new Aggressive();
+                playerList.get(i).setStrategy(strategy);
+                break;
+            case "Benevolent": strategy = new Benevolent();
+                playerList.get(i).setStrategy(strategy);
+                break;
+            case "RandomP": strategy = new RandomP();
+                playerList.get(i).setStrategy(strategy);
+                break;
+        }
+        String name = playerList.get(i).getStrategy() != null ?  playerList.get(i).getStrategy().getClass().getSimpleName() : "Human";
+        playerList.get(i).setName(name + i);
+        System.out.println(playerList);
+    }
+
+    //for strategy setting
+    public void getNextPlayer(){
+            if (currentPlayer == playerList.size() - 1) {
+                currentPlayer = 0;
+            } else {
+                currentPlayer++;
+            }
+        System.out.println("currentPlayer:" + currentPlayer);
+    }
+
 
     /**
      * Set the initial number of players

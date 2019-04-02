@@ -60,7 +60,7 @@ public class PlayerEngine {
             //Player plyr = new Player(i); //plyr = player
             //Cheater test
             Player plyr;
-            if (i == 1){ //设置第二个玩家为人类
+            if (i == 1){ //璁剧疆绗簩涓帺瀹朵负浜虹被
                 plyr = new Player(i);
             } else {
                 plyr = new Player(i);
@@ -542,18 +542,25 @@ public class PlayerEngine {
      * @param diceNum number of dice chose by current player
      */
     public void attack(Country attackCtry, Country defendCtry, int diceNum) {
-    	if(diceNum == 1) {
+    	switch(diceNum) {
+    	case 1: 
+    		log.add("you choose one dice to attack");
     		diceOne(attackCtry,defendCtry);
+    		break;
+    	case 2:
+    		log.add("you choose two dices to attack");
+    		diceTwo(attackCtry,defendCtry);
+    		break;
+    	case 3:
+    		log.add("you choose three dices to attack");
+    		diceThree(attackCtry,defendCtry);
+    		break;
+    	case 4:
+    		log.add("you choose all-in to attack");
+    		diceAll(attackCtry,defendCtry);
+    		break;
     	}
-    	else if(diceNum == 2) {
-    		diceTwo(attackCtry, defendCtry);
-    	}
-    	else if(diceNum == 3) {
-    		diceThree(attackCtry, defendCtry);
-    	}
-    	else if(diceNum == 4) {
-    		diceAll(attackCtry, defendCtry);
-    	}
+    	log.add("Attack to" + defendCtry.getName() + "successfully finished");
     }
     
     
@@ -725,8 +732,8 @@ public class PlayerEngine {
         int curGame = 0;
         while(curGame < gameNum){
             log.add("Game "+ curGame + ": Start!");
-            //下一个新游戏开始前，如何清盘
-            //reset需要重置的属性
+            //涓嬩竴涓柊娓告垙寮�濮嬪墠锛屽浣曟竻鐩�
+            //reset闇�瑕侀噸缃殑灞炴��
             resetForNextGame();
             //start up
             AssignPlayers();// start up
@@ -741,10 +748,10 @@ public class PlayerEngine {
         }
     }
 
-    //for 锦标赛
+    //for 閿︽爣璧�
     public void autoOneTurn(int curGame){
         log.add(getCurPlayerNameWithColor() + "Start Reinforce");
-        getCurPlayer().autoReinforce();//增加一个自动换牌操作
+        getCurPlayer().autoReinforce();//澧炲姞涓�涓嚜鍔ㄦ崲鐗屾搷浣�
         log.add(getCurPlayerNameWithColor() + "Start Attack");
         if(getCurPlayer().autoAttack()){
             String winner = getCurPlayerNameWithColor();
@@ -760,7 +767,7 @@ public class PlayerEngine {
     //for single game
     public void autoOneTurn(){
         log.add(getCurPlayerNameWithColor() + "Start Reinforce");
-        getCurPlayer().autoReinforce();//增加一个自动换牌操作
+        getCurPlayer().autoReinforce();//澧炲姞涓�涓嚜鍔ㄦ崲鐗屾搷浣�
         log.add(getCurPlayerNameWithColor() + "Start Attack");
         if(getCurPlayer().autoAttack()){
             String winner = getCurPlayerNameWithColor();

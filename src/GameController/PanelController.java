@@ -11,10 +11,7 @@ import javax.swing.JPanel;
 
 import GameModel.PlayerEngine;
 import GameModel.GameState;
-import GameView.AssignPlayerPanel;
-import GameView.PlaceArmyPanel;
-import GameView.ReinforcePanel;
-import GameView.SimPanel;
+import GameView.*;
 import MapController.Canvas;
 import MapModel.Map;
 import MapView.EditPanel;
@@ -35,6 +32,7 @@ public class PanelController {
     public JPanel mainpanel;
     public LogWindow log = new LogWindow();
     public AssignPlayerPanel assignplayerpanel = new AssignPlayerPanel();
+    public AssignRolesPanel assignRolesPanel = new AssignRolesPanel();
     public EditPanel editpanel = new EditPanel();
     public static PlaceArmyPanel placearmypanel = new PlaceArmyPanel();
     public ReinforcePanel reinforcepanel = new ReinforcePanel();
@@ -50,8 +48,9 @@ public class PanelController {
 
         version.add(editpanel.panel, "1");
         version.add(assignplayerpanel.panel, "2");
-        version.add(placearmypanel.panel, "3");
-        version.add(reinforcepanel.panel, "4");
+        version.add(assignRolesPanel.panel,"3");
+        version.add(placearmypanel.panel, "4");
+        version.add(reinforcepanel.panel, "5");
         c.fill = GridBagConstraints.HORIZONTAL;
         mainpanel.setLayout(new GridBagLayout());
         mainpanel.setBackground(Theme.color);
@@ -82,6 +81,7 @@ public class PanelController {
 
     public void SetActivePanel(aPanel panel) {
         assignplayerpanel.SetVisible(false);
+        assignRolesPanel.SetVisible(false);
         editpanel.SetVisible(false);
         placearmypanel.SetVisible(false);
         reinforcepanel.SetVisible(false);
@@ -126,14 +126,24 @@ public class PanelController {
             System.out.println("numOfPlayers:" + numOfPlayers);
             game.setPlayerList(numOfPlayers);
 
+            game.state = GameState.ASSIGNROLES;
+            SetActivePanel(assignRolesPanel);
+
+        } else if(e.getSource()==assignRolesPanel.next){
             game.state = GameState.STARTUP;
             game.AssignPlayers();
-
             SetActivePanel(placearmypanel);
 
-        } else if (e.getSource() == assignplayerpanel.back) {
+        }
+        else if(e.getSource()==assignRolesPanel.back)
+        {
+            game.state=GameState.CHOOSEPLAYER;
+            SetActivePanel(assignplayerpanel);
+        }
+        else if (e.getSource() == assignplayerpanel.back) {
             game.state = GameState.EDITMAP;
             SetActivePanel(editpanel);
+
         } else if (e.getSource() == editpanel.next) {
             String checkInfo = map.checkMapValidation("load");
             System.out.println(" checkMapValidation next" + map.checkMapValidation("load"));
@@ -156,8 +166,8 @@ public class PanelController {
             thread.start();
 
         } else if (e.getSource() == placearmypanel.back) {
-            game.state = GameState.CHOOSEPLAYER;
-            SetActivePanel(assignplayerpanel);
+            game.state = GameState.ASSIGNROLES;
+            SetActivePanel(assignRolesPanel);
 
 
         } else if (e.getSource() == reinforcepanel.back) {
@@ -179,7 +189,25 @@ public class PanelController {
             System.out.println("fortify");
 
 
-        } else if (e.getSource() == reinforcepanel.button) {
+        }
+        else if(e.getSource()==assignRolesPanel.button1) //set
+        {   assignRolesPanel.label.setText(game.getCurPlayer().getName());
+            String strategyName=assignRolesPanel.combo.getSelectedItem().toString();
+            System.out.println("strategyName ;" +strategyName);
+            int playerID=game.getCurPlayer().getID();
+            System.out.println("playerID ;" +playerID);
+            game.setPlayerStrategy(playerID,strategyName);
+
+            game.getNextPlayer();
+            assignRolesPanel.label.setText(game.getCurPlayer().getName());
+        }
+
+//        else if(e.getSource()==assignRolesPanel.button2) //next
+//        {
+//
+//            System.out.println(game.getCurPlayer().getName());
+//        }
+        else if (e.getSource() == reinforcepanel.button) {
             game.state = GameState.CHOOSECARD;
             Runnable nextPlayer = ()-> {
                 game.turnToNextPlayer();
@@ -207,6 +235,7 @@ public class PanelController {
      */
     public void AddActionListener(ActionListener e) {
         assignplayerpanel.AddActionListener(e);
+        assignRolesPanel.AddActionListener(e);
         editpanel.AddActionListener(e);
         placearmypanel.AddActionListener(e);
         reinforcepanel.AddActionListener(e);
@@ -215,6 +244,8 @@ public class PanelController {
         simpanel.attackbutton.addActionListener(e);
         simpanel.choosecardbutton.addActionListener(e);
         reinforcepanel.button.addActionListener(e);
+        assignRolesPanel.button1.addActionListener(e);
+      //  assignRolesPanel.button2.addActionListener(e);
     }
 
 }

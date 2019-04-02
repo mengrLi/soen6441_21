@@ -60,15 +60,16 @@ public class PlayerEngine {
             //Player plyr = new Player(i); //plyr = player
             //Cheater test
             Player plyr;
-            if (i == 1){ //设置第二个玩家为人类
+            if (i != 1){ //设置第二个玩家为人类
                 plyr = new Player(i);
             } else {
                 plyr = new Player(i);
                 plyr.setStrategy(new Cheater());
             }
-
+            //plyr = new Player(i);
             plyr.setColor(playercolors[i]);
-            plyr.setName("player" + i);
+            String name = plyr.getStrategy() != null ? plyr.getStrategy().getClass().getSimpleName() : "Human";
+            plyr.setName(name + i);
             playerList.add(plyr);
         }
         System.out.println("Successfully set the players! Players are " + playerList);
@@ -576,8 +577,9 @@ public class PlayerEngine {
             log.add("Error:  There is only 1 army in this country(" + originctn.getName() + "), you can not move it!");
         } else {
             for (i = 0; i < armyNum; i++) {
-                originctn.moveOutOneArmy();
-                destination.AddArmy();
+                originctn.moveOutOneArmy(destination);
+                //originctn.moveOutOneArmy();
+                //destination.AddArmy();
             }
         }
     }
@@ -783,8 +785,6 @@ public class PlayerEngine {
     }
 
 
-
-
     public void resetForNextGame(){
         state = GameState.REINFORCE;
         currentPlayer = 0;
@@ -828,8 +828,7 @@ public class PlayerEngine {
             //log.add("please select another country");
         } else {
             for (i = 0; i < armyNum; i++) {
-                originctn.moveOutOneArmy();
-                destination.AddArmy();
+                originctn.moveOutOneArmy(destination);
                 message = "you move" + armyNum + "to your destination country";
             }
         }

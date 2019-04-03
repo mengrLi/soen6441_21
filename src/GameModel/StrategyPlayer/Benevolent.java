@@ -14,15 +14,15 @@ public class  Benevolent implements Strategy{
 	public String strategyName = "Cheater";
 	private PlayerEngine playerEngine;
 	private Map map= Map.getMapInstance();
-	
-	
+
+
 	/**
 	 * Constructor
 	 */
-	 Benevolent(){
-        this.playerEngine = new PlayerEngine();
-    }
-    
+	public Benevolent() {
+		this.playerEngine = new PlayerEngine();
+
+	}
     
     /**
      * Get the name of current strategy
@@ -118,8 +118,7 @@ public class  Benevolent implements Strategy{
 			int realQt = fromCountry.getArmiesNum()-1;
 			// Move armies
 			for(int i = 0; i<realQt; i++){
-				fromCountry.moveOutOneArmy();
-				toCountry.AddArmy();
+				fromCountry.moveOutOneArmy(toCountry);
 			}
 		}	
     }

@@ -5,8 +5,11 @@ import java.awt.Color;
 import java.text.NumberFormat;
 import java.util.*;
 
-import GameModel.*;
+import GameModel.StrategyPlayer.Aggressive;
+import GameModel.StrategyPlayer.Benevolent;
 import GameModel.StrategyPlayer.Cheater;
+import GameModel.StrategyPlayer.Strategy;
+import GameModel.StrategyPlayer.RandomP;
 import MapModel.Map;
 import MapView.LogWindow;
 
@@ -61,15 +64,6 @@ public class PlayerEngine {
             //Player plyr = new Player(i); //plyr = player
             //Cheater test
             Player plyr;
-<<<<<<< HEAD
-            if (i == 1){ //璁剧疆绗簩涓帺瀹朵负浜虹被
-                plyr = new Player(i);
-            } else {
-                plyr = new Player(i);
-                plyr.setStrategy(new Cheater());
-            }
-
-=======
 //            if (i != 1){ //设置第二个玩家为人类
 //                plyr = new Player(i);
 //            } else {
@@ -77,34 +71,13 @@ public class PlayerEngine {
 //                plyr.setStrategy(new Cheater());
 //            }
             plyr = new Player(i);
->>>>>>> bfabaac00a77ab92661bbef713929f8b27ce76d1
             plyr.setColor(playercolors[i]);
             plyr.setName("player" + i);
             playerList.add(plyr);
         }
-        //currentPlayer=0;
         System.out.println("Successfully set the players! Players are " + playerList);
     }
-    public void setPlayerStrategy(int i, String strategyName){
-        Strategy strategy;
-        switch (strategyName){
-            case "Cheater": strategy = new Cheater();
-                playerList.get(i).setStrategy(strategy);
-                break;
-            case "Aggressive": strategy = new Aggressive();
-                playerList.get(i).setStrategy(strategy);
-                break;
-            case "Benevolent": strategy = new Benevolent();
-                playerList.get(i).setStrategy(strategy);
-                break;
-            case "RandomP": strategy = new RandomP();
-                playerList.get(i).setStrategy(strategy);
-                break;
-        }
-        String name = playerList.get(i).getStrategy() != null ?  playerList.get(i).getStrategy().getClass().getSimpleName() : "Human";
-        playerList.get(i).setName(name + i);
-        System.out.println(playerList);
-    }
+
 
     //for strategy setting
     public void getNextPlayer(){
@@ -116,6 +89,26 @@ public class PlayerEngine {
         System.out.println("currentPlayer:" + currentPlayer);
     }
 
+
+    public void setPlayerStrategy(int i, String strategyName){
+        Strategy strategy;
+        switch (strategyName){
+            case "Cheater": strategy = new Cheater();
+                            playerList.get(i).setStrategy(strategy);
+                            break;
+            case "Aggressive": strategy = new Aggressive();
+                            playerList.get(i).setStrategy(strategy);
+                            break;
+            case "Benevolent": strategy = new Benevolent();
+                            playerList.get(i).setStrategy(strategy);
+                            break;
+            case "RandomP": strategy = new RandomP();
+                            playerList.get(i).setStrategy(strategy);
+                            break;
+        }
+        String name = playerList.get(i).getStrategy() != null ?  playerList.get(i).getStrategy().getClass().getSimpleName() : "Human";
+        playerList.get(i).setName(name + i);
+    }
 
     /**
      * Set the initial number of players
@@ -150,6 +143,14 @@ public class PlayerEngine {
 
         currentPlayer = 0;
         log.add(playerList.get(currentPlayer).getName() + "(" + getColorName(playercolors[currentPlayer]) + "), you play first!");
+        //check if the first player is computer
+        if(getCurPlayer().getStrategy() != null){
+            for(Country country : getCurPlayer().getCountriesOwned()){
+                if(! playerPlaceArmy(country)){
+                    break;
+                }
+            }
+        }
     }
 
     /**
@@ -182,7 +183,7 @@ public class PlayerEngine {
      *
      * @param country
      */
-    public void playerPlaceArmy(Country country) {
+    public boolean playerPlaceArmy(Country country) {
 
         int index = 0;
         Player curPlayer = playerList.get(currentPlayer);
@@ -201,11 +202,21 @@ public class PlayerEngine {
             currentPlayer++;
             if (currentPlayer < playerList.size()) {
                 log.add("Now It is Player " + getPlayNameWithColor(currentPlayer) + "'s turn to place army");
+                if(getCurPlayer().getStrategy() != null){
+                    for(Country cnt : getCurPlayer().getCountriesOwned()){
+                        if(! playerPlaceArmy(cnt)){
+                            break;
+                        }
+                    }
+                }
             } else {
                 log.add("Finished army placement");
                 //state = GameState.REINFORCE;
                 currentPlayer = 0;
             }
+            return false;
+        }else {
+            return true;
         }
     }
 
@@ -365,7 +376,7 @@ public class PlayerEngine {
         int randomNumber;
         //generate a random number for each dice in the dice list
         for (int i = 0; i < diceNum; i++) {
-            randomNumber = new Random().nextInt(6) + 1;
+            randomNumber =new Random().nextInt(6) + 1;
             diceList.add(randomNumber);
         }
         //making it be in a ascending order
@@ -787,6 +798,12 @@ public class PlayerEngine {
             }
             if (round == maxRoundNum && state != GameState.END){
                 log.add("Game "+ curGame + ": drawn");
+            }
+
+            try {
+                Thread.sleep(3000);
+            }catch (Exception e){
+                e.printStackTrace();
             }
             curGame ++;
         }

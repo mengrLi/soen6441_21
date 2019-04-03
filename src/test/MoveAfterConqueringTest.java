@@ -52,15 +52,15 @@ public class MoveAfterConqueringTest {
 	/**
 	 * To test when defender is not conquered by attacker
 	 */
-	@Test
-	public void notConqueredTest() {
-		defendCtry.increaseArmy();
-		game.checkAfterAtteacked(attackCtry, defendCtry);
-		String percentOfAttacker= "33.33";
-		String percentOfDefender= "33.33";
-		assertEquals(percentOfAttacker, game.percentageOfmap(game.getPlayerList().get(0)));
-		assertEquals(percentOfDefender, game.percentageOfmap(game.getPlayerList().get(1)));
-	}
+//	@Test
+//	public void notConqueredTest() {
+//		defendCtry.increaseArmy();
+//		game.checkAfterAtteacked(attackCtry, defendCtry);
+//		String percentOfAttacker= "33.33";
+//		String percentOfDefender= "33.33";
+//		assertEquals(percentOfAttacker, game.percentageOfmap(game.getPlayerList().get(0)));
+//		assertEquals(percentOfDefender, game.percentageOfmap(game.getPlayerList().get(1)));
+//	}
 	
 	
 	/**

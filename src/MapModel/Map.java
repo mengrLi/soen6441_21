@@ -30,7 +30,7 @@ public class Map extends Observable {  //
     public boolean drawConnectingLine = false;
     private int id;
     private String name;
-    private String author = "", warn = "", image = "", wrap = "", scroll = "";
+    public String author = "", warn = "", image = "", wrap = "", scroll = "";
     private HashMap<String, Collection<String>> connectionMap = new HashMap<String, Collection<String>>();
 
 
@@ -321,9 +321,13 @@ public class Map extends Observable {  //
         map.countries.clear();
         map.connectionMap.clear();
         initialMatrix();
+    }
 
-        setChanged();
-        notifyObservers();
+    //reset countries infomation
+    public void resetCountries() {
+        for(Country country : getAllCountries()){
+            country.resetCountry();
+        }
     }
 
     /**
@@ -454,6 +458,7 @@ public class Map extends Observable {  //
         return rtnMessage;
     }
 
+
     /**
      * save map
      *
@@ -482,7 +487,7 @@ public class Map extends Observable {  //
                 outStream.write("\r\n".getBytes());
             }
             outStream.write("\r\n".getBytes());
-            outStream.write("[Territories]\r\n".getBytes());
+            outStream.write("[Territories]\\r\\n".getBytes());
             for (Continent continent : getAllContinent()) {
                 for (Country country : continent.getCountryList()) {
 
@@ -507,6 +512,48 @@ public class Map extends Observable {  //
         }
         return resultMsg;
     }
+
+
+    public String mapInfo(){
+        String info = "";
+        String ContinentsInfo = "";
+        for (Continent continent : getAllContinent()) {
+            ContinentsInfo = ContinentsInfo + continent.getName() + "=" + continent.getValue() + "\r\n";
+        }
+
+        String countryInfo = "";
+        for (Continent continent : getAllContinent()) {
+            String cinfo = "";
+            for (Country country : continent.getCountryList()) {
+
+                cinfo = country.getName() + "," + country.getX() + "," + country.getY() + "," + country.getContinent().getName();
+                Collection<String> countryList = connectionMap.get(country.getName());
+
+                for (String contiguousCountry : countryList) {
+                    cinfo = cinfo + "," + contiguousCountry.toString();
+                }
+            }
+            countryInfo = countryInfo + cinfo + "\r\n";
+        }
+
+
+        info = "[Map]\r\n"
+                +"author=" + getAuthor() + "\r\n"
+                +"image=" + getImage() + "\r\n"
+                +"warn=" + getWarn() + "\r\n"
+                +"scroll=" + getScroll() + "\r\n"
+                +"\r\n"
+                +"[Continents]\r\n"
+                +ContinentsInfo
+                +"\r\n"
+                +"[Territories]\r\n"
+                + countryInfo
+                +"\r\n";
+
+         System.out.println("mapInfo:"+info);
+         return info;
+    }
+
 
     public String getImage() {
         return !image.isEmpty() ? image : "Default";

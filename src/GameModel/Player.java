@@ -19,6 +19,7 @@ public class Player {
     private ArrayList<Army> armyList = new ArrayList<>();
     private int armyForCard = 0;
     private Strategy strategy;
+    public boolean isAlive = true;
 
     /**
      * Gets the card list.
@@ -349,6 +350,40 @@ public class Player {
 
     public void autoFortify(){
         this.strategy.autoFortify(this);
+    }
+
+    public String playerSave(){
+        String info = "";
+        String cardInfo  = "";
+        String countryInfo = "";
+
+        for(Card card : cardList){
+            cardInfo  = cardInfo + card.getCardType().name() + " ";
+        }
+        cardInfo = cardInfo.trim();
+        System.out.println("cardInfo : "+ cardInfo);
+
+        for(Country country : countriesOwned){
+            countryInfo  = countryInfo + country.getName() + "-" + country.getArmiesNum() + " ";
+        }
+        countryInfo = countryInfo.trim();
+        System.out.println("countryInfo : "+ countryInfo);
+
+        info =    ID + ","
+                + name + ","
+                + cardInfo + ","
+                + countryInfo + ","
+                + getArmyList().size() + ","
+                + getStrategy() != null ? getStrategy().getClass().getSimpleName() : "Human";
+        return info;
+    }
+
+    public void resetPlayer(){
+        countriesOwned = new ArrayList<>();
+        cardList = new ArrayList<Card>();
+        armyList = new ArrayList<>();
+        armyForCard = 0;
+        isAlive = true;
     }
 
 

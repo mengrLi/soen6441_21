@@ -147,6 +147,11 @@ public class Country {
         return ArmyList.size();
     }
 
+    public ArrayList<Army> getArmyList() {
+        return ArmyList;
+
+    }
+
     /**
      * Gets the location X.
      */
@@ -423,6 +428,20 @@ public class Country {
 
         System.out.println("Defender countryNameList" + countryNameList);
         return countryNameList;
+    }
+
+
+    public String countrySave(){
+        String info = "";
+        info = name + ","
+                + player.getID() +","
+                + ArmyList.size();
+        return info;
+    }
+
+    public void resetCountry(){
+        player = null;
+        ArmyList = new ArrayList<Army>();
     }
 
 

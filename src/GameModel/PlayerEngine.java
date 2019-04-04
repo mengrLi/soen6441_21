@@ -2,6 +2,8 @@ package GameModel;
 
 
 import java.awt.Color;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.text.NumberFormat;
 import java.util.*;
 
@@ -27,15 +29,15 @@ public class PlayerEngine {
     private static ArrayList<Player> playerList = new ArrayList<>();
     public static int numberofplayers = 0;
     public static int currentPlayer = 0; //The ID of current player
-    private static boolean getCardFlag = false; // if player conquer at less a country, will get a card, flag is true
-    private int initialArmyNum;
+    public static boolean getCardFlag = false; // if player conquer at less a country, will get a card, flag is true
+    public int initialArmyNum;
     public static int round = 0;
     static Color playercolors[] = {Color.lightGray, Color.MAGENTA, Color.cyan, Color.GREEN, Color.yellow};
     public static boolean cardChangeFlage = false; //check if need to change card
     public static boolean reinforceFlag = false;
     public static int gameNum = 0; // for tournament
     public static int maxRoundNum = 0;// for tournament
-    public static ArrayList<String> mapList;
+
 
 
 
@@ -213,6 +215,7 @@ public class PlayerEngine {
                 log.add("Finished army placement");
                 //state = GameState.REINFORCE;
                 currentPlayer = 0;
+                gameSave();
             }
             return false;
         }else {
@@ -680,7 +683,8 @@ public class PlayerEngine {
             if (defender.getCountriesOwned().size() == 0) {
                 getCurPlayer().takeOverCards(defender);
 
-                playerList.remove(defender);
+                //playerList.remove(defender);
+                defender.isAlive = false;
                 currentPlayer = playerList.indexOf(attacked);
                 System.out.println("2 playerList :" + playerList);
             }
@@ -720,38 +724,35 @@ public class PlayerEngine {
                 log.add("Now current player is : " + getPlayNameWithColor(currentPlayer));
                 round++;
                 //if player is computer, then auto play
-                if(getCurPlayer().getStrategy() != null){
-                    autoOneTurn();
-                    try {
-                        Thread.sleep(1000);
-                    }catch (Exception e){
-                        e.printStackTrace();
-                    }
+                if(!getCurPlayer().isAlive){
                     turnToNextPlayer();
-//                    //check if game ended
-//                    if(state != GameState.END){
-//                        if(maxRoundNum == 0){
-//
-//                        }else if(round < maxRoundNum && state != GameState.END){
-//                            turnToNextPlayer();
-//                        }else {
-//
-//                        }
-//                    }
-
+                }else{
+                    if(getCurPlayer().getStrategy() != null){
+                        autoOneTurn();
+                        try {
+                            Thread.sleep(1000);
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }
+                        turnToNextPlayer();
+                    }
                 }
             } else {
                 currentPlayer++;
-                log.add("Now current player is : " + getPlayNameWithColor(currentPlayer));
-                //if player is computer, then auto play
-                if(getCurPlayer().getStrategy() != null){
-                    autoOneTurn();
-                    try {
-                        Thread.sleep(1000);
-                    }catch (Exception e){
-                        e.printStackTrace();
-                    }
+                if(!getCurPlayer().isAlive){
                     turnToNextPlayer();
+                }else{
+                    log.add("Now current player is : " + getPlayNameWithColor(currentPlayer));
+                    //if player is computer, then auto play
+                    if(getCurPlayer().getStrategy() != null){
+                        autoOneTurn();
+                        try {
+                            Thread.sleep(1000);
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }
+                        turnToNextPlayer();
+                    }
                 }
             }
         }
@@ -770,19 +771,33 @@ public class PlayerEngine {
         if (state == GameState.CHOOSECARD) {
             if (currentPlayer == playerList.size() - 1) {
                 currentPlayer = 0;
-                log.add("Now current player is : " + getPlayNameWithColor(currentPlayer));
-                round++;
-                autoOneTurn(curGame);
+                if(!getCurPlayer().isAlive){
+                    turnToNextPlayerT(curGame);
+                }else {
+                    log.add("Now current player is : " + getPlayNameWithColor(currentPlayer));
+                    round++;
+                    autoOneTurn(curGame);
+                }
             } else {
                 currentPlayer++;
-                log.add("Now current player is : " + getPlayNameWithColor(currentPlayer));
-                autoOneTurn(curGame);
+                if(!getCurPlayer().isAlive){
+                    turnToNextPlayerT(curGame);
+                }else {
+                    log.add("Now current player is : " + getPlayNameWithColor(currentPlayer));
+                    autoOneTurn(curGame);
+                }
             }
         }
     }
 
     //before autoplay, must loading map, choosing players, setting maximum round number, setting game number
     public void autoPlay( ){
+        gameNum = 3;
+        try {
+            Thread.sleep(1000);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         //single map
         int curGame = 0;
         while(curGame < gameNum){
@@ -792,6 +807,11 @@ public class PlayerEngine {
             resetForNextGame();
             //start up
             AssignPlayers();// start up
+            try {
+                Thread.sleep(5000);
+            }catch (Exception e){
+                e.printStackTrace();
+            }
             autoOneTurn(curGame);
             while (round < maxRoundNum && state != GameState.END){
                 turnToNextPlayerT(curGame);
@@ -801,18 +821,21 @@ public class PlayerEngine {
             }
 
             try {
-                Thread.sleep(3000);
+                Thread.sleep(5000);
             }catch (Exception e){
                 e.printStackTrace();
             }
+            log.add("\n");
+            log.add("\n");
+            log.add("\n");
             curGame ++;
         }
     }
 
-    //for 閿︽爣璧�
+    //for T
     public void autoOneTurn(int curGame){
         log.add(getCurPlayerNameWithColor() + "Start Reinforce");
-        getCurPlayer().autoReinforce();//澧炲姞涓�涓嚜鍔ㄦ崲鐗屾搷浣�
+        getCurPlayer().autoReinforce();//need to add auto exchange card
         log.add(getCurPlayerNameWithColor() + "Start Attack");
         if(getCurPlayer().autoAttack()){
             String winner = getCurPlayerNameWithColor();
@@ -852,6 +875,8 @@ public class PlayerEngine {
 
 
     public void resetForNextGame(){
+        map.resetCountries();
+        resetPlayers();
         state = GameState.REINFORCE;
         currentPlayer = 0;
         round = 0;
@@ -861,6 +886,12 @@ public class PlayerEngine {
     }
 
 
+    public void resetPlayers(){
+        for(Player player : playerList){
+            player.resetPlayer();
+        }
+    }
+
     /**
      * restart the game
      */
@@ -869,6 +900,14 @@ public class PlayerEngine {
         playerList.clear();
         currentPlayer = 0;
         state = GameState.EDITMAP;
+        numberofplayers = 0;
+        getCardFlag = false;
+        cardChangeFlage = false;
+        reinforceFlag = false;
+        initialArmyNum = 0 ;
+        gameNum = 0;
+        maxRoundNum = 0;
+        round = 0;
     }
 
     /**
@@ -899,6 +938,59 @@ public class PlayerEngine {
             }
         }
         return message;
+    }
+
+    public void gameSave(){
+        String gameInfo = "";
+       String mapInfo = map.mapInfo();
+
+       String playersInfo = "";
+       for(Player player : playerList){
+           playersInfo = playersInfo + player.playerSave() +"\n";
+       }
+
+       String countrysInfo = "";
+       for(Country country : map.getAllCountries()){
+           countrysInfo = countrysInfo + country.countrySave() + "\n";
+       }
+
+       String gameStateInfo = "gameState = " +state.name();
+       String currentPlayerInfo = "currentPlayer = "+ currentPlayer;
+       String initialArmyNumInfo = "initialArmyNum = " + initialArmyNum;
+       String roundInfo = "round = "+round;
+       String cardChangeFlageInfo = "cardChangeFlage = "+ cardChangeFlage;
+       String reinforceFlagInfo = "reinforceFlag = "+ reinforceFlag;
+       String getCardFlagInfo = "getCardFlag = " + getCardFlag;
+
+       gameInfo = mapInfo + "\n"
+               +"[Players]\n"
+               + playersInfo + "\n"
+//               +"[Countries]\n"
+//               + countrysInfo + "\n"
+               +"[GameSate]\n"
+               + gameStateInfo + "\n"
+               + currentPlayerInfo + "\n"
+               + initialArmyNumInfo + "\n"
+               + roundInfo + "\n"
+               + cardChangeFlageInfo + "\n"
+               + reinforceFlagInfo + "\n"
+               + getCardFlagInfo + "\n";
+
+       System.out.println(gameInfo);
+
+        File outFile = new File("GameInfo.game");
+        if (outFile.exists()) {
+            outFile.delete();
+        }
+
+        try{
+            outFile.createNewFile();
+            FileOutputStream outStream = new FileOutputStream("GameInfo.game", true);
+            outStream.write(gameInfo.getBytes());
+            outStream.close();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 }
 

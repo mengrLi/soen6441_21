@@ -146,6 +146,7 @@ public class PanelController {
 
                 int numberOfTurns = Integer.parseInt(tournamentPanel.turncombo.getSelectedItem().toString());
                 System.out.println("numOfTurns:" + numberOfTurns);
+                game.maxRoundNum = numberOfTurns;
 
                 game.state = GameState.ASSIGNROLES;
                 SetActivePanel(assignTourRolesPanel);
@@ -194,8 +195,14 @@ public class PanelController {
         }
         else if(e.getSource()==assignTourRolesPanel.next){
             game.state = GameState.STARTUP;
-            game.AssignPlayers();
-            SetActivePanel(placearmypanel);
+            Runnable gameStart = ()-> {
+                game.autoPlay();
+            };
+            Thread thread = new Thread(gameStart);
+            thread.start();
+            //game.AssignPlayers();
+            //SetActivePanel(placearmypanel);
+            SetActivePanel(reinforcepanel);
 
         }
         else if(e.getSource()==assignTourRolesPanel.back)

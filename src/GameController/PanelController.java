@@ -19,6 +19,7 @@ import MapView.*;
 /**
  * This is a game controller class,
  * used to control game state match with panel version and control button function in panels.
+ *
  * @author: Mengran Li
  */
 
@@ -36,14 +37,15 @@ public class PanelController {
     public static SimPanel simpanel = new SimPanel();
     public static ChooseModePanel chooseModePanel = new ChooseModePanel();
     public static TournamentPanel tournamentPanel = new TournamentPanel();
-    public AssignTourRolesPanel assignTourRolesPanel=new AssignTourRolesPanel();
+    public AssignTourRolesPanel assignTourRolesPanel = new AssignTourRolesPanel();
+    public StartTournamentPanel startTournamentPanel = new StartTournamentPanel();
 
 
     public PanelController(PlayerEngine game) {
         this.game = game;
         chooseModePanel.panel.setVisible(true);
         mainpanel = new JPanel();
-        version= new JPanel(new CardLayout());
+        version = new JPanel(new CardLayout());
 
         GridBagConstraints c = new GridBagConstraints();
 
@@ -56,6 +58,7 @@ public class PanelController {
         version.add(reinforcepanel.panel);
         version.add(tournamentPanel.panel);
         version.add(assignTourRolesPanel.panel);
+        version.add(startTournamentPanel.panel);
 
         c.fill = GridBagConstraints.HORIZONTAL;
         mainpanel.setLayout(new GridBagLayout());
@@ -63,7 +66,7 @@ public class PanelController {
 
         c.gridx = 0;
         c.gridy = 0;
-       // c.gridwidth = 1;
+        // c.gridwidth = 1;
         mainpanel.add(version, c);
         c.gridx = 0;
         c.gridy = 1;
@@ -94,6 +97,7 @@ public class PanelController {
         reinforcepanel.SetVisible(false);
         tournamentPanel.SetVisible(false);
         assignTourRolesPanel.SetVisible(false);
+        startTournamentPanel.SetVisible(false);
 
         panel.SetVisible(true);
     }
@@ -113,44 +117,47 @@ public class PanelController {
      */
 
     public void ActionPerformed(ActionEvent e) {
-        if(e.getSource()==chooseModePanel.Single_Game_Mode)
-        {
-            game.state=GameState.EDITMAP;
+        if (e.getSource() == chooseModePanel.Single_Game_Mode) {
+            game.state = GameState.EDITMAP;
             SetActivePanel(editpanel);
-        }
-        else if(e.getSource()==chooseModePanel.Tournament_Mode)
-        {
+        } else if (e.getSource() == chooseModePanel.Tournament_Mode) {
 
-            SetActivePanel(tournamentPanel);
-        }
-        else if(e.getSource()==tournamentPanel.back)
-        {
-            game.state=GameState.CHOOSEMODEL;
-            SetActivePanel(chooseModePanel);
-        }
-        else if(e.getSource()==tournamentPanel.selectMap)
-        {
-            String loadInfo = map.Load();
-            log.add(loadInfo);
-        }
-        else if(e.getSource()==tournamentPanel.next)
-        {
+            SetActivePanel(startTournamentPanel);
+        } else if (e.getSource() == startTournamentPanel.next) {
             String checkInfo = map.checkMapValidation("load");
             System.out.println(" checkMapValidation next" + map.checkMapValidation("load"));
             log.add(checkInfo);
             if (checkInfo.equals("Map is successfully connected!")) {
+                int numOfGames = Integer.parseInt(startTournamentPanel.gamecombo.getSelectedItem().toString());
+                System.out.println("numOfPlayers:" + numOfGames);
+                //todo
 
-                int numOfPlayers = Integer.parseInt(tournamentPanel.playercombo.getSelectedItem().toString());
-                System.out.println("numOfPlayers:" + numOfPlayers);
-                game.setPlayerList(numOfPlayers);
-
-                int numberOfTurns = Integer.parseInt(tournamentPanel.turncombo.getSelectedItem().toString());
-                System.out.println("numOfTurns:" + numberOfTurns);
-                game.maxRoundNum = numberOfTurns;
-
-                game.state = GameState.ASSIGNROLES;
-                SetActivePanel(assignTourRolesPanel);
+                SetActivePanel(tournamentPanel);
             }
+        } else if (e.getSource() == startTournamentPanel.back) {
+            game.state = GameState.CHOOSEMODEL;
+            SetActivePanel(chooseModePanel);
+        } else if (e.getSource() == startTournamentPanel.selectMap) {
+            String loadInfo = map.Load();
+            log.add(loadInfo);
+        } else if (e.getSource() == tournamentPanel.back) {
+            SetActivePanel(startTournamentPanel);
+
+        }
+
+        else if (e.getSource() == tournamentPanel.next) {
+
+            int numOfPlayers = Integer.parseInt(tournamentPanel.playercombo.getSelectedItem().toString());
+            System.out.println("numOfPlayers:" + numOfPlayers);
+            game.setPlayerList(numOfPlayers);
+
+            int numberOfTurns = Integer.parseInt(tournamentPanel.turncombo.getSelectedItem().toString());
+            System.out.println("numOfTurns:" + numberOfTurns);
+            game.maxRoundNum = numberOfTurns;
+
+            game.state = GameState.ASSIGNROLES;
+            SetActivePanel(assignTourRolesPanel);
+
         }
 
         if (e.getSource() == editpanel.clear) {
@@ -166,10 +173,8 @@ public class PanelController {
         } else if (e.getSource() == editpanel.load) {
             String loadInfo = map.Load();
             log.add(loadInfo);
-        }
-        else if(e.getSource()==editpanel.back)
-        {
-            game.state=GameState.CHOOSEMODEL;
+        } else if (e.getSource() == editpanel.back) {
+            game.state = GameState.CHOOSEMODEL;
             SetActivePanel(chooseModePanel);
         }
 
@@ -182,35 +187,23 @@ public class PanelController {
             game.state = GameState.ASSIGNROLES;
             SetActivePanel(assignRolesPanel);
 
-        } else if(e.getSource()==assignRolesPanel.next){
+        } else if (e.getSource() == assignRolesPanel.next) {
             game.state = GameState.STARTUP;
             game.AssignPlayers();
             SetActivePanel(placearmypanel);
 
-        }
-        else if(e.getSource()==assignRolesPanel.back)
-        {
-            game.state=GameState.CHOOSEPLAYER;
+        } else if (e.getSource() == assignRolesPanel.back) {
+            game.state = GameState.CHOOSEPLAYER;
             SetActivePanel(assignplayerpanel);
-        }
-        else if(e.getSource()==assignTourRolesPanel.next){
+        } else if (e.getSource() == assignTourRolesPanel.next) {
             game.state = GameState.STARTUP;
-            Runnable gameStart = ()-> {
-                game.autoPlay();
-            };
-            Thread thread = new Thread(gameStart);
-            thread.start();
-            //game.AssignPlayers();
-            //SetActivePanel(placearmypanel);
-            SetActivePanel(reinforcepanel);
+            game.AssignPlayers();
+            SetActivePanel(placearmypanel);
 
-        }
-        else if(e.getSource()==assignTourRolesPanel.back)
-        {
+        } else if (e.getSource() == assignTourRolesPanel.back) {
 
             SetActivePanel(tournamentPanel);
-        }
-        else if (e.getSource() == assignplayerpanel.back) {
+        } else if (e.getSource() == assignplayerpanel.back) {
             game.state = GameState.EDITMAP;
             SetActivePanel(editpanel);
 
@@ -229,7 +222,7 @@ public class PanelController {
             SetActivePanel(reinforcepanel);
             simpanel.enable();
             //if the first player is computer, auto play the game
-            Runnable gameStart = ()-> {
+            Runnable gameStart = () -> {
                 game.gameStart();
             };
             Thread thread = new Thread(gameStart);
@@ -259,34 +252,31 @@ public class PanelController {
             System.out.println("fortify");
 
 
-        }
-        else if(e.getSource()==assignRolesPanel.button1) //set
-        {   assignRolesPanel.label.setText(game.getCurPlayer().getName());
-            String strategyName=assignRolesPanel.combo.getSelectedItem().toString();
-            System.out.println("strategyName ;" +strategyName);
-            int playerID=game.getCurPlayer().getID();
-            System.out.println("playerID ;" +playerID);
-            game.setPlayerStrategy(playerID,strategyName);
+        } else if (e.getSource() == assignRolesPanel.button1) //set
+        {
+            assignRolesPanel.label.setText(game.getCurPlayer().getName());
+            String strategyName = assignRolesPanel.combo.getSelectedItem().toString();
+            System.out.println("strategyName ;" + strategyName);
+            int playerID = game.getCurPlayer().getID();
+            System.out.println("playerID ;" + playerID);
+            game.setPlayerStrategy(playerID, strategyName);
 
             game.getNextPlayer();
             assignRolesPanel.label.setText(game.getCurPlayer().getName());
-        }
-        else if(e.getSource()==assignTourRolesPanel.button1) //set
-        {   assignTourRolesPanel.label.setText(game.getCurPlayer().getName());
-            String strategyName=assignTourRolesPanel.combo.getSelectedItem().toString();
-            System.out.println("strategyName ;" +strategyName);
-            int playerID=game.getCurPlayer().getID();
-            System.out.println("playerID ;" +playerID);
-            game.setPlayerStrategy(playerID,strategyName);
+        } else if (e.getSource() == assignTourRolesPanel.button1) //set
+        {
+            assignTourRolesPanel.label.setText(game.getCurPlayer().getName());
+            String strategyName = assignTourRolesPanel.combo.getSelectedItem().toString();
+            System.out.println("strategyName ;" + strategyName);
+            int playerID = game.getCurPlayer().getID();
+            System.out.println("playerID ;" + playerID);
+            game.setPlayerStrategy(playerID, strategyName);
 
             game.getNextPlayer();
             assignTourRolesPanel.label.setText(game.getCurPlayer().getName());
-        }
-
-
-        else if (e.getSource() == reinforcepanel.button) {
+        } else if (e.getSource() == reinforcepanel.button) {
             game.state = GameState.CHOOSECARD;
-            Runnable nextPlayer = ()-> {
+            Runnable nextPlayer = () -> {
                 game.turnToNextPlayer();
             };
             Thread thread = new Thread(nextPlayer);
@@ -327,6 +317,7 @@ public class PanelController {
         assignRolesPanel.button1.addActionListener(e);
         assignTourRolesPanel.button1.addActionListener(e);
         assignTourRolesPanel.AddActionListener(e);
+        startTournamentPanel.AddActionListener(e);
     }
 
 }

@@ -14,19 +14,19 @@ import java.awt.event.ActionListener;
  **/
 public class TournamentPanel extends aPanel {
 
-    public JButton selectMap;
+   // public JButton selectMap;
     public JLabel chooseplayernum;
     public JComboBox playercombo;
     public JLabel chooseturns;
     public JComboBox turncombo;
 
     public TournamentPanel() {
-        selectMap = new JButton("Select Map");
+       // selectMap = new JButton("Select Map");
        // clear = new JButton("Clear");
         //save = new JButton("Save");
         //loadGame = new JButton("loadGame");
         center.remove(label);
-        left.add(selectMap);
+       // left.add(selectMap);
         String data[] = {"2", "3", "4", "5"};
         chooseplayernum = new JLabel("Choose Players: ");
         playercombo = new JComboBox(data);
@@ -47,7 +47,7 @@ public class TournamentPanel extends aPanel {
      */
     public void AddActionListener(ActionListener e) {
         super.AddActionListener(e);
-        selectMap.addActionListener(e);
+      //  selectMap.addActionListener(e);
 
     }
 

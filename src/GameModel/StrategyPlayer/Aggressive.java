@@ -8,7 +8,8 @@ import MapModel.Map;
 import java.util.*;
 
 /**
- * Created by liaoxiaoyun on 2019-03-30.
+ * @author anhen This class is used to implement the aggressive strategy Created
+ *         by liaoxiaoyun on 2019-03-30.
  */
 public class Aggressive implements Strategy {
 	public String strategyName = "Aggressive";
@@ -26,6 +27,7 @@ public class Aggressive implements Strategy {
 
 	public void autoReinforce(Player curPlayer) {
 		if (state == GameState.REINFORCE) {
+			curPlayer.setArmyList(curPlayer.getArmyList().size());
 			int max = 0;
 			Country reinCountry = null;
 			for (Country c : curPlayer.getCountriesOwned()) {

@@ -215,7 +215,6 @@ public class PlayerEngine {
                 log.add("Finished army placement");
                 //state = GameState.REINFORCE;
                 currentPlayer = 0;
-                gameSave();
             }
             return false;
         }else {
@@ -991,6 +990,9 @@ public class PlayerEngine {
         }catch (Exception e){
             e.printStackTrace();
         }
+
+        log.add("Game Saved");
     }
+
 }
 

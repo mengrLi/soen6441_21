@@ -12,12 +12,15 @@ public class EditPanel extends aPanel {
     public JButton load;
     public JButton clear;
     public JButton save;
+    public JButton loadGame;
 
     public EditPanel() {
         load = new JButton("Load");
         clear = new JButton("Clear");
         save = new JButton("Save");
+        loadGame = new JButton("loadGame");
         center.remove(label);
+        center.add(loadGame);
         center.add(load);
         center.add(clear);
         center.add(save);
@@ -33,5 +36,6 @@ public class EditPanel extends aPanel {
         load.addActionListener(e);
         clear.addActionListener(e);
         save.addActionListener(e);
+        loadGame.addActionListener(e);
     }
 }

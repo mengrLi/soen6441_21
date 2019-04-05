@@ -9,9 +9,11 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JPanel;
 
+import GameModel.GameLoad;
 import GameModel.PlayerEngine;
 import GameModel.GameState;
 import GameView.*;
+import GameView.StartTournamentPanel;
 import MapController.Canvas;
 import MapModel.Map;
 import MapView.*;
@@ -37,7 +39,8 @@ public class PanelController {
     public static SimPanel simpanel = new SimPanel();
     public static ChooseModePanel chooseModePanel = new ChooseModePanel();
     public static TournamentPanel tournamentPanel = new TournamentPanel();
-    public AssignTourRolesPanel assignTourRolesPanel = new AssignTourRolesPanel();
+
+    public AssignTourRolesPanel assignTourRolesPanel=new AssignTourRolesPanel();
     public StartTournamentPanel startTournamentPanel = new StartTournamentPanel();
 
 
@@ -120,8 +123,10 @@ public class PanelController {
         if (e.getSource() == chooseModePanel.Single_Game_Mode) {
             game.state = GameState.EDITMAP;
             SetActivePanel(editpanel);
-        } else if (e.getSource() == chooseModePanel.Tournament_Mode) {
 
+        }
+        else if(e.getSource()==chooseModePanel.Tournament_Mode)
+        {
             SetActivePanel(startTournamentPanel);
         } else if (e.getSource() == startTournamentPanel.next) {
             String checkInfo = map.checkMapValidation("load");
@@ -132,8 +137,8 @@ public class PanelController {
                 System.out.println("numOfPlayers:" + numOfGames);
                 //todo
 
-                SetActivePanel(tournamentPanel);
-            }
+            SetActivePanel(tournamentPanel);
+        }
         } else if (e.getSource() == startTournamentPanel.back) {
             game.state = GameState.CHOOSEMODEL;
             SetActivePanel(chooseModePanel);
@@ -142,11 +147,9 @@ public class PanelController {
             log.add(loadInfo);
         } else if (e.getSource() == tournamentPanel.back) {
             SetActivePanel(startTournamentPanel);
-
         }
-
-        else if (e.getSource() == tournamentPanel.next) {
-
+        else if(e.getSource()==tournamentPanel.next)
+        {
             int numOfPlayers = Integer.parseInt(tournamentPanel.playercombo.getSelectedItem().toString());
             System.out.println("numOfPlayers:" + numOfPlayers);
             game.setPlayerList(numOfPlayers);
@@ -157,7 +160,6 @@ public class PanelController {
 
             game.state = GameState.ASSIGNROLES;
             SetActivePanel(assignTourRolesPanel);
-
         }
 
         if (e.getSource() == editpanel.clear) {
@@ -177,7 +179,20 @@ public class PanelController {
             game.state = GameState.CHOOSEMODEL;
             SetActivePanel(chooseModePanel);
         }
-
+        //========================================= game load and save ============================================
+        else if(e.getSource()==editpanel.loadGame)
+        {
+            GameLoad gameload = new GameLoad();
+            gameload.Loading("GameInfo.game");
+            log.add("Now current player is " + game.getCurPlayerNameWithColor());
+            log.add(game.state.name());
+            SetActivePanel(placearmypanel);
+        }
+        else if(e.getSource()==simpanel.savebutton)
+        {// nonepointererror
+            game.gameSave();
+        }
+        //========================================= game load and save ============================================
 
         if (e.getSource() == assignplayerpanel.next) {
             int numOfPlayers = Integer.parseInt(assignplayerpanel.combo.getSelectedItem().toString());
@@ -313,6 +328,7 @@ public class PanelController {
         simpanel.movebutton.addActionListener(e);
         simpanel.attackbutton.addActionListener(e);
         simpanel.choosecardbutton.addActionListener(e);
+        simpanel.savebutton.addActionListener(e);
         reinforcepanel.button.addActionListener(e);
         assignRolesPanel.button1.addActionListener(e);
         assignTourRolesPanel.button1.addActionListener(e);

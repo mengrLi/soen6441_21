@@ -523,17 +523,22 @@ public class Map extends Observable {  //
 
         String countryInfo = "";
         for (Continent continent : getAllContinent()) {
+            //System.out.println("map save info - all continent:  " + getAllContinent());
             String cinfo = "";
             for (Country country : continent.getCountryList()) {
+               // System.out.println("map save info - continent.getCountryList():  " + continent.getCountryList());
 
-                cinfo = country.getName() + "," + country.getX() + "," + country.getY() + "," + country.getContinent().getName();
+               String cntryInfo = country.getName() + "," + country.getX() + "," + country.getY() + "," + country.getContinent().getName();
+                System.out.println(cinfo);
                 Collection<String> countryList = connectionMap.get(country.getName());
 
                 for (String contiguousCountry : countryList) {
-                    cinfo = cinfo + "," + contiguousCountry.toString();
+                    cntryInfo = cntryInfo + "," + contiguousCountry.toString();
                 }
+
+                cinfo = cinfo + cntryInfo + "\n";
             }
-            countryInfo = countryInfo + cinfo + "\r\n";
+            countryInfo = countryInfo +"\n"+ cinfo + "\r\n";
         }
 
 

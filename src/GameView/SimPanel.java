@@ -23,6 +23,7 @@ public class SimPanel {
     public JButton reinforcebutton;
     public JButton attackbutton;
     public JButton choosecardbutton;
+    public JButton savebutton;
     public JPanel mainpanel;
 
 
@@ -31,12 +32,14 @@ public class SimPanel {
         reinforcebutton = new JButton("Reinforce");
         attackbutton = new JButton("Attack");
         choosecardbutton = new JButton("Choose Card");
+        savebutton=new JButton("SaveGame");
         grid1 = new GridLayout(1, 3);
         JPanel center = new JPanel();
         center.add(choosecardbutton);
         center.add(reinforcebutton);
         center.add(attackbutton);
         center.add(movebutton);
+        center.add(savebutton);
         mainpanel = new JPanel(grid1);
         mainpanel.add(center);
         Color test = Theme.color;

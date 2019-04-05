@@ -361,7 +361,7 @@ public class Country {
 
     @Override
     public String toString() {
-        String info = ID + "-" + name + "-" + X + "," + Y;
+        String info = ID + "-" + name + "-" + X + "," + Y + "," + player;
 
         return info;
     }

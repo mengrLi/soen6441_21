@@ -334,8 +334,9 @@ public class Player {
 
     @Override
     public String toString() {
-        System.out.println(ID + "-" + name);
-        return ID + "-" + name;
+        String info = ID + "-" + name + "-" + isAlive;
+        //System.out.println(info);
+        return info;
     }
 
     public void autoReinforce(){
@@ -369,12 +370,15 @@ public class Player {
         countryInfo = countryInfo.trim();
         System.out.println("countryInfo : "+ countryInfo);
 
+        String strategyName = getStrategy() != null ? getStrategy().getClass().getSimpleName() : "Human";
+
         info =    ID + ","
                 + name + ","
                 + cardInfo + ","
                 + countryInfo + ","
-                + getArmyList().size() + ","
-                + getStrategy() != null ? getStrategy().getClass().getSimpleName() : "Human";
+                + isAlive + ","
+                + strategyName;
+        System.out.println("player info :" + info);
         return info;
     }
 

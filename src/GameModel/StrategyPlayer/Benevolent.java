@@ -11,10 +11,10 @@ import MapModel.Map;
  * This is the strategy for Benevolent
  */
 public class  Benevolent implements Strategy{
-	public String strategyName = "Cheater";
+	public String strategyName = "Benevolent";
 	private PlayerEngine playerEngine;
 	private Map map= Map.getMapInstance();
-
+	public static GameState state;
 
 	/**
 	 * Constructor
@@ -37,11 +37,11 @@ public class  Benevolent implements Strategy{
      * Auto reinforce phase for Benevolent
      */
     public void autoReinforce(Player curPlayer){
-    	
+    	playerEngine.state=GameState.REINFORCE;
     	int reinforcementArmyNumber = curPlayer.getNumberOfArmy();
 		int min = Integer.MAX_VALUE;
 		Country country = null;
-		
+		curPlayer.setArmyList(reinforcementArmyNumber);
 		for(Country c:curPlayer.getCountriesOwned()) {
 			if(c.getArmiesNum()<min) {
 				country = c;
@@ -54,6 +54,7 @@ public class  Benevolent implements Strategy{
 				country.AddArmy();
 			}
 		}
+     
     };
 
     
@@ -71,6 +72,7 @@ public class  Benevolent implements Strategy{
      * Auto fortify phase for Benevolent
      */
     public void autoFortify(Player curPlayer){	
+    	playerEngine.state=GameState.FORTIFY;
         HashMap <Country, ArrayList<Country>> connectedCountryList = new HashMap<Country, ArrayList<Country>>();
         ArrayList<Country> NeighborCtry=new ArrayList<Country>();
 		for (Country c:curPlayer.getCountriesOwned()) {
@@ -121,6 +123,7 @@ public class  Benevolent implements Strategy{
 				fromCountry.moveOutOneArmy(toCountry);
 			}
 		}	
-    }
+     }
+    
 }
 

@@ -42,6 +42,9 @@ public class PanelController {
 
     public AssignTourRolesPanel assignTourRolesPanel=new AssignTourRolesPanel();
     public StartTournamentPanel startTournamentPanel = new StartTournamentPanel();
+    public AutoPlayPanel autoPlayPanel=new AutoPlayPanel();
+    public SelectMapNumPanel selectMapNumPanel =new SelectMapNumPanel();
+    public SelectMapPanel selectMapPanel=new SelectMapPanel();
 
 
     public PanelController(PlayerEngine game) {
@@ -62,6 +65,9 @@ public class PanelController {
         version.add(tournamentPanel.panel);
         version.add(assignTourRolesPanel.panel);
         version.add(startTournamentPanel.panel);
+        version.add(autoPlayPanel.panel);
+        version.add(selectMapNumPanel.panel);
+        version.add(selectMapPanel.panel);
 
         c.fill = GridBagConstraints.HORIZONTAL;
         mainpanel.setLayout(new GridBagLayout());
@@ -101,6 +107,9 @@ public class PanelController {
         tournamentPanel.SetVisible(false);
         assignTourRolesPanel.SetVisible(false);
         startTournamentPanel.SetVisible(false);
+        autoPlayPanel.SetVisible(false);
+        selectMapNumPanel.SetVisible(false);
+        selectMapPanel.SetVisible(false);
 
         panel.SetVisible(true);
     }
@@ -127,24 +136,43 @@ public class PanelController {
         }
         else if(e.getSource()==chooseModePanel.Tournament_Mode)
         {
+            SetActivePanel(selectMapNumPanel);
+        }
+        else if(e.getSource()== selectMapNumPanel.next)
+        {
+            int mapNumber=Integer.parseInt(selectMapNumPanel.combo.getSelectedItem().toString());
+            System.out.println(mapNumber);
+            game.numberofmaps=mapNumber;
+            SetActivePanel(selectMapPanel);
+
+        }
+        else if(e.getSource()==selectMapPanel.next)
+        {
+
             SetActivePanel(startTournamentPanel);
-        } else if (e.getSource() == startTournamentPanel.next) {
-            String checkInfo = map.checkMapValidation("load");
-            System.out.println(" checkMapValidation next" + map.checkMapValidation("load"));
-            log.add(checkInfo);
-            if (checkInfo.equals("Map is successfully connected!")) {
-                int numOfGames = Integer.parseInt(startTournamentPanel.gamecombo.getSelectedItem().toString());
-                System.out.println("numOfPlayers:" + numOfGames);
-                //todo
+        }
+        else if(e.getSource()==selectMapPanel.select)
+        {
+            String loadInfo = game.TourMapLoad();
+            log.add(loadInfo);
+        }
+        else if (e.getSource() == startTournamentPanel.next) {
+            //   String checkInfo = map.checkMapValidation("load");
+            //   System.out.println(" checkMapValidation next" + map.checkMapValidation("load"));
+            //   log.add(checkInfo);
+            //   if (checkInfo.equals("Map is successfully connected!")) {
+            int numOfGames = Integer.parseInt(startTournamentPanel.gamecombo.getSelectedItem().toString());
+            System.out.println("numOfPlayers:" + numOfGames);
+            game.gameNum=numOfGames;
 
             SetActivePanel(tournamentPanel);
-        }
+
         } else if (e.getSource() == startTournamentPanel.back) {
             game.state = GameState.CHOOSEMODEL;
             SetActivePanel(chooseModePanel);
-        } else if (e.getSource() == startTournamentPanel.selectMap) {
-            String loadInfo = map.Load();
-            log.add(loadInfo);
+//        } else if (e.getSource() == startTournamentPanel.selectMap) {
+//            String loadInfo = map.Load();
+//            log.add(loadInfo);
         } else if (e.getSource() == tournamentPanel.back) {
             SetActivePanel(startTournamentPanel);
         }
@@ -183,14 +211,15 @@ public class PanelController {
         else if(e.getSource()==editpanel.loadGame)
         {
             GameLoad gameload = new GameLoad();
-            gameload.Loading("GameInfo.game");
+            gameload.LoadGame();
             log.add("Now current player is " + game.getCurPlayerNameWithColor());
             log.add(game.state.name());
-            SetActivePanel(placearmypanel);
+            SetActivePanel(reinforcepanel);
+            simpanel.enable();
         }
         else if(e.getSource()==simpanel.savebutton)
         {// nonepointererror
-            game.gameSave();
+            game.save();
         }
         //========================================= game load and save ============================================
 
@@ -211,9 +240,12 @@ public class PanelController {
             game.state = GameState.CHOOSEPLAYER;
             SetActivePanel(assignplayerpanel);
         } else if (e.getSource() == assignTourRolesPanel.next) {
-            game.state = GameState.STARTUP;
-            game.AssignPlayers();
-            SetActivePanel(placearmypanel);
+            Runnable gameStart = ()-> {
+                game.autoPlay();
+            };
+            Thread thread = new Thread(gameStart);
+            thread.start();
+            SetActivePanel(autoPlayPanel);
 
         } else if (e.getSource() == assignTourRolesPanel.back) {
 
@@ -334,6 +366,10 @@ public class PanelController {
         assignTourRolesPanel.button1.addActionListener(e);
         assignTourRolesPanel.AddActionListener(e);
         startTournamentPanel.AddActionListener(e);
+        autoPlayPanel.AddActionListener(e);
+        selectMapNumPanel.AddActionListener(e);
+        selectMapPanel.AddActionListener(e);
+        selectMapPanel.select.addActionListener(e);
     }
 
 }

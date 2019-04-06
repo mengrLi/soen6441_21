@@ -4,10 +4,10 @@ import GameModel.StrategyPlayer.*;
 import MapModel.Map;
 //import com.sun.java.util.jar.pack.Instruction;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import java.awt.*;
+import java.io.*;
 import java.security.PublicKey;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -278,4 +278,39 @@ public class GameLoad {
         }
     }
 
+
+    public String LoadGame() {
+        // TODO Auto-generated method stub
+        String rtnMessage = " Load game successfully";
+        JFrame frm = new JFrame("Load game");
+        frm.setAlwaysOnTop(true);
+        JPanel p = new JPanel();
+        JFileChooser fc = new JFileChooser();
+        Container c = frm.getContentPane();
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("game file", "game");
+        fc.setFileFilter(filter);
+        File f;
+        int flag = 0;
+
+        c.setLayout(new FlowLayout());
+        c.add(p);
+        fc.setDialogTitle("Open File");
+
+        try {
+            File filedir = new File("/Users/mengranli/Desktop/6441-build3_2/");
+            fc.setCurrentDirectory(filedir);
+            flag = fc.showOpenDialog(frm);
+        } catch (HeadlessException head) {
+            System.out.println("Open File Dialog ERROR!");
+        }
+
+        if (flag == JFileChooser.APPROVE_OPTION) {
+            f = fc.getSelectedFile();
+            String fileName = fc.getCurrentDirectory() + "/" + fc.getName(f);
+
+
+            rtnMessage = Loading(fileName);
+        }
+        return rtnMessage;
+    }
 }

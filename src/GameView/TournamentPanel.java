@@ -32,7 +32,7 @@ public class TournamentPanel extends aPanel {
         playercombo = new JComboBox(data);
         center.add(chooseplayernum);
         center.add(playercombo);
-        String turnsdata[]={"10","20","30","40","50"};
+        String turnsdata[]={"5","10","20","30","40","50"};
         chooseturns = new JLabel("Choose Turns: ");
         turncombo = new JComboBox(turnsdata);
         center.add(chooseturns);

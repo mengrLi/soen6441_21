@@ -42,6 +42,7 @@ public class PlayerEngine {
     public static boolean reinforceFlag = false;
     public static int gameNum = 0; // for tournament
     public static int maxRoundNum = 0;// for tournament
+    public static int defaultMaxRound = 20; // for single game
 
 
     /**
@@ -680,7 +681,7 @@ public class PlayerEngine {
             //check if the attacker owns all countries,if yes, then game finished.
             if (attacked.getCountriesOwned().size() == map.getAllCountries().size()) {
                 state = GameState.END;
-                log.add(getCurPlayerNameWithColor() + " wined the game!");
+                log.add("=====" + getCurPlayerNameWithColor() + " wined the game! =====");
                 return;
             } else if (attackerCtry.getArmiesNum() > 1) {
                 //attacker move a army to defender country
@@ -726,6 +727,11 @@ public class PlayerEngine {
      * next button function, turn to next player
      */
     public void turnToNextPlayer() {
+        if(round == defaultMaxRound){
+            log.add("=====  Game Stop =====");
+            log.add("=====  Drawn =====");
+            return;
+        }
         System.out.println("gameState :" + state);
         System.out.println("currentPlayer :" + getCurPlayerNameWithColor());
         //reset card flag
@@ -818,7 +824,7 @@ public class PlayerEngine {
             //single map
             int curGame = 0;
             while (curGame < gameNum) {
-                log.add("Game " + curGame + ": Start!");
+                log.add("===== Game " + curGame + ": Start! =====");
                 //reset
                 resetForNextGame();
                 //start up
@@ -840,7 +846,7 @@ public class PlayerEngine {
                     turnToNextPlayerT(curGame);
                 }
                 if (round == maxRoundNum && state != GameState.END) {
-                    log.add("Game " + curGame + ": drawn");
+                    log.add("=====  Game " + curGame + ": drawn =====");
                 }
 
                 try {
@@ -863,7 +869,7 @@ public class PlayerEngine {
         log.add(getCurPlayerNameWithColor() + "Start Attack");
         if (getCurPlayer().autoAttack()) {
             String winner = getCurPlayerNameWithColor();
-            log.add("Game " + curGame + ":" + winner + "winned");
+            log.add("===== Game " + curGame + ":" + winner + "winned =====");
             curGame++;
             return;
         }
@@ -879,7 +885,7 @@ public class PlayerEngine {
         log.add(getCurPlayerNameWithColor() + "Start Attack");
         if (getCurPlayer().autoAttack()) {
             String winner = getCurPlayerNameWithColor();
-            log.add(winner + "winned");
+            log.add("===== "+winner + " : winned ======");
             return;
         }
         ;

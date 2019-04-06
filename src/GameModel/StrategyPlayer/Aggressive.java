@@ -26,42 +26,42 @@ public class Aggressive implements Strategy {
 	}
 
 	public void autoReinforce(Player curPlayer) {
-		if (state == GameState.REINFORCE) {
-			curPlayer.setArmyList(curPlayer.getArmyList().size());
-			int max = 0;
-			Country reinCountry = null;
-			for (Country c : curPlayer.getCountriesOwned()) {
-				if (c.getArmiesNum() > max) {
-					reinCountry = c;
-					max = c.getArmiesNum();
-				}
-			}
-			for (int i = 0; i < curPlayer.getNumberOfArmy(); i++) {
-				reinCountry.AddArmy();
+//		if (state == GameState.REINFORCE) {
+		curPlayer.setArmyList(curPlayer.getArmyList().size());
+		int max = 0;
+		Country reinCountry = null;
+		for (Country c : curPlayer.getCountriesOwned()) {
+			if (c.getArmiesNum() > max) {
+				reinCountry = c;
+				max = c.getArmiesNum();
 			}
 		}
+		for (int i = 0; i < curPlayer.getNumberOfArmy(); i++) {
+			reinCountry.AddArmy();
+		}
+//		}
 
 	};
 
 	public boolean autoAttack(Player curPlayer) {
-		if (state == GameState.ATTACK) {
-			int max = 0;
-			Country attackCountry = null;
-			for (Country c : curPlayer.getCountriesOwned()) {
-				if (c.getArmiesNum() > max) {
-					attackCountry = c;
-					max = c.getArmiesNum();
-				}
+//		if (state == GameState.ATTACK) {
+		int max = 0;
+		Country attackCountry = null;
+		for (Country c : curPlayer.getCountriesOwned()) {
+			if (c.getArmiesNum() > max) {
+				attackCountry = c;
+				max = c.getArmiesNum();
 			}
-			ArrayList<Country> contiguousCountry = attackCountry.getcontiguousCountryList();
-			for (int i = 0; i < contiguousCountry.size(); i++) {
-				while (contiguousCountry != null && attackCountry.getArmiesNum() > 0) {
-					playerEngine.diceAll(attackCountry, contiguousCountry.get(i));
-					playerEngine.checkAfterAtteacked(attackCountry, contiguousCountry.get(i));
-				}
-			}
-
 		}
+		ArrayList<Country> contiguousCountry = attackCountry.getcontiguousCountryList();
+		for (int i = 0; i < contiguousCountry.size(); i++) {
+			if (contiguousCountry != null && attackCountry.getArmiesNum() > 1) {
+				playerEngine.diceAll(attackCountry, contiguousCountry.get(i));
+				playerEngine.checkAfterAtteacked(attackCountry, contiguousCountry.get(i));
+			}
+		}
+
+//		}
 
 		boolean ifWinned = false;
 		if (playerEngine.getCurrentState() == GameState.END)
@@ -70,23 +70,27 @@ public class Aggressive implements Strategy {
 	};
 
 	public void autoFortify(Player curPlayer) {
-		if (state == GameState.FORTIFY) {
-			int max = 0;
-			Country fortifyCountry = null;
-			for (Country c : curPlayer.getCountriesOwned()) {
-				if (c.getArmiesNum() > max) {
-					fortifyCountry = c;
-					max = c.getArmiesNum();
-				}
-			}
-			ArrayList<Country> contiguousCountry = fortifyCountry.getcontiguousCountryList();
-			for (int i = 0; i < contiguousCountry.size(); i++) {
-				while (contiguousCountry.get(i).getArmiesNum() > 1) {
-					int amyMoved = contiguousCountry.get(i).getArmiesNum() - 1;
-					playerEngine.moveArmyBetweenCountries(amyMoved, curPlayer, fortifyCountry,
-							contiguousCountry.get(i));
-				}
+//		if (state == GameState.FORTIFY) {
+		int max = 0;
+		Country strongestCountry = null;
+		for (Country c : curPlayer.getCountriesOwned()) {
+			if (c.getArmiesNum() > max) {
+				strongestCountry = c;
+				max = c.getArmiesNum();
 			}
 		}
+		ArrayList<Country> contiguousCountry = strongestCountry.getcontiguousCountryList();
+		if(contiguousCountry!=null) {
+			int i = 0;
+//			while()
+			}
+//		for (int i = 0; i < contiguousCountry.size(); i++) {
+//			while (contiguousCountry.get(i).getArmiesNum() > 1) {
+//				int amyMoved = contiguousCountry.get(i).getArmiesNum() - 1;
+//				playerEngine.moveArmyBetweenCountries(amyMoved, curPlayer, fortifyCountry, contiguousCountry.get(i));
+//			}
+//		}
+		
 	}
+//	}
 }

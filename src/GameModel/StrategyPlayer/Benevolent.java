@@ -64,7 +64,7 @@ public class  Benevolent implements Strategy{
     public boolean autoAttack(Player curPlayer){
     	
     	// do not attack
-    	return true;
+    	return false;
     };
 
     

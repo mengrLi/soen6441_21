@@ -216,6 +216,12 @@ public class PanelController {
             log.add(game.state.name());
             SetActivePanel(reinforcepanel);
             simpanel.enable();
+            Runnable gameStart = ()-> {
+                game.continueToplay();
+            };
+            Thread thread = new Thread(gameStart);
+            thread.start();
+
         }
         else if(e.getSource()==simpanel.savebutton)
         {// nonepointererror

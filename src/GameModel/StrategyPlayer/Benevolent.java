@@ -15,6 +15,7 @@ public class  Benevolent implements Strategy{
 	private PlayerEngine playerEngine;
 	private Map map= Map.getMapInstance();
 	public static GameState state;
+	public ArrayList<Country> notAvalibaleCountry = new ArrayList<>();
 
 	/**
 	 * Constructor
@@ -23,38 +24,42 @@ public class  Benevolent implements Strategy{
 		this.playerEngine = new PlayerEngine();
 
 	}
-    
-    /**
-     * Get the name of current strategy
-     * @return the name of strategy
-     */
-    public String getStrategyName() {
-    	return this.strategyName;
-    }
-    
-    
-    /**
-     * Auto reinforce phase for Benevolent
-     */
-    public void autoReinforce(Player curPlayer){
-    	playerEngine.state=GameState.REINFORCE;
-    	int reinforcementArmyNumber = curPlayer.getNumberOfArmy();
-		int min = Integer.MAX_VALUE;
-		Country country = null;
-		curPlayer.setArmyList(reinforcementArmyNumber);
-		for(Country c:curPlayer.getCountriesOwned()) {
-			if(c.getArmiesNum()<min) {
-				country = c;
-				min = c.getArmiesNum();
-			}
+
+	/**
+	 * Get the name of current strategy
+	 * @return the name of strategy
+	 */
+	public String getStrategyName() {
+		return this.strategyName;
+	}
+
+
+	/**
+	 * Auto reinforce phase for Benevolent
+	 */
+	public void autoReinforce(Player curPlayer){
+		//find weakest country
+		//the weakest country adjacent to enemy
+		//and army number is lowest
+		playerEngine.state=GameState.REINFORCE;
+		Country weakest = null;
+		weakest = curPlayer.getCountriesOwned().get(0);
+		for(Country country : curPlayer.getCountriesOwned()){
+			//if(country.contiguousBelongOthers()){
+				if(country.getArmiesNum() < weakest.getArmiesNum()){
+					weakest = country;
+				}
+			//}
 		}
-		
-		if(country!=null){
-			for (int i=0; i<reinforcementArmyNumber; i++) {
-				country.AddArmy();
-			}
+		System.out.println(" REINFORCE  weakest " + weakest);
+		notAvalibaleCountry.add(weakest);
+		//get REINFORCE number
+		int NumberOfArmy = curPlayer.getNumberOfArmy();
+		curPlayer.setArmyList(NumberOfArmy);
+		while (NumberOfArmy > 0){
+			weakest.AddArmy();
+			NumberOfArmy --;
 		}
-     
     };
 
     
@@ -67,63 +72,66 @@ public class  Benevolent implements Strategy{
     	return false;
     };
 
-    
-    /**
-     * Auto fortify phase for Benevolent
-     */
-    public void autoFortify(Player curPlayer){	
-    	playerEngine.state=GameState.FORTIFY;
-        HashMap <Country, ArrayList<Country>> connectedCountryList = new HashMap<Country, ArrayList<Country>>();
-        ArrayList<Country> NeighborCtry=new ArrayList<Country>();
-		for (Country c:curPlayer.getCountriesOwned()) {
-			if(c.getArmiesNum()>0) {
-				String ctryName = c.getName();
-				Collection<String> neighbors = map.getConnectionMap().get(ctryName);
-				for(String oneOfNeighbors : neighbors) {
-					Country oneNeighborCtry = map.getCountriesMap().get(oneOfNeighbors);
-	    			if(oneNeighborCtry.getPlayer()== curPlayer) {
-	    				NeighborCtry.add(oneNeighborCtry);
-	    			}
+
+	/**
+	 * Auto fortify phase for Benevolent
+	 */
+	public void autoFortify(Player curPlayer) {
+		playerEngine.state = GameState.FORTIFY;
+		// just have onc chance to move army
+
+
+		Country weaker = findWeakestCountry(curPlayer);
+		System.out.println(" FORTIFY  weakest " + weaker);
+		if(weaker != null){
+			Country stronger = getStrongerContry(weaker);
+			System.out.println(" FORTIFY  stronger " + stronger);
+			if (stronger != null) {
+				while (stronger.getArmiesNum() > weaker.getArmiesNum()) {
+					stronger.moveOutOneArmy(weaker);
 				}
-    			
-				for (int i=0; i<NeighborCtry.size(); i++) {
-					connectedCountryList.put(c, NeighborCtry);				
+				notAvalibaleCountry.clear();
+			}else {
+				notAvalibaleCountry.add(weaker);
+				if(notAvalibaleCountry.size()<curPlayer.getCountriesOwned().size()){
+					autoFortify(curPlayer);
 				}
-    			
-				NeighborCtry=null;
 			}
-		}	
-		
-		int min = Integer.MAX_VALUE;
-		ArrayList<Country> fromCountries = new ArrayList<Country>();
-		Country toCountry = null;
-		for(Country f: connectedCountryList.keySet()) {
-			for(Country t: connectedCountryList.get(f)) {
-				if(t.getArmiesNum()<min) {
-					fromCountries.add(f);
-					toCountry = t;
-					min = t.getArmiesNum();					
+		}else {
+			notAvalibaleCountry.clear();
+		}
+	}
+
+
+	public Country findWeakestCountry(Player curPlayer){
+		Country weakest = null;
+		int armyNum = 100;
+		for(Country country : curPlayer.getCountriesOwned()){
+			//if(country.contiguousBelongOthers()){
+				if(country.getArmiesNum() <= armyNum && !notAvalibaleCountry.contains(country)){
+					weakest = country;
+					armyNum = weakest.getArmiesNum();
 				}
+			//}
+		}
+		return weakest;
+	}
+
+	public Country getStrongerContry(Country weakest){
+		Country strongerCountry = null;
+		Country stronger = weakest;
+		ArrayList<String> contiguousBelongThisPlayer  = weakest.getcontiguousBelongThisPlayer();
+		System.out.println();
+		for(String contiguous: contiguousBelongThisPlayer){
+			Country contiguousCnty = map.getCountriesMap().get(contiguous);
+			if( contiguousCnty.getArmiesNum()> stronger.getArmiesNum() && !notAvalibaleCountry.contains(contiguousCnty)){
+				stronger = contiguousCnty;
 			}
 		}
-		
-		int max = Integer.MIN_VALUE;
-		Country fromCountry = null;
-		for(Country c:fromCountries) {
-			if(c.getArmiesNum()>max) {
-				fromCountry = c;
-				max = c.getArmiesNum();
-			}
+		if(stronger != weakest){
+			strongerCountry = stronger;
 		}
-		
-		if (fromCountry != null) {
-			int realQt = fromCountry.getArmiesNum()-1;
-			// Move armies
-			for(int i = 0; i<realQt; i++){
-				fromCountry.moveOutOneArmy(toCountry);
-			}
-		}	
-     }
-    
+		return strongerCountry;
+	}
 }
 

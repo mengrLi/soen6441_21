@@ -184,7 +184,7 @@ public class GameLoad {
                                                 case "gameState":
                                                     game.state = setGameState(value);
                                                     break;
-                                                case "warn":
+                                                case "currentPlayer":
                                                     game.currentPlayer = Integer.parseInt(value);
                                                     break;
                                                 case "initialArmyNum":

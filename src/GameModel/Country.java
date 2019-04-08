@@ -7,6 +7,7 @@ import MapView.LogWindow;
 import java.awt.*;
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.Collection;
 
 /**
  * This is the class used to define country
@@ -202,6 +203,13 @@ public class Country {
      * Gets the contiguous country list.
      */
     public ArrayList<Country> getcontiguousCountryList() {
+        String countryName = this.getName();
+        ArrayList<Country> contiguousCountryList = new ArrayList<Country>();
+        Collection<String> neighbors = map.getConnectionMap().get(countryName);
+        for(String oneOfNeighbors:neighbors) {
+            Country oneNeighborCountry = map.getCountriesMap().get(oneOfNeighbors);
+            contiguousCountryList.add(oneNeighborCountry);
+        }
         return contiguousCountryList;
     }
 

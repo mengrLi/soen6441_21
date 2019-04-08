@@ -43,6 +43,7 @@ public class PlayerEngine {
     public static int gameNum = 0; // for tournament
     public static int maxRoundNum = 0;// for tournament
     public static int defaultMaxRound = 20; // for single game
+    public static boolean stopflag = false;
 
 
     /**
@@ -652,7 +653,7 @@ public class PlayerEngine {
         } else if (!curplayer.getCountriesOwned().contains(destination)) {
             log.add("Error: " + destination.getName() + " is not your country, you are not able to move army to this country!");
         } else if (originctn.getArmiesNum() == 1) {
-            log.add("Error:  There is only 1 army in this country(" + originctn.getName() + "), you can not move it!");
+            //log.add("Error:  There is only 1 army in this country(" + originctn.getName() + "), you can not move it!");
         } else {
             for (i = 0; i < armyNum; i++) {
                 originctn.moveOutOneArmy(destination);
@@ -687,7 +688,7 @@ public class PlayerEngine {
                 //attacker move a army to defender country
                 moveArmyBetweenCountries(1, attacked, defenderCtry, attackerCtry);
             }
-            log.add(getCurPlayerNameWithColor() + " conquered " + defenderCtry.getName());
+            //log.add(getCurPlayerNameWithColor() + " conquered " + defenderCtry.getName());
 
             //when attacker conquers at less a country, will get a card
             if (getCardFlag == false) {
@@ -727,6 +728,10 @@ public class PlayerEngine {
      * next button function, turn to next player
      */
     public void turnToNextPlayer() {
+        if(state == GameState.END){
+            return;
+        }
+
         if(round == defaultMaxRound){
             log.add("=====  Game Stop =====");
             log.add("=====  Drawn =====");
@@ -738,6 +743,7 @@ public class PlayerEngine {
         getCardFlag = false;
         reinforceFlag = false;
         cardChangeFlage = false;
+        state = GameState.CHOOSECARD;
         if (state == GameState.CHOOSECARD) {
             if (currentPlayer == playerList.size() - 1) {
                 currentPlayer = 0;
@@ -749,11 +755,7 @@ public class PlayerEngine {
                 } else {
                     if (getCurPlayer().getStrategy() != null) {
                         autoOneTurn();
-                        try {
-                            Thread.sleep(1000);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
+                        sleep(1500);
                         turnToNextPlayer();
                     }
                 }
@@ -766,11 +768,7 @@ public class PlayerEngine {
                     //if player is computer, then auto play
                     if (getCurPlayer().getStrategy() != null) {
                         autoOneTurn();
-                        try {
-                            Thread.sleep(1000);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
+                        sleep(1000);
                         turnToNextPlayer();
                     }
                 }
@@ -812,11 +810,7 @@ public class PlayerEngine {
 
     //before autoplay, must loading map, choosing players, setting maximum round number, setting game number
     public void autoPlay() {
-        try {
-            Thread.sleep(1000);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        sleep(1000);
         for (String mapName : mapList) {
             log.add("Map : " + mapName);
             map.reset();
@@ -828,17 +822,9 @@ public class PlayerEngine {
                 //reset
                 resetForNextGame();
                 //start up
-                try {
-                    Thread.sleep(1000);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                sleep(1000);
                 AssignPlayers();// start up
-                try {
-                    Thread.sleep(1000);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                sleep(1000);
                 autoOneTurn(curGame);
                 while (round < maxRoundNum && state != GameState.END) {
                     System.out.println("maxRoundNum:" + maxRoundNum);
@@ -849,11 +835,7 @@ public class PlayerEngine {
                     log.add("=====  Game " + curGame + ": drawn =====");
                 }
 
-                try {
-                    Thread.sleep(5000);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                sleep(3000);
                 log.add("\n");
                 log.add("\n");
                 log.add("\n");
@@ -864,34 +846,43 @@ public class PlayerEngine {
 
     //for T
     public void autoOneTurn(int curGame) {
-        log.add(getCurPlayerNameWithColor() + "Start Reinforce");
+        log.add(getCurPlayerNameWithColor() + "Start to Reinforce");
         getCurPlayer().autoReinforce();//need to add auto exchange card
-        log.add(getCurPlayerNameWithColor() + "Start Attack");
+        log.add(getCurPlayerNameWithColor() + "Start to Attack");
         if (getCurPlayer().autoAttack()) {
             String winner = getCurPlayerNameWithColor();
             log.add("===== Game " + curGame + ":" + winner + "winned =====");
             curGame++;
             return;
         }
-        log.add(getCurPlayerNameWithColor() + "Start Fortify");
+        log.add(getCurPlayerNameWithColor() + "Start to Fortify");
         getCurPlayer().autoFortify();
         state = GameState.CHOOSECARD;
     }
 
     //for single game
     public void autoOneTurn() {
-        log.add(getCurPlayerNameWithColor() + "Start Reinforce");
-        getCurPlayer().autoReinforce();
-        log.add(getCurPlayerNameWithColor() + "Start Attack");
-        if (getCurPlayer().autoAttack()) {
-            String winner = getCurPlayerNameWithColor();
-            log.add("===== "+winner + " : winned ======");
-            return;
+        log.add(getCurPlayerNameWithColor() + "Start to Reinforce");
+        if(state == GameState.CHOOSECARD && stopflag == false){
+            getCurPlayer().autoReinforce();
+            state = GameState.ATTACK;
         }
-        ;
-        log.add(getCurPlayerNameWithColor() + "Start Fortify");
-        getCurPlayer().autoFortify();
-        state = GameState.CHOOSECARD;
+
+        if(state == GameState.ATTACK && stopflag == false){
+            log.add(getCurPlayerNameWithColor() + "Start to Attack");
+            if (getCurPlayer().autoAttack()) {
+                String winner = getCurPlayerNameWithColor();
+                log.add("===== "+winner + " : winned ======");
+                return;
+            }
+            state = GameState.FORTIFY;
+        }
+
+        if(state == GameState.FORTIFY && stopflag == false){
+            log.add(getCurPlayerNameWithColor() + "Start to Fortify");
+            getCurPlayer().autoFortify();
+            state = GameState.CHOOSECARD;
+        }
     }
 
 
@@ -920,6 +911,15 @@ public class PlayerEngine {
     public void resetPlayers() {
         for (Player player : playerList) {
             player.resetPlayer();
+        }
+    }
+
+    public void continueToplay(){
+        if(getCurPlayer().getStrategy() == null){
+            return;
+        }else {
+            autoOneTurn();
+            turnToNextPlayer();
         }
     }
 
@@ -972,6 +972,8 @@ public class PlayerEngine {
     }
 
     public void gameSave(String filename) {
+        //save game should stop auto player playing
+        stopflag = true;
         String gameInfo = "";
         String mapInfo = map.mapInfo();
 
@@ -1096,5 +1098,14 @@ public class PlayerEngine {
         return fileName;
     }
 
+    public void sleep(int time){
+        try {
+            Thread.sleep(time);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }
+
+
 

@@ -117,7 +117,6 @@ public class PopupMove extends aPopupMenu implements ActionListener {
             Player curPlayer = game.getCurPlayer();
             game.moveArmyBetweenCountries(1, curPlayer, destination, originctn);
             canvas.repaint();
-
         }
     }
 

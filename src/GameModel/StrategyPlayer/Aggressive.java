@@ -114,38 +114,38 @@ public class Aggressive implements Strategy {
 	}
 
 
-	public void recursiveFind(Player curPlayer){
-		//for循环可以fortify的国家，找出相邻国家数最大的，或者本身他就是最大的
-		//
-
-		Country destination = null;
-		int max = 0;
-		for(Country mmm : countriesList){
-			if(mmm.getArmiesNum()> max){
-				destination = mmm;
-				max = destination.getArmiesNum();
-			}
-		}
-
-		Country originctn = null;
-		if(destination.getcontiguousBelongThisPlayer().size()>0){
-			//ArrayList<Country> contiguousBelongThisPlayer = new ArrayList<>();
-
-			int max1 = 0;
-			for(String contryName :  destination.getcontiguousBelongThisPlayer()){
-				Country ddd = map.getCountry(contryName);
-				//contiguousBelongThisPlayer.add(ddd);
-
-				if(ddd.getArmiesNum()> max1){
-					originctn = ddd;
-					max1 = originctn.getArmiesNum();
-				}
-			}
-			playerEngine.moveArmyBetweenCountries(originctn.getArmiesNum()-1,curPlayer,destination,originctn);
-			countriesList.clear();
-		}else {
-			countriesList.remove(destination);
-			recursiveFind(curPlayer);
-		}
-	}
+//	public void recursiveFind(Player curPlayer){
+//		//for循环可以fortify的国家，找出相邻国家数最大的，或者本身他就是最大的
+//		//
+//
+//		Country destination = null;
+//		int max = 0;
+//		for(Country mmm : countriesList){
+//			if(mmm.getArmiesNum()> max){
+//				destination = mmm;
+//				max = destination.getArmiesNum();
+//			}
+//		}
+//
+//		Country originctn = null;
+//		if(destination.getcontiguousBelongThisPlayer().size()>0){
+//			//ArrayList<Country> contiguousBelongThisPlayer = new ArrayList<>();
+//
+//			int max1 = 0;
+//			for(String contryName :  destination.getcontiguousBelongThisPlayer()){
+//				Country ddd = map.getCountry(contryName);
+//				//contiguousBelongThisPlayer.add(ddd);
+//
+//				if(ddd.getArmiesNum()> max1){
+//					originctn = ddd;
+//					max1 = originctn.getArmiesNum();
+//				}
+//			}
+//			playerEngine.moveArmyBetweenCountries(originctn.getArmiesNum()-1,curPlayer,destination,originctn);
+//			countriesList.clear();
+//		}else {
+//			countriesList.remove(destination);
+//			recursiveFind(curPlayer);
+//		}
+//	}
 }

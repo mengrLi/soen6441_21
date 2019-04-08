@@ -688,7 +688,7 @@ public class PlayerEngine {
                 //attacker move a army to defender country
                 moveArmyBetweenCountries(1, attacked, defenderCtry, attackerCtry);
             }
-            //log.add(getCurPlayerNameWithColor() + " conquered " + defenderCtry.getName());
+            log.add(getCurPlayerNameWithColor() + " conquered " + defenderCtry.getName());
 
             //when attacker conquers at less a country, will get a card
             if (getCardFlag == false) {

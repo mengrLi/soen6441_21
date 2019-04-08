@@ -1024,7 +1024,6 @@ public class PlayerEngine {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        log.add("Game Saved");
     }
 
     public String save() {

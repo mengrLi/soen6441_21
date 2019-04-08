@@ -226,6 +226,7 @@ public class PanelController {
         else if(e.getSource()==simpanel.savebutton)
         {// nonepointererror
             game.save();
+            log.add("Game Saved");
         }
         //========================================= game load and save ============================================
 

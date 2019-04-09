@@ -63,22 +63,22 @@ public class RandomP implements Strategy {
 	/**
 	 * This method used to implement auto attack of random strategy
 	 */
-	
+
 	public boolean autoAttack(Player curPlayer) {
 //		if (state == GameState.ATTACK) {
 		Country curCountry;
 		ArrayList<Country> ownedCountryList = curPlayer.getCountriesOwned();
 		ArrayList<Country> randCountryList = new ArrayList<Country>();
 
-		for(Country c:ownedCountryList) {
-			if(c.getDefendersAroundThisCountry().size()>0) {
+		for (Country c : ownedCountryList) {
+			if (c.getDefendersAroundThisCountry().size() > 0) {
 				randCountryList.add(c);
 			}
 
 		}
 		int randAttackCountryNum = (int) (Math.random() * randCountryList.size());
 		Country AttackCountry = randCountryList.get(randAttackCountryNum);
-		System.out.println("attack country"+ AttackCountry.getName());
+		System.out.println("attack country" + AttackCountry.getName());
 		ArrayList<String> defendCountryString = AttackCountry.getDefendersAroundThisCountry();
 		ArrayList<Country> randDefendCountryList = new ArrayList<Country>();
 		for (String s : defendCountryString) {
@@ -118,27 +118,32 @@ public class RandomP implements Strategy {
 	public void autoFortify(Player curPlayer) {
 //		if (state == GameState.FORTIFY) {
 		ArrayList<Country> ownedCountry = curPlayer.getCountriesOwned();
-		ArrayList<Country> cccContiguousBelong = new ArrayList<>();
+		ArrayList<Country> defenderContiguousBelong = new ArrayList<>();
 		for (Country ccc : ownedCountry) {
 			if (ccc.getcontiguousBelongThisPlayer().size() > 0) {
-				cccContiguousBelong.add(ccc);
+				defenderContiguousBelong.add(ccc);
 			}
 		}
-		int randCountryNum = (int) (Math.random() * cccContiguousBelong.size());
-		Country destCountry = cccContiguousBelong.get(randCountryNum);
-		ArrayList<Country> originCountryList = new ArrayList<>();
-		ArrayList<String> origCountyString = new ArrayList<String>();
-		origCountyString = destCountry.getcontiguousBelongThisPlayer();
-		for (String s : origCountyString) {
-			originCountryList.add(map.getCountry(s));
+		if (defenderContiguousBelong.size()>0) {
+			int randCountryNum = (int) (Math.random() * defenderContiguousBelong.size());
+			Country destCountry = defenderContiguousBelong.get(randCountryNum);
+			ArrayList<Country> originCountryList = new ArrayList<>();
+			ArrayList<String> origCountyString = new ArrayList<String>();
+			origCountyString = destCountry.getcontiguousBelongThisPlayer();
+			for (String s : origCountyString) {
+				originCountryList.add(map.getCountry(s));
+			}
+			if (originCountryList != null) {
+				int randOriginal = (int) (Math.random() * originCountryList.size());
+				Country originCountry = originCountryList.get(randOriginal);
+				int armyNum = (int) (Math.random() * originCountry.getArmiesNum() - 1);
+				playerEngine.moveArmyBetweenCountries(armyNum, curPlayer, destCountry, originCountry);
+				System.out.println("you move" + armyNum + "army");
+			}
 		}
-		if(originCountryList!=null) {
-		int randOriginal = (int) (Math.random() * originCountryList.size());
-		Country originCountry = originCountryList.get(randOriginal);
-		int armyNum = (int) (Math.random() * originCountry.getArmiesNum() - 1);
-		playerEngine.moveArmyBetweenCountries(armyNum, curPlayer, destCountry, originCountry);
-		System.out.println("you move" + armyNum + "army");
-		}
+		else {
+			System.out.println("you don't have country which can fortify");
+		};
 //		if(contiguousBelongToThisPlayer.size()!=0) {
 //			Country originalCountry;
 //			int randOriCountryNum = (int) (Math.random()*contiguousBelongToThisPlayer.size());

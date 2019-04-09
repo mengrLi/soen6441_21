@@ -144,6 +144,7 @@ public class PanelController {
             System.out.println(mapNumber);
             game.numberofmaps=mapNumber;
             SetActivePanel(selectMapPanel);
+            log.add("========You need to choose "+mapNumber+" maps to start game======");
 
         }
         else if(e.getSource()==selectMapPanel.next)
@@ -246,7 +247,8 @@ public class PanelController {
         } else if (e.getSource() == assignRolesPanel.back) {
             game.state = GameState.CHOOSEPLAYER;
             SetActivePanel(assignplayerpanel);
-        } else if (e.getSource() == assignTourRolesPanel.next) {
+        }
+        else if (e.getSource() == assignTourRolesPanel.next) {
             Runnable gameStart = ()-> {
                 game.autoPlay();
             };
@@ -335,7 +337,7 @@ public class PanelController {
             };
             Thread thread = new Thread(nextPlayer);
             thread.start();
-            reinforcepanel.label.setText(game.getCurPlayer().getName());
+            //reinforcepanel.label.setText(game.getCurPlayer().getName());
             System.out.println("next player");
 
         } else if (e.getSource() == simpanel.attackbutton) {
@@ -347,6 +349,8 @@ public class PanelController {
             game.state = GameState.CHOOSECARD;
 
         }
+
+
     }
 
     /**
@@ -377,6 +381,8 @@ public class PanelController {
         selectMapNumPanel.AddActionListener(e);
         selectMapPanel.AddActionListener(e);
         selectMapPanel.select.addActionListener(e);
+
+
     }
 
 }

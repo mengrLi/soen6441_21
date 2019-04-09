@@ -206,7 +206,7 @@ public class Country {
         String countryName = this.getName();
         ArrayList<Country> contiguousCountryList = new ArrayList<Country>();
         Collection<String> neighbors = map.getConnectionMap().get(countryName);
-        for(String oneOfNeighbors:neighbors) {
+        for (String oneOfNeighbors : neighbors) {
             Country oneNeighborCountry = map.getCountriesMap().get(oneOfNeighbors);
             contiguousCountryList.add(oneNeighborCountry);
         }
@@ -278,7 +278,7 @@ public class Country {
             Army rmArmy = this.ArmyList.get(0);
             this.player.getArmyList().remove(rmArmy);
             this.ArmyList.remove(rmArmy);
-           // this.ArmyList.remove(0);
+            // this.ArmyList.remove(0);
 
         }
     }
@@ -439,15 +439,15 @@ public class Country {
     }
 
 
-    public String countrySave(){
+    public String countrySave() {
         String info = "";
         info = name + ","
-                + player.getID() +","
+                + player.getID() + ","
                 + ArmyList.size();
         return info;
     }
 
-    public void resetCountry(){
+    public void resetCountry() {
         player = null;
         ArmyList = new ArrayList<Army>();
     }

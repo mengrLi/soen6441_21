@@ -7,6 +7,8 @@ import GameModel.Player;
  */
 public interface Strategy {
     void autoReinforce(Player curPlayer);
+
     boolean autoAttack(Player curPlayer);
+
     void autoFortify(Player curPlayer);
 }

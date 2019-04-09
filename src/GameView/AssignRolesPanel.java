@@ -39,11 +39,6 @@ public class AssignRolesPanel extends aPanel implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-//        if ("Set".equals((e.getActionCommand()))) {
-//            label.setText(game.getCurPlayer().getName());
-//            System.out.println("field text is :" + label.getText());
-//        }
-      //  label.setText(game.getCurPlayer().getName());
 
 
 

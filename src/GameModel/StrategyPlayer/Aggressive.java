@@ -5,6 +5,7 @@ import GameModel.GameState;
 import GameModel.Player;
 import GameModel.PlayerEngine;
 import MapModel.Map;
+
 import java.util.*;
 
 /**
@@ -12,53 +13,55 @@ import java.util.*;
  *         by liaoxiaoyun on 2019-03-30.
  */
 public class Aggressive implements Strategy {
-	public String strategyName = "Aggressive";
-	private PlayerEngine playerEngine;
-	private GameState state;
-	private Map map = Map.getMapInstance();
-	public ArrayList<Country> countriesList = new ArrayList<>();
+    public String strategyName = "Aggressive";
+    private PlayerEngine playerEngine;
+    private GameState state;
+    private Map map = Map.getMapInstance();
+    public ArrayList<Country> countriesList = new ArrayList<>();
 
-	public Aggressive() {
-		playerEngine = new PlayerEngine();
-	}
+    public Aggressive() {
+        playerEngine = new PlayerEngine();
+    }
 
-	public String getStrategyName() {
-		return this.strategyName;
-	}
-	public Country strongestContry = null;
+    public String getStrategyName() {
+        return this.strategyName;
+    }
 
-	public void autoReinforce(Player curPlayer) {
+    public Country strongestContry = null;
+
+    public void autoReinforce(Player curPlayer) {
 //		if (state == GameState.REINFORCE) {
+        curPlayer.autoExchangeCard();
         int max = 0;
         Country destination = null;
-		curPlayer.setArmyList(curPlayer.getArmyList().size());
-        for(Country  destinationCntry: curPlayer.getCountriesOwned()){
+        curPlayer.setArmyList(curPlayer.getArmyList().size());
+        for (Country destinationCntry : curPlayer.getCountriesOwned()) {
             //loop all getCountriesOwned
-            if(destinationCntry.getDefendersAroundThisCountry().size()>0){
-                if(destinationCntry.getArmiesNum() > max ){
+            if (destinationCntry.getDefendersAroundThisCountry().size() > 0) {
+                if (destinationCntry.getArmiesNum() > max) {
                     max = destinationCntry.getArmiesNum();
                     destination = destinationCntry;
                 }
             }
         }
-        if(destination != null){
+        if (destination != null) {
             strongestContry = destination;
             int getReinfoArmyNum = curPlayer.getNumberOfArmy();
             curPlayer.setArmyList(getReinfoArmyNum);
-            while (getReinfoArmyNum > 0){
+            while (getReinfoArmyNum > 0) {
                 destination.AddArmy();
-                getReinfoArmyNum --;
+                getReinfoArmyNum--;
             }
         }
 
 
-	}
+    }
 
-	public boolean autoAttack(Player curPlayer) {
-		boolean ifWinned = false;
+    public boolean autoAttack(Player curPlayer) {
+        boolean ifWinned = false;
 
-        if(strongestContry != null){
-            for(String contryName : strongestContry.getDefendersAroundThisCountry()){
+        if (strongestContry != null) {
+            for (String contryName : strongestContry.getDefendersAroundThisCountry()) {
                 Country defender = map.getCountry(contryName);
                 if (strongestContry.getArmiesNum() > 1) {
                     playerEngine.diceAll(strongestContry, defender);
@@ -72,18 +75,18 @@ public class Aggressive implements Strategy {
                 ifWinned = true;
         }
 
-		return ifWinned;
-	}
+        return ifWinned;
+    }
 
-	public void autoFortify(Player curPlayer) {
+    public void autoFortify(Player curPlayer) {
         int maxArmy = 0;
         Country destination = null;
         Country origin = null;
-		for(Country  destinationCntry: curPlayer.getCountriesOwned()){
-		    //loop all getCountriesOwned
-			if(destinationCntry.getDefendersAroundThisCountry().size()>0){
+        for (Country destinationCntry : curPlayer.getCountriesOwned()) {
+            //loop all getCountriesOwned
+            if (destinationCntry.getDefendersAroundThisCountry().size() > 0) {
                 ArrayList<String> contiguousBelongThisPlayer = destinationCntry.getcontiguousBelongThisPlayer();
-                for(String contryName : contiguousBelongThisPlayer) {
+                for (String contryName : contiguousBelongThisPlayer) {
                     Country originctn = map.getCountry(contryName);
                     if (originctn.getArmiesNum() + destinationCntry.getArmiesNum() > maxArmy) {
                         origin = originctn;
@@ -91,13 +94,13 @@ public class Aggressive implements Strategy {
                         maxArmy = originctn.getArmiesNum() + destinationCntry.getArmiesNum();
                     }
                 }
-			}
-		}
-		//recursiveFind(curPlayer);
-        if(destination !=null && origin != null){
-            playerEngine.moveArmyBetweenCountries(origin.getArmiesNum()-1,curPlayer,destination,origin);
+            }
         }
-	}
+        //recursiveFind(curPlayer);
+        if (destination != null && origin != null) {
+            playerEngine.moveArmyBetweenCountries(origin.getArmiesNum() - 1, curPlayer, destination, origin);
+        }
+    }
 
 
 //	public void recursiveFind(Player curPlayer){

@@ -36,8 +36,6 @@ public class LogWindow {
         scroll.setBackground(theme);
         scroll.setToolTipText("Game Log");
         scroll.setHorizontalScrollBar(null);
-
-
     }
 
     /**
@@ -47,8 +45,16 @@ public class LogWindow {
      */
     public void add(String str) {
         text.setSelectionColor(Color.BLACK);
-        text.setSelectedTextColor(Color.BLACK);
-        text.append("\n " + PlayerEngine.round + " > " + str);
+
+        text.setSelectedTextColor(theme);
+        if(PlayerEngine.mapList.size()>0){
+            int curMap = PlayerEngine.mapList.indexOf(PlayerEngine.curMap);
+            int curGame = PlayerEngine.curGame;
+            text.append("\n " + "Map"+ curMap + "-Game"+curGame + "-Round"+PlayerEngine.round + " > " + str);
+        }else {
+            text.append("\n " + PlayerEngine.round + " > " + str);
+        }
+
         //text.selectAll();
 
         //text.append("\n >" + str);

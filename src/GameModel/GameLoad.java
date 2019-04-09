@@ -133,32 +133,35 @@ public class GameLoad {
                                     player.setName(playInfo[1]);
                                     game.getPlayerList().add(player);
                                     //cards
-                                    if(!playInfo[2].isEmpty()){
+                                    if (!playInfo[2].isEmpty()) {
                                         String[] cardInfo = playInfo[2].split(" ");
-                                        for(String cardName : cardInfo ){
+                                        for (String cardName : cardInfo) {
                                             Card card = new Card(player);
                                             player.getCardList().add(card);
-                                            switch (cardName){
-                                                case "Infantry": card.setCardType(CardType.Infantry);
+                                            switch (cardName) {
+                                                case "Infantry":
+                                                    card.setCardType(CardType.Infantry);
                                                     break;
-                                                case "Cavalry": card.setCardType(CardType.Cavalry);
+                                                case "Cavalry":
+                                                    card.setCardType(CardType.Cavalry);
                                                     break;
-                                                case "Artillery": card.setCardType(CardType.Artillery);
+                                                case "Artillery":
+                                                    card.setCardType(CardType.Artillery);
                                                     break;
                                             }
                                         }
                                     }
                                     //ownCountries
-                                    if(!playInfo[3].isEmpty()){
+                                    if (!playInfo[3].isEmpty()) {
                                         String[] countriesInfo = playInfo[3].split(" ");
-                                        for(String countryNameAndArmy : countriesInfo){
+                                        for (String countryNameAndArmy : countriesInfo) {
                                             String[] cinfo = countryNameAndArmy.split("-");
                                             Country country = map.getCountry(cinfo[0]);
                                             country.setPlayer(player);
                                             System.out.println("player country: " + country);
                                             player.getCountriesOwned().add(country);
                                             int armyNum = Integer.parseInt(cinfo[1]);
-                                            for(int i = 0; i < armyNum ; i++){
+                                            for (int i = 0; i < armyNum; i++) {
                                                 Army army = new Army(player);
                                                 player.getArmyList().add(army);
                                                 country.getArmyList().add(army);
@@ -166,12 +169,12 @@ public class GameLoad {
                                         }
                                     }
                                     //isAlive
-                                    if(!playInfo[4].isEmpty()){
+                                    if (!playInfo[4].isEmpty()) {
                                         player.isAlive = playInfo[4].equals("true") ? true : false;
                                     }
                                     //strategy
-                                    if(!playInfo[5].isEmpty()){
-                                        setStrategy(player,playInfo[5]);
+                                    if (!playInfo[5].isEmpty()) {
+                                        setStrategy(player, playInfo[5]);
                                     }
                                     break;
                                 case "GameSate":
@@ -194,13 +197,13 @@ public class GameLoad {
                                                     game.round = Integer.parseInt(value);
                                                     break;
                                                 case "cardChangeFlage":
-                                                    game.cardChangeFlage= Boolean.parseBoolean(value);
+                                                    game.cardChangeFlage = Boolean.parseBoolean(value);
                                                     break;
                                                 case "reinforceFlag":
-                                                    game.reinforceFlag= Boolean.parseBoolean(value);
+                                                    game.reinforceFlag = Boolean.parseBoolean(value);
                                                     break;
                                                 case "getCardFlag":
-                                                    game.getCardFlag= Boolean.parseBoolean(value);
+                                                    game.getCardFlag = Boolean.parseBoolean(value);
                                                     break;
                                                 default:
                                                     rtnMessage = "Error in " + rowNum + "row";
@@ -220,7 +223,7 @@ public class GameLoad {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
-        } catch (Exception e){
+        } catch (Exception e) {
             System.out.println("Error in " + rowNum + "row");
             e.printStackTrace();
         }
@@ -229,28 +232,38 @@ public class GameLoad {
         return result;
     }
 
-    public GameState setGameState(String stateName){
+    public GameState setGameState(String stateName) {
         GameState state = null;
-        switch (stateName){
-            case "CHOOSEMODEL" : state = GameState.CHOOSEMODEL;
-                 break;
-            case "EDITMAP" : state = GameState.EDITMAP;
+        switch (stateName) {
+            case "CHOOSEMODEL":
+                state = GameState.CHOOSEMODEL;
                 break;
-            case "CHOOSEPLAYER" :state = GameState.CHOOSEPLAYER;
+            case "EDITMAP":
+                state = GameState.EDITMAP;
                 break;
-            case "ASSIGNROLES" : state = GameState.ASSIGNROLES;
+            case "CHOOSEPLAYER":
+                state = GameState.CHOOSEPLAYER;
                 break;
-            case "STARTUP" : state = GameState.STARTUP;
+            case "ASSIGNROLES":
+                state = GameState.ASSIGNROLES;
                 break;
-            case "CHOOSECARD" : state = GameState.CHOOSECARD;
+            case "STARTUP":
+                state = GameState.STARTUP;
                 break;
-            case "REINFORCE" : state = GameState.REINFORCE;
+            case "CHOOSECARD":
+                state = GameState.CHOOSECARD;
                 break;
-            case "ATTACK" : state = GameState.ATTACK;
+            case "REINFORCE":
+                state = GameState.REINFORCE;
                 break;
-            case "FORTIFY" : state = GameState.FORTIFY;
+            case "ATTACK":
+                state = GameState.ATTACK;
                 break;
-            case "END" : state = GameState.END;
+            case "FORTIFY":
+                state = GameState.FORTIFY;
+                break;
+            case "END":
+                state = GameState.END;
                 break;
         }
         return state;

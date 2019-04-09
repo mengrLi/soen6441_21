@@ -124,6 +124,7 @@ public class RandomP implements Strategy {
 				defenderContiguousBelong.add(ccc);
 			}
 		}
+
 		if (defenderContiguousBelong.size()>0) {
 			int randCountryNum = (int) (Math.random() * defenderContiguousBelong.size());
 			Country destCountry = defenderContiguousBelong.get(randCountryNum);
@@ -144,6 +145,7 @@ public class RandomP implements Strategy {
 		else {
 			System.out.println("you don't have country which can fortify");
 		};
+
 //		if(contiguousBelongToThisPlayer.size()!=0) {
 //			Country originalCountry;
 //			int randOriCountryNum = (int) (Math.random()*contiguousBelongToThisPlayer.size());

@@ -475,7 +475,7 @@ public class Map extends Observable {  //
             }
             outFile.createNewFile();
             FileOutputStream outStream = new FileOutputStream(fileName, true);
-            outStream.write("[Map]\r\n".getBytes());
+            outStream.write(("[Map]\r\n").getBytes());
             outStream.write(("author=" + getAuthor() + "\r\n").getBytes());
             outStream.write(("image=" + getImage() + "\r\n").getBytes());
             outStream.write(("warn=" + getWarn() + "\r\n").getBytes());

@@ -233,7 +233,7 @@ public class Player {
                 break;
             } else {
 
-                System.out.println("You can't remove cards");
+                //System.out.println("You can't remove cards");
             }
         }
     }
@@ -322,7 +322,7 @@ public class Player {
     }
 
 
-//    public int exchangeCard(){
+    //    public int exchangeCard(){
 //        int numberOfArmy= 0;
 //        numberOfArmy=this.autoExchangeCardforArmy();
 //        return numberOfArmy;
@@ -339,40 +339,40 @@ public class Player {
         return info;
     }
 
-    public void autoReinforce(){
+    public void autoReinforce() {
         this.strategy.autoReinforce(this);
     }
 
-    public boolean autoAttack(){
+    public boolean autoAttack() {
         boolean ifWinned = false;
         ifWinned = this.strategy.autoAttack(this);
-        return  ifWinned;
+        return ifWinned;
     }
 
-    public void autoFortify(){
+    public void autoFortify() {
         this.strategy.autoFortify(this);
     }
 
-    public String playerSave(){
+    public String playerSave() {
         String info = "";
-        String cardInfo  = "";
+        String cardInfo = "";
         String countryInfo = "";
 
-        for(Card card : cardList){
-            cardInfo  = cardInfo + card.getCardType().name() + " ";
+        for (Card card : cardList) {
+            cardInfo = cardInfo + card.getCardType().name() + " ";
         }
         cardInfo = cardInfo.trim();
-        System.out.println("cardInfo : "+ cardInfo);
+        System.out.println("cardInfo : " + cardInfo);
 
-        for(Country country : countriesOwned){
-            countryInfo  = countryInfo + country.getName() + "-" + country.getArmiesNum() + " ";
+        for (Country country : countriesOwned) {
+            countryInfo = countryInfo + country.getName() + "-" + country.getArmiesNum() + " ";
         }
         countryInfo = countryInfo.trim();
-        System.out.println("countryInfo : "+ countryInfo);
+        System.out.println("countryInfo : " + countryInfo);
 
         String strategyName = getStrategy() != null ? getStrategy().getClass().getSimpleName() : "Human";
 
-        info =    ID + ","
+        info = ID + ","
                 + name + ","
                 + cardInfo + ","
                 + countryInfo + ","
@@ -382,7 +382,7 @@ public class Player {
         return info;
     }
 
-    public void resetPlayer(){
+    public void resetPlayer() {
         countriesOwned = new ArrayList<>();
         cardList = new ArrayList<Card>();
         armyList = new ArrayList<>();
@@ -390,5 +390,16 @@ public class Player {
         isAlive = true;
     }
 
+    public void autoExchangeCard() {
+
+        ArrayList<String> exchangeWays = chooseExchangeWay();
+        if (exchangeWays.size() > 0) {
+            System.out.println("autoExchangeCard before:" + getCardList());
+            String exchangeWag = exchangeWays.get(0);
+            ExchangeCardforArmy(exchangeWag);
+            System.out.println("autoExchangeCard after:" + getCardList());
+        }
+
+    }
 
 }

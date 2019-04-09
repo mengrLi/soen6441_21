@@ -25,11 +25,11 @@ public class LogWindow {
         text = new JTextArea(7, 90);
         Font f = new Font(Font.MONOSPACED, Font.BOLD, 13);
         text.setBackground(Color.white);
-        text.setForeground(theme);
+        text.setForeground(Color.BLACK);
         text.setFont(f);
         text.setEditable(false);
         text.setSelectionColor(Color.WHITE);
-        text.setSelectedTextColor(theme);
+        text.setSelectedTextColor(Color.BLACK);
         text.setAutoscrolls(true);
         scroll = new JScrollPane(text);
         scroll.setAutoscrolls(true);
@@ -47,7 +47,7 @@ public class LogWindow {
      */
     public void add(String str) {
         text.setSelectionColor(Color.BLACK);
-        text.setSelectedTextColor(theme);
+        text.setSelectedTextColor(Color.BLACK);
         text.append("\n " + PlayerEngine.round + " > " + str);
         //text.selectAll();
 

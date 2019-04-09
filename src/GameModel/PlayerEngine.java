@@ -667,7 +667,8 @@ public class PlayerEngine {
     /**
      * check when player conquer a country.
      */
-    public void checkAfterAtteacked(Country attackerCtry, Country defenderCtry) {
+    public boolean checkAfterAtteacked(Country attackerCtry, Country defenderCtry) {
+        boolean ifEnded = false;
         Player attacked = attackerCtry.getPlayer();
         Player defender = defenderCtry.getPlayer();
 
@@ -680,10 +681,12 @@ public class PlayerEngine {
             //add the country to attacker's country list
             attacked.getCountriesOwned().add(defenderCtry);
             //check if the attacker owns all countries,if yes, then game finished.
+
             if (attacked.getCountriesOwned().size() == map.getAllCountries().size()) {
                 state = GameState.END;
-                log.add("=====" + getCurPlayerNameWithColor() + " wined the game! =====");
-                return;
+                log.add("=====  check after attacking" + getCurPlayerNameWithColor() + " wined the game! =====");
+                ifEnded = true;
+                return ifEnded;
             } else if (attackerCtry.getArmiesNum() > 1) {
                 //attacker move a army to defender country
                 moveArmyBetweenCountries(1, attacked, defenderCtry, attackerCtry);
@@ -705,7 +708,8 @@ public class PlayerEngine {
                 System.out.println("2 playerList :" + playerList);
             }
         }
-        System.out.println("percentage of player:" + percentageOfmap(getCurPlayer()));
+        //System.out.println("percentage of player:" + percentageOfmap(getCurPlayer()));
+        return ifEnded;
     }
 
 
@@ -851,10 +855,11 @@ public class PlayerEngine {
         log.add(getCurPlayerNameWithColor() + "Start to Attack");
         if (getCurPlayer().autoAttack()) {
             String winner = getCurPlayerNameWithColor();
-            log.add("===== Game " + curGame + ":" + winner + "winned =====");
+            log.add("=====autoOneTurn  Game " + curGame + ":" + winner + "winned =====");
             curGame++;
             return;
         }
+        sleep(2000);
         log.add(getCurPlayerNameWithColor() + "Start to Fortify");
         getCurPlayer().autoFortify();
         state = GameState.CHOOSECARD;

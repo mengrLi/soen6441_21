@@ -45,11 +45,11 @@ public class  Benevolent implements Strategy{
 		Country weakest = null;
 		weakest = curPlayer.getCountriesOwned().get(0);
 		for(Country country : curPlayer.getCountriesOwned()){
-			//if(country.contiguousBelongOthers()){
+			if(country.getDefendersAroundThisCountry().size()>0){
 				if(country.getArmiesNum() < weakest.getArmiesNum()){
 					weakest = country;
 				}
-			//}
+			}
 		}
 		System.out.println(" REINFORCE  weakest " + weakest);
 		notAvalibaleCountry.add(weakest);
@@ -105,14 +105,14 @@ public class  Benevolent implements Strategy{
 
 	public Country findWeakestCountry(Player curPlayer){
 		Country weakest = null;
-		int armyNum = 100;
+		int armyNum = 10000;
 		for(Country country : curPlayer.getCountriesOwned()){
-			//if(country.contiguousBelongOthers()){
+			if(country.getDefendersAroundThisCountry().size()>0){
 				if(country.getArmiesNum() <= armyNum && !notAvalibaleCountry.contains(country)){
 					weakest = country;
 					armyNum = weakest.getArmiesNum();
 				}
-			//}
+			}
 		}
 		return weakest;
 	}
@@ -124,7 +124,7 @@ public class  Benevolent implements Strategy{
 		System.out.println();
 		for(String contiguous: contiguousBelongThisPlayer){
 			Country contiguousCnty = map.getCountriesMap().get(contiguous);
-			if( contiguousCnty.getArmiesNum()> stronger.getArmiesNum() && !notAvalibaleCountry.contains(contiguousCnty)){
+			if( contiguousCnty.getArmiesNum()> stronger.getArmiesNum() ){
 				stronger = contiguousCnty;
 			}
 		}

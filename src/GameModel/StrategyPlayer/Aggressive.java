@@ -25,6 +25,7 @@ public class Aggressive implements Strategy {
 	public String getStrategyName() {
 		return this.strategyName;
 	}
+	public Country strongestContry = null;
 
 	public void autoReinforce(Player curPlayer) {
 //		if (state == GameState.REINFORCE) {
@@ -41,6 +42,7 @@ public class Aggressive implements Strategy {
             }
         }
         if(destination != null){
+            strongestContry = destination;
             int getReinfoArmyNum = curPlayer.getNumberOfArmy();
             curPlayer.setArmyList(getReinfoArmyNum);
             while (getReinfoArmyNum > 0){
@@ -49,43 +51,27 @@ public class Aggressive implements Strategy {
             }
         }
 
-//		Country reinCountry = null;
-//		for (Country c : curPlayer.getCountriesOwned()) {
-//			if (c.getArmiesNum() > max) {
-//				reinCountry = c;
-//				max = c.getArmiesNum();
-//			}
-//		}
-//		for (int i = 0; i < curPlayer.getNumberOfArmy(); i++) {
-//			reinCountry.AddArmy();
-//		}
-//		}
 
 	}
 
 	public boolean autoAttack(Player curPlayer) {
 		boolean ifWinned = false;
 
-			int max = 0;
-			Country attackCountry = null;
+        if(strongestContry != null){
+            for(String contryName : strongestContry.getDefendersAroundThisCountry()){
+                Country defender = map.getCountry(contryName);
+                if (strongestContry.getArmiesNum() > 1) {
+                    playerEngine.diceAll(strongestContry, defender);
+                }
+            }
 
-			for (Country c : curPlayer.getCountriesOwned()) {
-				if (c.getArmiesNum() > max) {
-					attackCountry = c;
-					max = c.getArmiesNum();
-				}
-			}
-			ArrayList<Country> contiguousCountry = attackCountry.getcontiguousCountryList();
-			for (int i = 0; i < contiguousCountry.size(); i++) {
-				if (contiguousCountry != null && attackCountry.getArmiesNum() > 1) {
-					playerEngine.diceAll(attackCountry, contiguousCountry.get(i));
-					playerEngine.checkAfterAtteacked(attackCountry, contiguousCountry.get(i));
-				}
-			}
+            strongestContry = null;
 
-			ifWinned = false;
-			if (playerEngine.getCurrentState() == GameState.END)
-				ifWinned = true;
+            ifWinned = false;
+            if (playerEngine.getCurrentState() == GameState.END)
+                ifWinned = true;
+        }
+
 		return ifWinned;
 	}
 

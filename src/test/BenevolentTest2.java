@@ -52,10 +52,10 @@ public class BenevolentTest2 {
 		con.setValue(3);
 	}
 	/**
-	 * To test if the attack country is belonged to attacker/current player
+	 * To test the function of autoAttack
 	 */
 	@Test
-	public void autoReinforceTest() {
+	public void autoAttackTest() {
 		benevolent.setStrategy(str);
 		benevolent.autoAttack();
 		// do not attack,so the number of armies are not change

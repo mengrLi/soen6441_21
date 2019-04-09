@@ -487,7 +487,7 @@ public class Map extends Observable {  //
                 outStream.write("\r\n".getBytes());
             }
             outStream.write("\r\n".getBytes());
-            outStream.write("[Territories]\\r\\n".getBytes());
+            outStream.write("[Territories]\r\n".getBytes());
             for (Continent continent : getAllContinent()) {
                 for (Country country : continent.getCountryList()) {
 

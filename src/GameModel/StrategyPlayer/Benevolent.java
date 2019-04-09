@@ -46,26 +46,27 @@ public class Benevolent implements Strategy {
         playerEngine.state = GameState.REINFORCE;
         curPlayer.autoExchangeCard();
         Country weakest = null;
-        weakest = curPlayer.getCountriesOwned().get(0);
-        for (Country country : curPlayer.getCountriesOwned()) {
-            if (country.getDefendersAroundThisCountry().size() > 0) {
-                if (country.getArmiesNum() < weakest.getArmiesNum()) {
-                    weakest = country;
+        if(curPlayer.getCountriesOwned().size()>0){
+            weakest = curPlayer.getCountriesOwned().get(0);
+            for (Country country : curPlayer.getCountriesOwned()) {
+                if (country.getDefendersAroundThisCountry().size() > 0) {
+                    if (country.getArmiesNum() < weakest.getArmiesNum()) {
+                        weakest = country;
+                    }
                 }
             }
+            System.out.println(" REINFORCE  weakest " + weakest);
+            notAvalibaleCountry.add(weakest);
+            //get REINFORCE number
+            int NumberOfArmy = curPlayer.getNumberOfArmy();
+            curPlayer.setArmyList(NumberOfArmy);
+            while (NumberOfArmy > 0) {
+                weakest.AddArmy();
+                NumberOfArmy--;
+            }
         }
-        System.out.println(" REINFORCE  weakest " + weakest);
-        notAvalibaleCountry.add(weakest);
-        //get REINFORCE number
-        int NumberOfArmy = curPlayer.getNumberOfArmy();
-        curPlayer.setArmyList(NumberOfArmy);
-        while (NumberOfArmy > 0) {
-            weakest.AddArmy();
-            NumberOfArmy--;
-        }
-    }
 
-    ;
+    }
 
 
     /**

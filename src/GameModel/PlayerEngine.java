@@ -71,7 +71,7 @@ public class PlayerEngine {
         this.setNumberofplayers(playerNum);
         for (i = 0; i < this.numberofplayers; i++) {
             //Player plyr = new Player(i); //plyr = player
-            //Cheater test
+            //Cheater testTournament
             Player plyr;
             plyr = new Player(i);
             plyr.setColor(playercolors[i]);
@@ -817,7 +817,7 @@ public class PlayerEngine {
 
     //before autoplay, must loading map, choosing players, setting maximum round number, setting game number
     public void autoPlay() {
-        sleep(1000);
+        sleep(500);
         curMap = "";
         for (String mapName : mapList) {
             curMap = mapName;
@@ -831,7 +831,7 @@ public class PlayerEngine {
                 //reset
                 resetForNextGame();
                 //start up
-                sleep(1000);
+                sleep(500);
                 AssignPlayers();// start up
                 sleep(500);
                 autoOneTurn(curGame);
@@ -847,7 +847,7 @@ public class PlayerEngine {
                     tournamentResult.add(result);
                 }
 
-                sleep(3000);
+                sleep(1000);
                 log.add("\n");
                 log.add("\n");
                 log.add("\n");
@@ -875,7 +875,7 @@ public class PlayerEngine {
             curGame++;
             return;
         }
-        sleep(1500);
+        sleep(500);
         log.add(getCurPlayerNameWithColor() + "Start to Fortify");
         getCurPlayer().autoFortify();
         state = GameState.CHOOSECARD;
@@ -963,7 +963,7 @@ public class PlayerEngine {
     }
 
     /**
-     * this method used to test moved army
+     * this method used to testTournament moved army
      *
      * @param armyNum     the number of army moved
      * @param curplayer   the current player

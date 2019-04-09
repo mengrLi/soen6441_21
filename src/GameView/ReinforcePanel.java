@@ -22,11 +22,6 @@ public class ReinforcePanel extends aPanel implements ActionListener {
 
     public ReinforcePanel() {
 
-
-        center.add(label);
-        label.setText("Player 0 ");
-
-        //      textfield = new JTextField();
         button = new JButton("next");
 
         center.add(button);

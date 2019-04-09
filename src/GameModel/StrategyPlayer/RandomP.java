@@ -31,6 +31,9 @@ public class RandomP implements Strategy {
 		return this.strategyName;
 	}
 
+	/**
+	 * This method used to implement auto reinforce of random strategy
+	 */
 	public void autoReinforce(Player curPlayer) {
 //		if (state == GameState.REINFORCE) {
 		if (playerEngine.state == GameState.CHOOSECARD) {
@@ -56,6 +59,10 @@ public class RandomP implements Strategy {
 //		}
 	};
 
+	/**
+	 * This method used to implement auto attack of random strategy
+	 */
+	
 	public boolean autoAttack(Player curPlayer) {
 //		if (state == GameState.ATTACK) {
 		Country curCountry;
@@ -74,7 +81,7 @@ public class RandomP implements Strategy {
 		}
 		int randDefendNum = (int) (Math.random() * randDefendCountryList.size());
 		Country defendCountry = randDefendCountryList.get(randDefendNum);
-		System.out.println("attack country:"+AttackCountry+"defend country"+defendCountry);
+		System.out.println("attack country:"+AttackCountry.getName()+"defend country"+defendCountry.getName());
 		int attackNum = (int) (Math.random() * AttackCountry.getArmiesNum())-1;
 		for (int i = 1; i <= attackNum; i++) {
 		playerEngine.diceOne(AttackCountry, defendCountry);
@@ -100,6 +107,9 @@ public class RandomP implements Strategy {
 		return ifWinned;
 	};
 
+	/**
+	 * This method used to implement auto fortify of random strategy
+	 */
 	public void autoFortify(Player curPlayer) {
 //		if (state == GameState.FORTIFY) {
 		ArrayList<Country> ownedCountry = curPlayer.getCountriesOwned();

@@ -15,15 +15,15 @@ import java.awt.event.ActionListener;
 public class StartTournamentPanel extends aPanel {
 
 
-        public JButton selectMap;
+     //   public JButton selectMap;
         public JLabel choosegamenumber;
         public JComboBox gamecombo;
 
 
         public StartTournamentPanel() {
-            selectMap = new JButton("Select Map");
+           // selectMap = new JButton("Select Map");
             center.remove(label);
-            center.add(selectMap);
+            //center.add(selectMap);
             String data[] = {"1", "2", "3", "4","5"};
             choosegamenumber = new JLabel("Choose Game Numbers: ");
             gamecombo = new JComboBox(data);
@@ -41,7 +41,7 @@ public class StartTournamentPanel extends aPanel {
          */
         public void AddActionListener(ActionListener e) {
             super.AddActionListener(e);
-            selectMap.addActionListener(e);
+           // selectMap.addActionListener(e);
 
         }
 

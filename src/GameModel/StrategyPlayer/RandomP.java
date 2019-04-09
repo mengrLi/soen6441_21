@@ -69,11 +69,13 @@ public class RandomP implements Strategy {
 		ArrayList<Country> ownedCountryList = curPlayer.getCountriesOwned();
 		ArrayList<Country> randCountryList = new ArrayList<Country>();
 		for(Country c:ownedCountryList) {
-			if(c.getDefendersAroundThisCountry().size()>0);
-			randCountryList.add(c);
+			if(c.getDefendersAroundThisCountry().size()>0) {
+				randCountryList.add(c);
+			}
 		}
 		int randAttackCountryNum = (int) (Math.random() * randCountryList.size());
 		Country AttackCountry = randCountryList.get(randAttackCountryNum);
+		System.out.println("attack country"+ AttackCountry.getName());
 		ArrayList<String> defendCountryString = AttackCountry.getDefendersAroundThisCountry();
 		ArrayList<Country> randDefendCountryList = new ArrayList<Country>();
 		for(String s: defendCountryString) {
@@ -119,7 +121,7 @@ public class RandomP implements Strategy {
 				cccContiguousBelong.add(ccc);
 			}
 		}
-		int randCountryNum = (int) (Math.random() * curPlayer.getCountriesOwned().size());
+		int randCountryNum = (int) (Math.random() * cccContiguousBelong.size());
 		Country destCountry = cccContiguousBelong.get(randCountryNum);
 		ArrayList<Country> originCountryList = new ArrayList<>();
 		ArrayList<String> origCountyString = new ArrayList<String>();
@@ -129,7 +131,7 @@ public class RandomP implements Strategy {
 		}
 		int randOriginal = (int) (Math.random() * originCountryList.size());
 		Country originCountry = originCountryList.get(randOriginal);
-		int armyNum =  (int) (Math.random() * originCountry.getArmiesNum());
+		int armyNum =  (int) (Math.random() * originCountry.getArmiesNum()-1);
 		playerEngine.moveArmyBetweenCountries(armyNum, curPlayer, destCountry, originCountry);
 		System.out.println("you move"+armyNum+"army");
 

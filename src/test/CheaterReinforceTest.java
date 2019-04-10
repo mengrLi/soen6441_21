@@ -5,16 +5,21 @@ import GameModel.StrategyPlayer.Cheater;
 import MapModel.Map;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
-
 import java.util.ArrayList;
 
-import org.junit.Before;
 
+/**
+ * Test case for cheater strategy reinforce phase 
+ * @author Qing Li
+ *
+ */
 public class CheaterReinforceTest {
 	PlayerEngine playerEngine= new PlayerEngine();
 	Map map= Map.getMapInstance();
 	
-	
+	/**
+	 * To test if reinforce army number is correct(doubled army number)
+	 */
 	@Test
 	public void cheaterReinforceTest() {
 		Player cheater= new Player(0);

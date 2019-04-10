@@ -59,11 +59,11 @@ public class CountryTest2 {
 		assertEquals(20, country.getX());
 	}
 
-	@Test
-	public void testGetcontiguousCountryList() {
-		this.contiguousCountryList = country.getcontiguousCountryList();
-		assertEquals(this.contiguousCountryList, contiguousCountryList);
-	}
+//	@Test
+//	public void testGetcontiguousCountryList() {
+//		this.contiguousCountryList = country.getcontiguousCountryList();
+//		assertEquals(this.contiguousCountryList, contiguousCountryList);
+//	}
 
 	@Test
 	public void testSetContiguousCountryList() {
@@ -90,11 +90,11 @@ public class CountryTest2 {
 		assertEquals(false, flag);
 	}
 
-	@Test
-	public void testToString() {
-		country = new Country("Canada", 40, 40, 02);
-		String info1 = country.toString();
-		assertEquals("2-Canada-40,40", info1);
-	}
+//	@Test
+//	public void testToString() {
+//		country = new Country("Canada", 40, 40, 02);
+//		String info1 = country.toString();
+//		assertEquals("2-Canada-40,40", info1);
+//	}
 
 }

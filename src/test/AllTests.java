@@ -4,6 +4,12 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
+/**
+ * This is the class used to run all tests
+ * 
+ * @author anhen
+ *
+ */
 @RunWith(Suite.class)
 @SuiteClasses({ AggressiveTest.class, AggressiveTest2.class, AggressiveTest3.class, ArmyTest.class,
 		AttackerDefenderValidation.class, BenevolentTest.class, BenevolentTest2.class, BenevolentTest3.class,
@@ -11,8 +17,7 @@ import org.junit.runners.Suite.SuiteClasses;
 		CheaterReinforceTest.class, ContinentTest.class, CountryTest.class, CountryTest2.class, DiceAllTest.class,
 		DiceOneTest.class, DiceThreeTest.class, DiceTwoTest.class, EndOfGameTest.class, FortificaitonTest.class,
 		GameEngineTests.class, LoadGameFormatTest.class, LoadGameTest.class, LoadMapTest.class, MapValidationTest.class,
-		MoveAfterConqueringTest.class, PlayerEngineTests.class, PlayerTest.class, SaveGameFormatTest.class,
-		SaveGameTest.class, SetPlayersTest.class, TournamentTest.class })
+		MoveAfterConqueringTest.class, PlayerEngineTests.class, PlayerTest.class, SetPlayersTest.class })
 public class AllTests {
 
 }

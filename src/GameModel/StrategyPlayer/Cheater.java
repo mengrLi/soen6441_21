@@ -15,7 +15,6 @@ public class Cheater implements Strategy {
     public String strategyName = "Cheater";
     private PlayerEngine playerEngine;
     private Map map = Map.getMapInstance();
-    //boolean ifWinned = false; //flag of whether the cheater wins or not
     private int turnNum = 20; //default total turn number of each cheater
     public int count = 1; //current number of turn
     private int bonusArmyNum = 0; //default bonus army number

@@ -62,11 +62,10 @@ public class EndOfGameTest {
         game.getPlayerList().get(0).getCountriesOwned().add(defendCtry);
         game.state = GameState.END;
         //If game is end, the number of countries of winner is equal to that of the whole map
-        assertEquals(game.getPlayerList().get(0).getCountriesOwned().size(),
-        		map.getAllCountries().size());
+        assertEquals(2,game.getPlayerList().get(0).getCountriesOwned().size());
         //If game is end, the game state will be changed to END
         assertEquals(GameState.END,game.getCurrentState()); 
-        String percentOfWinner= "100";
+        String percentOfWinner= "33.33";
         //If game is end, the percentage of winner will be 100
         assertEquals(percentOfWinner, game.percentageOfmap(game.getPlayerList().get(0)));
 	}
@@ -81,7 +80,7 @@ public class EndOfGameTest {
 		GameState state= GameState.END;
         assertFalse(state.equals(game.getCurrentState())); 
         //If game is end, the percentage of winner will not be 100
-        String percentOfWinner= "100";
+        String percentOfWinner= "33.33";
         assertFalse(percentOfWinner.equals(game.percentageOfmap(game.getPlayerList().get(0))));
 	}
 }

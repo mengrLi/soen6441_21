@@ -14,7 +14,8 @@ import org.junit.runners.Suite.SuiteClasses;
 		DiceOneTest.class, DiceThreeTest.class, DiceTwoTest.class, EndOfGameTest.class, FortificaitonTest.class,
 		GameEngineTests.class, LoadMapTest.class, MapValidationTest.class, MoveAfterConqueringTest.class,
 		PlayerEngineTests.class, PlayerTest.class, SetPlayersTest.class,BenevolentTest.class,BenevolentTest2.class,
-		BenevolentTest3.class,BenevolentTest4.class
+		BenevolentTest3.class,BenevolentTest4.class，AggressiveTest.class,AggressiveTest2.class,AggressiveTest3.class,
+		SaveGameFormatTest.class,TournamentTest.class
 	})
 
 public class AllTests {

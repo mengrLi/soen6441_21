@@ -15,7 +15,6 @@ public class Cheater implements Strategy {
     public String strategyName = "Cheater";
     private PlayerEngine playerEngine;
     private Map map = Map.getMapInstance();
-    private int turnNum = 200; //default total turn number of each cheater
     public int count = 1; //current number of turn
     private int bonusArmyNum = 0; //default bonus army number
 
@@ -41,7 +40,6 @@ public class Cheater implements Strategy {
      * Auto reinforce phase for cheater
      */
     public void autoReinforce(Player curPlayer) {
-        if (playerEngine.round < 20) {
             //change card phase
             if (playerEngine.state == GameState.CHOOSECARD) {
                 ArrayList<Card> cardList = curPlayer.getCardList();
@@ -76,7 +74,6 @@ public class Cheater implements Strategy {
 
             System.out.println("Doubles armies on all its countries");
             System.out.println("Total army after reinforce: " + curPlayer.getArmyList().size());
-        }
     }
 
 
@@ -85,55 +82,32 @@ public class Cheater implements Strategy {
      */
     public boolean autoAttack(Player curPlayer) {
         boolean ifWinned = false;
-        //if (playerEngine.round < 20) {
-            //attack() method automatically conquers all the neighbors of all its countries
-            //steps
-            //1. Get all its neighbors.
-            //2. Get the neighbor countries' owner, remove this country from its countryList
-            //3. Set neighbors' occupier to the cheater
-            System.out.println("Attack phase gets started---------------------");
-            ArrayList<Country> ctryList = curPlayer.getCountriesOwned();
-            int ctrySize = ctryList.size();
-            ArrayList<Country> cheaterOwnedCtry = new ArrayList<>();
-            for (int i = 0; i < ctrySize; i++) {
-                cheaterOwnedCtry.add(ctryList.get(i));
-            }
+        
+        //attack() method automatically conquers all the neighbors of all its countries
+        //steps
+        //1. Get all its neighbors.
+        //2. Get the neighbor countries' owner, remove this country from its countryList
+        //3. Set neighbors' occupier to the cheater
+        System.out.println("Attack phase gets started---------------------");
+        ArrayList<Country> ctryList = curPlayer.getCountriesOwned();
+        int ctrySize = ctryList.size();
+        ArrayList<Country> cheaterOwnedCtry = new ArrayList<>();
+        for (int i = 0; i < ctrySize; i++) {
+            cheaterOwnedCtry.add(ctryList.get(i));
+        }
 
-            for (Country attackCtry : cheaterOwnedCtry) {
-                if (attackCtry.getDefendersAroundThisCountry().size() > 0) {
-                    ArrayList<String> defendersAroundThisCountry = attackCtry.getDefendersAroundThisCountry();
-                    for (String defenderName : defendersAroundThisCountry) {
-                        Country defender = map.getCountry(defenderName);
-                        if (conquerDefender(attackCtry, defender)) {
-                            ifWinned = true;
-                            break;
-                        }
+        for (Country attackCtry : cheaterOwnedCtry) {
+            if (attackCtry.getDefendersAroundThisCountry().size() > 0) {
+                ArrayList<String> defendersAroundThisCountry = attackCtry.getDefendersAroundThisCountry();
+                for (String defenderName : defendersAroundThisCountry) {
+                    Country defender = map.getCountry(defenderName);
+                    if (conquerDefender(attackCtry, defender)) {
+                        ifWinned = true;
+                        break;
                     }
                 }
             }
-
-//    			String ctryName = attackCtry.getName();
-//    			Collection<String> neighbors = map.getConnectionMap().get(ctryName);
-//    			for(String oneOfNeighbors : neighbors) {
-//    				Country oneNeighborCtry = map.getCountriesMap().get(oneOfNeighbors);
-//    				if(oneNeighborCtry.getPlayer()!= curPlayer) {
-//    					while(oneNeighborCtry.getArmiesNum()!=0) {
-//    						oneNeighborCtry.reduceArmy();
-//    					}
-//    					playerEngine.checkAfterAtteacked(attackCtry, oneNeighborCtry);
-//    				}
-//    				else if(oneNeighborCtry.getPlayer()==curPlayer){
-//    					while(oneNeighborCtry.getArmiesNum()==0 && attackCtry.getArmiesNum()>3) {
-//    						playerEngine.moveArmyBetweenCountries(3, curPlayer, oneNeighborCtry, attackCtry);
-//    					}
-//    				}
-//    			}
-//    		}
-//    		//Check if the game is end
-//            if(playerEngine.getCurrentState()==GameState.END) {
-//            	ifWinned= true;
-//            }
-        //}
+        }
         return ifWinned;
     }
 
@@ -143,7 +117,6 @@ public class Cheater implements Strategy {
      */
     public void autoFortify(Player curPlayer) {
 
-        if (playerEngine.round < 20) {
             //fortify() method doubles the number of armies on its countries
             //that have neighbors that belong to other players.
             //1. get countries which adject to other player's country
@@ -169,9 +142,7 @@ public class Cheater implements Strategy {
                 }
             }
             this.count++;
-            this.turnNum--;
             System.out.println("Success in fortify of Cheater.");
-        }
     }
 
 

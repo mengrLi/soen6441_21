@@ -76,7 +76,10 @@ public class RandomP implements Strategy {
 			}
 
 		}
-		int randAttackCountryNum = (int) (Math.random() * randCountryList.size());
+		int randAttackCountryNum = 0;
+		if(randCountryList.size() > 1 ){
+			 randAttackCountryNum = (int) (Math.random() * randCountryList.size());
+		}
 		Country AttackCountry = randCountryList.get(randAttackCountryNum);
 		System.out.println("attack country" + AttackCountry.getName());
 		ArrayList<String> defendCountryString = AttackCountry.getDefendersAroundThisCountry();

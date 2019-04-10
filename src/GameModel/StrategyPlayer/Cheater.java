@@ -15,7 +15,7 @@ public class Cheater implements Strategy {
     public String strategyName = "Cheater";
     private PlayerEngine playerEngine;
     private Map map = Map.getMapInstance();
-    private int turnNum = 20; //default total turn number of each cheater
+    private int turnNum = 200; //default total turn number of each cheater
     public int count = 1; //current number of turn
     private int bonusArmyNum = 0; //default bonus army number
 
@@ -41,7 +41,7 @@ public class Cheater implements Strategy {
      * Auto reinforce phase for cheater
      */
     public void autoReinforce(Player curPlayer) {
-        if (turnNum != 0) {
+        if (playerEngine.round < 20) {
             //change card phase
             if (playerEngine.state == GameState.CHOOSECARD) {
                 ArrayList<Card> cardList = curPlayer.getCardList();
@@ -85,7 +85,7 @@ public class Cheater implements Strategy {
      */
     public boolean autoAttack(Player curPlayer) {
         boolean ifWinned = false;
-        if (turnNum != 0) {
+        //if (playerEngine.round < 20) {
             //attack() method automatically conquers all the neighbors of all its countries
             //steps
             //1. Get all its neighbors.
@@ -133,7 +133,7 @@ public class Cheater implements Strategy {
 //            if(playerEngine.getCurrentState()==GameState.END) {
 //            	ifWinned= true;
 //            }
-        }
+        //}
         return ifWinned;
     }
 
@@ -143,7 +143,7 @@ public class Cheater implements Strategy {
      */
     public void autoFortify(Player curPlayer) {
 
-        if (turnNum != 0) {
+        if (playerEngine.round < 20) {
             //fortify() method doubles the number of armies on its countries
             //that have neighbors that belong to other players.
             //1. get countries which adject to other player's country

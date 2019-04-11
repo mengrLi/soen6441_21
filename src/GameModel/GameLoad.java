@@ -163,6 +163,7 @@ public class GameLoad {
                                             int armyNum = Integer.parseInt(cinfo[1]);
                                             for (int i = 0; i < armyNum; i++) {
                                                 Army army = new Army(player);
+                                                army.setCountry(country);
                                                 player.getArmyList().add(army);
                                                 country.getArmyList().add(army);
                                             }

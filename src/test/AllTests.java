@@ -16,8 +16,8 @@ import org.junit.runners.Suite.SuiteClasses;
 		BenevolentTest4.class, CardForArmies1Test.class, CardForArmies2Test.class, CardTests.class,
 		CheaterReinforceTest.class, ContinentTest.class, CountryTest.class, CountryTest2.class, DiceAllTest.class,
 		DiceOneTest.class, DiceThreeTest.class, DiceTwoTest.class, EndOfGameTest.class, FortificaitonTest.class,
-		GameEngineTests.class, LoadGameFormatTest.class, LoadGameTest.class, LoadMapTest.class, MapValidationTest.class,
-		MoveAfterConqueringTest.class, PlayerEngineTests.class, PlayerTest.class, SetPlayersTest.class })
+		GameEngineTests.class, MapValidationTest.class,
+		MoveAfterConqueringTest.class, PlayerEngineTests.class, PlayerTest.class })
 public class AllTests {
 
 }

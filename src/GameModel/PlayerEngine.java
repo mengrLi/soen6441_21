@@ -762,7 +762,7 @@ public class PlayerEngine {
                 } else {
                     if (getCurPlayer().getStrategy() != null) {
                         autoOneTurn();
-                        sleep(1500);
+                        sleep(1000);
                         turnToNextPlayer();
                     }
                 }
